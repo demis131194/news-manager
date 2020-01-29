@@ -2,15 +2,26 @@ package com.epam.lab.model;
 
 import java.util.Objects;
 
-public class User {
-    private long id;
+public class User extends BaseEntity {
     private String name;
     private String surname;
     private String login;
     private String password;
 
-    public long getId() {
-        return id;
+    public User(Long id, String name, String surname, String login, String password) {
+        super(id);
+        this.name = name;
+        this.surname = surname;
+        this.login = login;
+        this.password = password;
+    }
+
+    public User(String name, String surname, String login, String password) {
+        super(null);
+        this.name = name;
+        this.surname = surname;
+        this.login = login;
+        this.password = password;
     }
 
     public String getName() {
@@ -49,24 +60,26 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         User user = (User) o;
-        return id == user.id &&
-                Objects.equals(name, user.name) &&
-                Objects.equals(surname, user.surname);
+        return Objects.equals(name, user.name) &&
+                Objects.equals(surname, user.surname) &&
+                Objects.equals(login, user.login);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname);
+        return Objects.hash(super.hashCode(), name, surname, login);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("User{");
-        sb.append("id=").append(id);
+        sb.append("id='").append(this.getId()).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", surname='").append(surname).append('\'');
         sb.append(", login='").append(login).append('\'');
+        sb.append(", password='").append(password).append('\'');
         sb.append('}');
         return sb.toString();
     }
