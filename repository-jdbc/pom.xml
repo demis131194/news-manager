@@ -9,6 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <log4j.version>2.13.0</log4j.version>
+    </properties>
+
     <artifactId>repository-jdbc</artifactId>
     <build>
         <plugins>
@@ -24,8 +28,20 @@
     </build>
 
     <dependencies>
-
+        <!-- Logger -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
     </dependencies>
+
+
 
 
 </project>
