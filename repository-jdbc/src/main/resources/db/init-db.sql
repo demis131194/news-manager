@@ -1,10 +1,8 @@
-CREATE DATABASE news;
-
--- FIXME
+CREATE SEQUENCE serial START 10000;
 
 CREATE TABLE public.authors
 (
-    id integer NOT NULL DEFAULT nextval('authors_id_seq'::regclass),
+    id integer NOT NULL DEFAULT nextval('serial'),
     name character varying(30) COLLATE pg_catalog."default" NOT NULL,
     surname character varying(30) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT authors_pkey PRIMARY KEY (id)
@@ -20,7 +18,7 @@ ALTER TABLE public.authors
 
 CREATE TABLE public.news
 (
-    id integer NOT NULL DEFAULT nextval('news_id_seq'::regclass),
+    id integer NOT NULL DEFAULT nextval('serial'),
     title character varying(30) COLLATE pg_catalog."default" NOT NULL,
     short_text character varying(100) COLLATE pg_catalog."default" NOT NULL,
     full_text character varying(2000) COLLATE pg_catalog."default" NOT NULL,
@@ -63,7 +61,7 @@ ALTER TABLE public.news_authors
 
 CREATE TABLE public.tags
 (
-    id integer NOT NULL DEFAULT nextval('tags_id_seq'::regclass),
+    id integer NOT NULL DEFAULT nextval('serial'),
     name character varying(30) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT tags_pkey PRIMARY KEY (id)
 )
@@ -102,7 +100,7 @@ ALTER TABLE public.news_tags
 
 CREATE TABLE public.users
 (
-    id integer NOT NULL DEFAULT nextval('users_id_seq'::regclass),
+    id integer NOT NULL DEFAULT nextval('serial'),
     name character varying(20) COLLATE pg_catalog."default" NOT NULL,
     surname character varying(20) COLLATE pg_catalog."default" NOT NULL,
     login character varying(30) COLLATE pg_catalog."default" NOT NULL,
@@ -136,3 +134,21 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.roles
     OWNER to postgres;
+
+
+-- Triggers
+
+CREATE FUNCTION news_update_modification_date () RETURNS trigger AS '
+BEGIN
+	IF
+		OLD.title!=NEW.title OR OLD.short_text!=NEW.short_text OR OLD.full_text!=NEW.full_text THEN
+		UPDATE news SET modification_date = now() WHERE id = NEW.id;
+	END IF;
+	return OLD;
+END;
+' LANGUAGE plpgsql;
+
+
+CREATE TRIGGER news_update_modification_date_trigger
+	AFTER UPDATE ON news FOR EACH ROW
+	EXECUTE PROCEDURE news_update_modification_date();
