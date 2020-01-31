@@ -173,3 +173,7 @@ INSERT INTO authors(name, surname) VALUES ('DIMA', 'FORD'),
 INSERT INTO tags(name) VALUES ('History'),
     ('SCIENCE'),
     ('FANNY');
+
+INSERT INTO news(title, short_text, full_text) VALUES ('News title 1', 'Short text 1', 'Full text 1'),
+    ('News title 2', 'Short text 2', 'Full text 2'),
+    ('News title 3', 'Short text 3', 'Full text 3');

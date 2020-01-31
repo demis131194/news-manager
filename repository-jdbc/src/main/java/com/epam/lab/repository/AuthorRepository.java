@@ -69,7 +69,7 @@ public class AuthorRepository implements BaseCrudRepository<Author> {
     @Override
     public List<Author> findAll() {
         List<Author> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
-        logger.info("Find all result : {}", result);                   // FIXME: 1/30/2020
+        logger.info("Find all authors result : {}", result);                   // FIXME: 1/30/2020
         return result;
     }
 }
