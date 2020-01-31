@@ -1,20 +1,14 @@
 package com.epam.lab.configuration;
 
 import com.epam.lab.repository.AuthorRepository;
-import com.epam.lab.repository.DataSourceInMemory;
 import com.opentable.db.postgres.embedded.EmbeddedPostgres;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.jdbc.Sql;
 
 import javax.sql.DataSource;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Objects;
 
 @Configuration
 public class TestDataSourceConfig {
