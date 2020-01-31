@@ -17,14 +17,8 @@ public class TestDataSourceConfig {
     private static final String INIT_DB_SCRIPT_PATH = "db/init-db.sql";
 
     @Bean
-    public DataSource dataSource() {                        // FIXME: 1/31/2020
-        DataSource dataSource = null;
-        try {
-            dataSource = EmbeddedPostgres.start().getPostgresDatabase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return dataSource;
+    public DataSource dataSource() throws IOException {                        // FIXME: 1/31/2020 ??????
+        return EmbeddedPostgres.start().getPostgresDatabase();
     }
 
     @Bean

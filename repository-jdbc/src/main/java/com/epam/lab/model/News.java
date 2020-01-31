@@ -5,27 +5,41 @@ import java.util.Objects;
 
 public class News extends BaseEntity {
     private String title;
-    private String shortTitle;
+    private String shortText;
     private String fullText;
     private LocalDateTime creationDate;
     private LocalDateTime modificationDate;
 
-    public News(Long id, String title, String shortTitle, String fullText, LocalDateTime creationDate) {
+    public News(Long id, String title, String shortText, String fullText) {
         super(id);
         this.title = title;
-        this.shortTitle = shortTitle;
+        this.shortText = shortText;
         this.fullText = fullText;
-        this.creationDate = creationDate;
-        this.modificationDate = creationDate;
     }
 
-    public News(String title, String shortTitle, String fullText, LocalDateTime creationDate) {
+    public News(String title, String shortText, String fullText) {
         super(null);
         this.title = title;
-        this.shortTitle = shortTitle;
+        this.shortText = shortText;
+        this.fullText = fullText;
+    }
+
+    public News(Long id, String title, String shortText, String fullText, LocalDateTime creationDate, LocalDateTime modificationDate) {
+        super(id);
+        this.title = title;
+        this.shortText = shortText;
         this.fullText = fullText;
         this.creationDate = creationDate;
-        this.modificationDate = creationDate;
+        this.modificationDate = modificationDate;
+    }
+
+    public News(String title, String shortText, String fullText, LocalDateTime creationDate, LocalDateTime modificationDate) {
+        super(null);
+        this.title = title;
+        this.shortText = shortText;
+        this.fullText = fullText;
+        this.creationDate = creationDate;
+        this.modificationDate = modificationDate;
     }
 
     public String getTitle() {
@@ -36,12 +50,12 @@ public class News extends BaseEntity {
         this.title = title;
     }
 
-    public String getShortTitle() {
-        return shortTitle;
+    public String getShortText() {
+        return shortText;
     }
 
-    public void setShortTitle(String shortTitle) {
-        this.shortTitle = shortTitle;
+    public void setShortText(String shortText) {
+        this.shortText = shortText;
     }
 
     public String getFullText() {
@@ -75,14 +89,13 @@ public class News extends BaseEntity {
         if (!super.equals(o)) return false;
         News news = (News) o;
         return Objects.equals(title, news.title) &&
-                Objects.equals(shortTitle, news.shortTitle) &&
-                Objects.equals(fullText, news.fullText) &&
-                Objects.equals(creationDate, news.creationDate);
+                Objects.equals(shortText, news.shortText) &&
+                Objects.equals(fullText, news.fullText);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), title, shortTitle, fullText, creationDate);
+        return Objects.hash(super.hashCode(), title, shortText, fullText);
     }
 
     @Override
@@ -90,7 +103,7 @@ public class News extends BaseEntity {
         final StringBuilder sb = new StringBuilder("News{");
         sb.append("id='").append(this.getId()).append('\'');
         sb.append(", title='").append(title).append('\'');
-        sb.append(", shortTitle='").append(shortTitle).append('\'');
+        sb.append(", shortTitle='").append(shortText).append('\'');
         sb.append(", fullText='").append(fullText).append('\'');
         sb.append(", creationDate=").append(creationDate);
         sb.append(", modificationDate=").append(modificationDate);
