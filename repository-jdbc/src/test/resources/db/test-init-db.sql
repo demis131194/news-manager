@@ -169,3 +169,7 @@ CREATE TRIGGER news_update_modification_date_trigger
 INSERT INTO authors(name, surname) VALUES ('DIMA', 'FORD'),
     ('VASYA', 'VASYA'),
     ('SOVA', 'SOVA');
+
+INSERT INTO tags(name) VALUES ('History'),
+    ('SCIENCE'),
+    ('FANNY');
