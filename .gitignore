@@ -3,3 +3,4 @@
 /logs/news-log.log
 /target/
 /repository-jdbc/target/
+/repository-jdbc/logs/

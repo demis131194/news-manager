@@ -32,9 +32,4 @@ public class AppConfig {
         return new JdbcTemplate(dataSource);
     }
 
-    @Bean(name = "author-row-mapper")
-    public AuthorRowMapper authorRowMapper() {
-        return new AuthorRowMapper();
-    }
-
 }

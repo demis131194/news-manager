@@ -1,14 +1,17 @@
 package com.epam.lab.repository;
 
 import com.epam.lab.model.Author;
+import com.epam.lab.repository.mapper.AuthorRowMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 
 @Repository("author-repository")
@@ -24,25 +27,36 @@ public class AuthorRepository implements BaseCrudRepository<Author> {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private RowMapper<Author> rowMapper;
+    private RowMapper<Author> rowMapper = new AuthorRowMapper();
 
     @Override
-    public void create(Author obj) {
-        int result = jdbcTemplate.update(INSERT_QUERY, obj.getName(), obj.getSurname());
-        logger.info("Creating author result : {}", result);                   // FIXME: 1/30/2020
+    public long create(Author obj) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(con -> {
+            PreparedStatement ps = con.prepareStatement(INSERT_QUERY, new String[] {AuthorRowMapper.ID_COLUMN});
+            ps.setString(1, obj.getName());
+            ps.setString(2, obj.getSurname());
+            return ps;
+        }, keyHolder);
+
+        long newId = keyHolder.getKey().longValue();
+        logger.info("Creating author id : {}", newId);                   // FIXME: 1/30/2020
+        return newId;
     }
 
     @Override
-    public void update(Author obj) {
+    public boolean update(Author obj) {
         int result = jdbcTemplate.update(UPDATE_QUERY, obj.getName(), obj.getSurname(), obj.getId());
         logger.info("Updating author result : {}", result);                   // FIXME: 1/30/2020
+        return result == 1;
     }
 
     @Override
-    public void delete(long id) {
+    public boolean delete(long id) {
         int result = jdbcTemplate.update(DELETE_QUERY, id);
         logger.info("Delete author result : {}", result);                   // FIXME: 1/30/2020
+        return result == 1;
     }
 
     @Override
