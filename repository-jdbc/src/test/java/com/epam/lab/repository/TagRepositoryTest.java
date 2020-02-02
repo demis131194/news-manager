@@ -97,7 +97,7 @@ public class TagRepositoryTest {
     }
 
     @Test
-    public void findTagsByNewsId() {
+    public void findTagsByNewsIdTest() {
         List<Tag> expectedTags = Arrays.asList(new Tag(1L, "History"),
                 new Tag(2L, "SCIENCE"));
         System.out.println(expectedTags);

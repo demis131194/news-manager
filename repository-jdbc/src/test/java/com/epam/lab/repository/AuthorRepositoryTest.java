@@ -26,7 +26,7 @@ public class AuthorRepositoryTest {
     @Autowired
     private AuthorRepository authorRepository;
 
-    private final long INIT_KEY_ID = 10000L;
+    private final long INIT_KEY_ID = 1L;
 
     @Test
     public void createTest() {
@@ -96,5 +96,12 @@ public class AuthorRepositoryTest {
     @Test(expected = EmptyResultDataAccessException.class)
     public void findByIdFailWrongIdTest() {
         Author actual = authorRepository.findById(INIT_KEY_ID - 1);
+    }
+
+    @Test
+    public void findByNewsIdTest() {
+        Author expected = new Author(INIT_KEY_ID, "DIMA", "FORD");
+        Author actual = authorRepository.findById(INIT_KEY_ID);
+        assertEquals(expected,actual);
     }
 }
