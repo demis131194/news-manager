@@ -43,11 +43,11 @@ CREATE TABLE public.news_authors
     CONSTRAINT authors_id_foreign_key_constraint FOREIGN KEY (news_id)
         REFERENCES public.authors (id) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON DELETE CASCADE,
     CONSTRAINT news_id_foreign_key_constraint FOREIGN KEY (news_id)
         REFERENCES public.news (id) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 )
 WITH (
     OIDS = FALSE
@@ -83,11 +83,11 @@ CREATE TABLE public.news_tags
     CONSTRAINT news_id_foreign_key_constraint FOREIGN KEY (news_id)
         REFERENCES public.news (id) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON DELETE CASCADE,
     CONSTRAINT tag_id_foreign_key_constraint FOREIGN KEY (tag_id)
         REFERENCES public.tags (id) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 )
 WITH (
     OIDS = FALSE

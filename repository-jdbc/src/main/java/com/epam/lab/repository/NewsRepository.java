@@ -1,6 +1,5 @@
 package com.epam.lab.repository;
 
-import com.epam.lab.model.Author;
 import com.epam.lab.model.News;
 import com.epam.lab.repository.mapper.NewsRowMapper;
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +23,7 @@ public class NewsRepository implements BaseCrudRepository<News> {
     private static final String DELETE_QUERY = "DELETE FROM news WHERE id = ?";
     private static final String FIND_BY_ID_QUERY = "SELECT id, title, short_text, full_text, creation_date, modification_date FROM news WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT id, title, short_text, full_text, creation_date, modification_date FROM news";
+    private static final String FIND_ALL_BY_TAG_QUERY = "SELECT id, title, short_text, full_text, creation_date, modification_date FROM news n LEFT JOIN news_tags nt on n.id = nt.news_id WHERE tag_id = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -72,6 +72,12 @@ public class NewsRepository implements BaseCrudRepository<News> {
     public List<News> findAll() {
         List<News> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
         logger.info("Find all news result : {}", result);                   // FIXME: 1/30/2020
+        return result;
+    }
+
+    public List<News> findAllByTagId(long tagId) {
+        List<News> result = jdbcTemplate.query(FIND_ALL_BY_TAG_QUERY, new Object[]{tagId}, rowMapper);
+        logger.info("Find all news By Tag id {}, result : {}", tagId, result);                   // FIXME: 1/30/2020
         return result;
     }
 }

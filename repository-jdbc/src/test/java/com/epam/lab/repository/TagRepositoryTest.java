@@ -24,7 +24,7 @@ public class TagRepositoryTest {
     @Autowired
     private TagRepository tagRepository;
 
-    private final long INIT_KEY_ID = 10003L;
+    private final long INIT_KEY_ID = 1L;
 
     @Test
     public void createTest() {

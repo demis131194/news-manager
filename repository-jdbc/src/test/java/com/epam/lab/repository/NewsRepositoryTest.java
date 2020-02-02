@@ -24,7 +24,7 @@ public class NewsRepositoryTest {
     @Autowired
     private NewsRepository newsRepository;
 
-    private final long INIT_KEY_ID = 10006L;
+    private final long INIT_KEY_ID = 1L;
 
     @Test
     public void createTest() {
@@ -94,6 +94,12 @@ public class NewsRepositoryTest {
     @Test(expected = EmptyResultDataAccessException.class)
     public void findByIdFailWrongIdTest() {
         News actual = newsRepository.findById(INIT_KEY_ID - 1);
+    }
+
+    @Test
+    public void findAllByTagIdTest() {
+        List<News> allByTagId = newsRepository.findAllByTagId(1);
+        assertEquals(2, allByTagId.size());
     }
 
 }
