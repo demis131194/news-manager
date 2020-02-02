@@ -23,6 +23,7 @@ public class TagRepository implements BaseCrudRepository<Tag> {
     private static final String DELETE_QUERY = "DELETE FROM tags WHERE id = ?";
     private static final String FIND_BY_ID_QUERY = "SELECT id, name FROM tags WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT id, name FROM tags";
+    private static final String FIND_ALL_BY_NEWS_ID_QUERY = "SELECT nw_t.tag_id AS id, t.name FROM news_tags nw_t LEFT JOIN tags t on nw_t.tag_id = t.id WHERE nw_t.news_id = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -69,6 +70,12 @@ public class TagRepository implements BaseCrudRepository<Tag> {
     public List<Tag> findAll() {
         List<Tag> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
         logger.info("Find all tags result : {}", result);                   // FIXME: 1/31/2020
+        return result;
+    }
+
+    public List<Tag> findTagsByNewsId(long newsId) {
+        List<Tag> result = jdbcTemplate.query(FIND_ALL_BY_NEWS_ID_QUERY, new Object[]{newsId}, rowMapper);
+        logger.info("Find all tags by News Id result : {}", result);                   // FIXME: 1/31/2020
         return result;
     }
 }

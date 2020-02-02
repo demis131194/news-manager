@@ -166,14 +166,20 @@ CREATE TRIGGER news_update_modification_date_trigger
 	AFTER UPDATE ON news FOR EACH ROW
 	EXECUTE PROCEDURE news_update_modification_date();
 
-INSERT INTO authors(name, surname) VALUES ('DIMA', 'FORD'),
-    ('VASYA', 'VASYA'),
-    ('SOVA', 'SOVA');
+INSERT INTO authors(id, name, surname) VALUES (1, 'DIMA', 'FORD'),
+    (2, 'VASYA', 'VASYA'),
+    (3, 'SOVA', 'SOVA');
 
-INSERT INTO tags(name) VALUES ('History'),
-    ('SCIENCE'),
-    ('FANNY');
+INSERT INTO tags(id, name) VALUES (1, 'History'),
+    (2, 'SCIENCE'),
+    (3, 'FANNY');
 
-INSERT INTO news(title, short_text, full_text) VALUES ('News title 1', 'Short text 1', 'Full text 1'),
-    ('News title 2', 'Short text 2', 'Full text 2'),
-    ('News title 3', 'Short text 3', 'Full text 3');
+INSERT INTO news(id, title, short_text, full_text) VALUES (1, 'News title 1', 'Short text 1', 'Full text 1'),
+    (2, 'News title 2', 'Short text 2', 'Full text 2'),
+    (3, 'News title 3', 'Short text 3', 'Full text 3');
+
+INSERT INTO news_tags(news_id, tag_id) VALUES (1, 1),
+    (1, 2),
+    (2, 3),
+    (3, 1),
+    (3, 3);

@@ -95,4 +95,14 @@ public class TagRepositoryTest {
     public void findByIdFailWrongIdTest() {
         Tag actual = tagRepository.findById(INIT_KEY_ID - 1);
     }
+
+    @Test
+    public void findTagsByNewsId() {
+        List<Tag> expectedTags = Arrays.asList(new Tag(1L, "History"),
+                new Tag(2L, "SCIENCE"));
+        System.out.println(expectedTags);
+        List<Tag> actualTags = tagRepository.findTagsByNewsId(1);
+        System.out.println(actualTags);
+        assertArrayEquals(expectedTags.toArray(), actualTags.toArray());
+    }
 }
