@@ -1,21 +1,20 @@
 package com.epam.lab.model;
 
+
 import java.util.Objects;
 
 public class Author extends BaseEntity {
     private String name;
     private String surname;
 
-    public Author(long id, String name, String surname) {
+    public Author(Long id, String name, String surname) {
         super(id);
         this.name = name;
         this.surname = surname;
     }
 
     public Author(String name, String surname) {
-        super(null);
-        this.name = name;
-        this.surname = surname;
+        this(1L, name, surname);
     }
 
     public String getName() {

@@ -102,4 +102,36 @@ public class NewsRepositoryTest {
         assertEquals(2, allByTagId.size());
     }
 
+    @Test
+    public void createNewsTagBoundTest() {
+        boolean created = newsRepository.createNewsTagBound(2, 1);
+        assertTrue(created);
+    }
+
+    @Test
+    public void createNewsAuthorBoundTest() {
+        boolean created = newsRepository.createNewsAuthorBound(3, 3);
+        assertTrue(created);
+    }
+
+    @Test
+    public void countAllNewsTest() {
+        long count = newsRepository.countAllNews();
+        assertEquals(3, count);
+    }
+
+    @Test
+    public void findAuthorIdByNewsIdTest() {
+        long expected = 1;
+        long actual = newsRepository.findAuthorIdByNewsId(1);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findTagsIdesByNewsIdTest() {
+        List<Long> expected = Arrays.asList(1L, 2L);
+        List<Long> tagsId = newsRepository.findTagsIdByNewsId(1);
+        assertEquals(expected, tagsId);
+    }
+
 }

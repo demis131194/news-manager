@@ -11,8 +11,7 @@ public class Tag extends BaseEntity {
     }
 
     public Tag(String name) {
-        super(null);
-        this.name = name;
+        this(null, name);
     }
 
     public String getName() {

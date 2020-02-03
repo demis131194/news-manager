@@ -183,3 +183,6 @@ INSERT INTO news_tags(news_id, tag_id) VALUES (1, 1),
     (2, 3),
     (3, 1),
     (3, 3);
+
+INSERT INTO news_authors(news_id, author_id) VALUES (1, 1),
+    (2, 2);

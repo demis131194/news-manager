@@ -18,28 +18,17 @@ public class News extends BaseEntity {
     }
 
     public News(String title, String shortText, String fullText) {
-        super(null);
-        this.title = title;
-        this.shortText = shortText;
-        this.fullText = fullText;
+        this(null, title, shortText, fullText);
     }
 
     public News(Long id, String title, String shortText, String fullText, LocalDateTime creationDate, LocalDateTime modificationDate) {
-        super(id);
-        this.title = title;
-        this.shortText = shortText;
-        this.fullText = fullText;
+        this(id, title, shortText, fullText);
         this.creationDate = creationDate;
         this.modificationDate = modificationDate;
     }
 
     public News(String title, String shortText, String fullText, LocalDateTime creationDate, LocalDateTime modificationDate) {
-        super(null);
-        this.title = title;
-        this.shortText = shortText;
-        this.fullText = fullText;
-        this.creationDate = creationDate;
-        this.modificationDate = modificationDate;
+        this(null, title, shortText, fullText, creationDate, modificationDate);
     }
 
     public String getTitle() {

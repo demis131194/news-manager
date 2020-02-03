@@ -8,14 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("com.epam.lab.repository")
+@PropertySource("classpath:db/datasource.properties")
 public class AppConfig {
     private final String DATA_SOURCE_PROPERTY = "/db/datasource.properties";
+
+    @Autowired
+    private Environment env;
 
     @Bean(name = "hikariCP-config")
     public HikariConfig hikariConfig() {

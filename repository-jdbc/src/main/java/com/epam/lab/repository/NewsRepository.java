@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.util.List;
+import java.util.Set;
 
 @Repository("news-repository")
 public class NewsRepository implements BaseCrudRepository<News> {
@@ -24,6 +25,11 @@ public class NewsRepository implements BaseCrudRepository<News> {
     private static final String FIND_BY_ID_QUERY = "SELECT id, title, short_text, full_text, creation_date, modification_date FROM news WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT id, title, short_text, full_text, creation_date, modification_date FROM news";
     private static final String FIND_ALL_BY_TAG_QUERY = "SELECT id, title, short_text, full_text, creation_date, modification_date FROM news n LEFT JOIN news_tags nt on n.id = nt.news_id WHERE tag_id = ?";
+    private static final String CREATE_NEWS_TAG_BOUND_QUERY = "INSERT INTO news_tags (news_id, tag_id) VALUES (?, ?)";
+    private static final String CREATE_NEWS_AUTHOR_BOUND_QUERY = "INSERT INTO news_authors (news_id, author_id) VALUES (?, ?)";
+    private static final String COUNT_ALL_NEWS_QUERY = "SELECT COUNT(id) FROM news";
+    private static final String FIND_AUTHOR_BY_NEWS_ID_QUERY = "SELECT author_id FROM news_authors WHERE news_id = ?";
+    private static final String FIND_TAGS_BY_NEWS_ID_QUERY = "SELECT tag_id FROM news_tags WHERE news_id = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -78,6 +84,36 @@ public class NewsRepository implements BaseCrudRepository<News> {
     public List<News> findAllByTagId(long tagId) {
         List<News> result = jdbcTemplate.query(FIND_ALL_BY_TAG_QUERY, new Object[]{tagId}, rowMapper);
         logger.info("Find all news By Tag id {}, result : {}", tagId, result);                   // FIXME: 1/30/2020
+        return result;
+    }
+
+    public boolean createNewsTagBound(long newsId, long tagId) {
+        int update = jdbcTemplate.update(CREATE_NEWS_TAG_BOUND_QUERY, newsId, tagId);
+        logger.info("Create news tag bound result : {}", update);                   // FIXME: 1/30/2020
+        return update == 1;
+    }
+
+    public boolean createNewsAuthorBound(long newsId, long authorId) {
+        int update = jdbcTemplate.update(CREATE_NEWS_AUTHOR_BOUND_QUERY, newsId, authorId);
+        logger.info("Create news tag bound result : {}", update);                   // FIXME: 1/30/2020
+        return update == 1;
+    }
+
+    public long findAuthorIdByNewsId(long newsId) {
+        long authorId = jdbcTemplate.queryForObject(FIND_AUTHOR_BY_NEWS_ID_QUERY, new Object[]{newsId}, Long.class);
+        logger.info("Find author id by news id result : {}", authorId);
+        return authorId;
+    }
+
+    public List<Long> findTagsIdByNewsId(long newsId) {
+        List<Long> tagsId = jdbcTemplate.queryForList(FIND_TAGS_BY_NEWS_ID_QUERY, new Object[]{newsId}, Long.class);
+        logger.info("Find tags id by news id result : {}", tagsId);
+        return tagsId;
+    }
+
+    public long countAllNews() {
+        Long result = jdbcTemplate.queryForObject(COUNT_ALL_NEWS_QUERY, Long.class);
+        logger.info("Count all news result : {}", result);
         return result;
     }
 }
