@@ -53,7 +53,7 @@ CREATE TABLE public.news_authors
     news_id bigint NOT NULL,
     author_id bigint NOT NULL,
     CONSTRAINT news_authors_pkey PRIMARY KEY (news_id),
-    CONSTRAINT authors_id_foreign_key_constraint FOREIGN KEY (news_id)
+    CONSTRAINT authors_id_foreign_key_constraint FOREIGN KEY (author_id)
         REFERENCES public.authors (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE ,

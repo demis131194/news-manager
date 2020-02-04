@@ -12,7 +12,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository("tag-repository")
 public class TagRepository implements BaseCrudRepository<Tag> {
@@ -25,10 +27,15 @@ public class TagRepository implements BaseCrudRepository<Tag> {
     private static final String FIND_ALL_QUERY = "SELECT id, name FROM tags";
     private static final String FIND_ALL_BY_NEWS_ID_QUERY = "SELECT nw_t.tag_id AS id, t.name FROM news_tags nw_t LEFT JOIN tags t on nw_t.tag_id = t.id WHERE nw_t.news_id = ?";
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private RowMapper<Tag> rowMapper = new TagRowMapper();
+    private RowMapper<Tag> rowMapper;
+
+    @Autowired
+    public TagRepository(JdbcTemplate jdbcTemplate, RowMapper<Tag> rowMapper) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.rowMapper = rowMapper;
+    }
 
     @Override
     public long create(Tag obj) {
@@ -73,8 +80,9 @@ public class TagRepository implements BaseCrudRepository<Tag> {
         return result;
     }
 
-    public List<Tag> findTagsByNewsId(long newsId) {
-        List<Tag> result = jdbcTemplate.query(FIND_ALL_BY_NEWS_ID_QUERY, new Object[]{newsId}, rowMapper);
+    public Set<Tag> findTagsByNewsId(long newsId) {
+        List<Tag> queryResult = jdbcTemplate.query(FIND_ALL_BY_NEWS_ID_QUERY, new Object[]{newsId}, rowMapper);
+        Set<Tag> result = new HashSet<>(queryResult);
         logger.info("Find all tags by News Id result : {}", result);                   // FIXME: 1/31/2020
         return result;
     }

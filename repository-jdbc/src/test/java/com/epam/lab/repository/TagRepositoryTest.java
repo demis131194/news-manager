@@ -12,7 +12,9 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -98,10 +100,10 @@ public class TagRepositoryTest {
 
     @Test
     public void findTagsByNewsIdTest() {
-        List<Tag> expectedTags = Arrays.asList(new Tag(1L, "History"),
-                new Tag(2L, "SCIENCE"));
+        Set<Tag> expectedTags = new HashSet<>(Arrays.asList(new Tag(1L, "History"),
+                new Tag(2L, "SCIENCE")));
         System.out.println(expectedTags);
-        List<Tag> actualTags = tagRepository.findTagsByNewsId(1);
+        Set<Tag> actualTags = tagRepository.findTagsByNewsId(1);
         System.out.println(actualTags);
         assertArrayEquals(expectedTags.toArray(), actualTags.toArray());
     }

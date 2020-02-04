@@ -122,9 +122,14 @@ public class NewsRepositoryTest {
 
     @Test
     public void findAuthorIdByNewsIdTest() {
-        long expected = 1;
-        long actual = newsRepository.findAuthorIdByNewsId(1);
+        long expected = 2;
+        long actual = newsRepository.findAuthorIdByNewsId(2);
         assertEquals(expected, actual);
+    }
+
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void findAuthorIdByNewsIdFailTest() {
+        long actual = newsRepository.findAuthorIdByNewsId(4);
     }
 
     @Test
@@ -133,5 +138,50 @@ public class NewsRepositoryTest {
         List<Long> tagsId = newsRepository.findTagsIdByNewsId(1);
         assertEquals(expected, tagsId);
     }
+
+    @Test
+    public void deleteNewsTagBoundTest() {
+        boolean isDelete = newsRepository.deleteNewsTagBound(1, 2);
+        assertTrue(isDelete);
+    }
+
+    @Test
+    public void deleteNewsTagBoundFailTest() {
+        boolean isDelete = newsRepository.deleteNewsTagBound(1, 3);
+        assertFalse(isDelete);
+    }
+
+    @Test
+    public void deleteNewsAuthorBoundTest() {
+        boolean isDelete = newsRepository.deleteNewsAuthorBound(2, 2);
+        assertTrue(isDelete);
+    }
+
+    @Test
+    public void deleteNewsAuthorBoundFailTest() {
+        boolean isDelete = newsRepository.deleteNewsAuthorBound(2, 1);
+        assertFalse(isDelete);
+    }
+
+    @Test
+    public void updateNewsAuthorBoundTest() {
+        boolean isUpdate = newsRepository.updateNewsAuthorBound(1, 2);
+        assertTrue(isUpdate);
+    }
+
+    @Test
+    public void updateNewsAuthorBoundFailWrongNewsIdTest() {
+        boolean isUpdate = newsRepository.updateNewsAuthorBound(4, 2);
+        assertFalse(isUpdate);
+    }
+
+    @Test(expected = DataIntegrityViolationException.class)
+    public void updateNewsAuthorBoundFailWrongAuthorIdTest() {
+        boolean isUpdate = newsRepository.updateNewsAuthorBound(1, 4);
+    }
+
+
+
+
 
 }

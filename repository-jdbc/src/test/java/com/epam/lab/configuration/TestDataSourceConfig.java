@@ -14,7 +14,6 @@ import java.io.IOException;
 @Configuration
 @ComponentScan("com.epam.lab.repository")
 public class TestDataSourceConfig {
-    private static final String INIT_DB_SCRIPT_PATH = "db/init-db.sql";
 
     @Bean
     public DataSource dataSource() throws IOException {                        // FIXME: 1/31/2020 ??????
