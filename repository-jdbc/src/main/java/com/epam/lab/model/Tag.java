@@ -5,6 +5,10 @@ import java.util.Objects;
 public class Tag extends BaseEntity {
     private String name;
 
+    public Tag() {
+        super(null);
+    }
+
     public Tag(Long id, String name) {
         super(id);
         this.name = name;

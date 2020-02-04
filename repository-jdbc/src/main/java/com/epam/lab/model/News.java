@@ -10,6 +10,10 @@ public class News extends BaseEntity {
     private LocalDateTime creationDate;
     private LocalDateTime modificationDate;
 
+    public News() {
+        super(null);
+    }
+
     public News(Long id, String title, String shortText, String fullText) {
         super(id);
         this.title = title;

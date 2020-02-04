@@ -6,3 +6,5 @@
 /repository-jdbc/logs/
 /service/src/main/java/com/epam/lab/Main.java
 /service/logs/
+/service/target/
+/controller/target/
