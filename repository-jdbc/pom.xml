@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>repository-jdbc</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <log4j.version>2.13.0</log4j.version>
