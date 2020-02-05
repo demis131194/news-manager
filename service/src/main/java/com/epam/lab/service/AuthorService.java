@@ -1,9 +1,9 @@
 package com.epam.lab.service;
 
 import com.epam.lab.dto.AuthorTo;
-import com.epam.lab.exeption.ServiceException;
 import com.epam.lab.model.Author;
 import com.epam.lab.repository.AuthorRepository;
+import com.epam.lab.service.mapper.AuthorMapper;
 import com.epam.lab.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +16,14 @@ public class AuthorService implements BaseService<AuthorTo> {
     @Autowired
     private AuthorRepository authorRepository;
 
+    @Autowired
+    private AuthorMapper mapper;
+
     @Override
-    public AuthorTo create(AuthorTo author) {
-//        if (Validator.validate(author)) {
-//            if (author.getId() != null) {
-//                long authorId = authorRepository.create(author);
-//                author.setId(authorId);
-//            }
-//            return author.getId();
-//        }
+    public AuthorTo create(AuthorTo authorTo) {
+//        Validator.
+        Author author = mapper.toEntity(authorTo);
+        long authorId = authorRepository.create(author);
         return null;
     }
 
@@ -48,30 +47,5 @@ public class AuthorService implements BaseService<AuthorTo> {
         return null;
     }
 
-    public long createAuthor(Author author) throws ServiceException {
-//        if (Validator.validate(author)) {
-            if (author.isNew()) {
-                long authorId = authorRepository.create(author);
-                author.setId(authorId);
-            }
-            return author.getId();
-//        }
-//        throw new ServiceException("Illegal argument author");
-    }
-
-    public boolean updateAuthor(Author author) {
-//        if (Validator.validate(author)) {
-//            return authorRepository.update(author);
-//        }
-        return false;
-    }
-
-    public boolean deleteAuthor(long authorId) {
-        return authorRepository.delete(authorId);
-    }
-
-//    public Author findById(long id) {
-//        return authorRepository.findById(id);
-//    }
 
 }

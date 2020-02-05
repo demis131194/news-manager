@@ -1,6 +1,5 @@
 package com.epam.lab.service;
 
-import com.epam.lab.exeption.ServiceException;
 import com.epam.lab.model.Tag;
 import com.epam.lab.repository.TagRepository;
 import com.epam.lab.util.Validator;
