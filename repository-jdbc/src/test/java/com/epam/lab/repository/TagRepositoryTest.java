@@ -26,13 +26,19 @@ public class TagRepositoryTest {
     @Autowired
     private TagRepository tagRepository;
 
-    private final long INIT_KEY_ID = 1L;
+    private static final long INIT_KEY_ID = 1L;
+
+    private static final Tag EXPECTED_TAG_1 = new Tag(INIT_KEY_ID, "History");
+    private static final Tag EXPECTED_TAG_2 = new Tag(INIT_KEY_ID + 1, "SCIENCE");
+    private static final Tag EXPECTED_TAG_3 = new Tag(INIT_KEY_ID + 2, "FANNY");
+
 
     @Test
     public void createTest() {
         Tag testTag = new Tag("Test");
-        long generatedKey = tagRepository.create(testTag);
-        assertNotEquals(0, generatedKey);
+        long expectedIdKey = 10000;
+        long generatedIdKey = tagRepository.create(testTag);
+        assertEquals(expectedIdKey, generatedIdKey);
     }
 
     @Test
@@ -51,18 +57,17 @@ public class TagRepositoryTest {
     @Test
     public void findByIdTest() {
         long id = INIT_KEY_ID;
-        Tag expected = new Tag(id, "History");
         Tag actual = tagRepository.findById(id);
-        assertEquals(expected, actual);
+        assertEquals(EXPECTED_TAG_1, actual);
     }
 
     @Test
     public void findAllTest() {
         long startKey = INIT_KEY_ID;
         List<Tag> expected = Arrays.asList(
-                new Tag(startKey, "History"),
-                new Tag(startKey + 1, "SCIENCE"),
-                new Tag(startKey + 2, "FANNY")
+                EXPECTED_TAG_1,
+                EXPECTED_TAG_2,
+                EXPECTED_TAG_3
         );
         List<Tag> actual = tagRepository.findAll();
         assertArrayEquals(expected.toArray(), actual.toArray());
@@ -76,7 +81,7 @@ public class TagRepositoryTest {
 
     @Test
     public void updateFailWrongIdTest() {
-        Tag testTag = new Tag(0L, "Test update");
+        Tag testTag = new Tag(INIT_KEY_ID - 1, "Test update");
         boolean isUpdate = tagRepository.update(testTag);
         assertFalse(isUpdate);
     }
@@ -89,22 +94,26 @@ public class TagRepositoryTest {
 
     @Test
     public void deleteFailWrongIdTest() {
-        boolean isDeleted = tagRepository.delete(INIT_KEY_ID - 1);
+        boolean isDeleted = tagRepository.delete(INIT_KEY_ID + 3);
         assertFalse(isDeleted);
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
+    @Test
     public void findByIdFailWrongIdTest() {
-        Tag actual = tagRepository.findById(INIT_KEY_ID - 1);
+        Tag expected = null;
+        Tag actual = tagRepository.findById(INIT_KEY_ID + 3);
+        assertEquals(expected, actual);
     }
 
     @Test
     public void findTagsByNewsIdTest() {
-        Set<Tag> expectedTags = new HashSet<>(Arrays.asList(new Tag(1L, "History"),
-                new Tag(2L, "SCIENCE")));
-        System.out.println(expectedTags);
+        Set<Tag> expectedTags = new HashSet<>(
+                Arrays.asList(
+                        EXPECTED_TAG_1,
+                        EXPECTED_TAG_2
+                )
+        );
         Set<Tag> actualTags = tagRepository.findTagsByNewsId(1);
-        System.out.println(actualTags);
         assertArrayEquals(expectedTags.toArray(), actualTags.toArray());
     }
 
@@ -114,4 +123,18 @@ public class TagRepositoryTest {
         int actual = tagRepository.countAll();
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void findTagByNameTest() {
+        Tag actualTag = tagRepository.findTagByName(EXPECTED_TAG_2.getName());
+        assertEquals(EXPECTED_TAG_2, actualTag);
+    }
+
+    @Test
+    public void findTagByNameFailTest() {
+        Tag expected = null;
+        Tag actualTag = tagRepository.findTagByName("Undefine tag");
+        assertEquals(expected, actualTag);
+    }
+
 }

@@ -42,4 +42,9 @@ public class AuthorService implements BaseService<AuthorTo> {
     public List<AuthorTo> findAll() {
         return null;
     }
+
+    @Override
+    public int countAll() {
+        return 0;
+    }
 }

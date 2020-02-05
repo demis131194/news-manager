@@ -47,18 +47,30 @@ public class TagService implements BaseService<TagTo> {
     @Override
     public boolean delete(long id) {
         if (Validator.validateId(id)) {
-
+            boolean isDeleted = tagRepository.delete(id);
+            return isDeleted;
         }
         return false;
     }
 
     @Override
     public TagTo findById(long id) {
+        if (Validator.validateId(id)) {
+            Tag tag = tagRepository.findById(id);
+            if (tag != null) {
+                return mapper.toDto(tag);
+            }
+        }
         return null;
     }
 
     @Override
     public List<TagTo> findAll() {
         return null;
+    }
+
+    @Override
+    public int countAll() {
+        return 0;
     }
 }
