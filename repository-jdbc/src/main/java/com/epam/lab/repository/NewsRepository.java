@@ -5,6 +5,8 @@ import com.epam.lab.repository.mapper.NewsRowMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.util.List;
-import java.util.Set;
 
 @Repository("news-repository")
 public class NewsRepository implements BaseCrudRepository<News> {
@@ -77,7 +78,12 @@ public class NewsRepository implements BaseCrudRepository<News> {
 
     @Override
     public News findById(long id) {
-        News result = jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, new Object[]{id}, rowMapper);
+        News result;
+        try {
+            result = jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, new Object[]{id}, rowMapper);
+        } catch (DataAccessException e) {
+            result = null;
+        }
         logger.info("Find news result : {}", result);                   // FIXME: 1/30/2020
         return result;
     }
@@ -132,8 +138,13 @@ public class NewsRepository implements BaseCrudRepository<News> {
         return delete == 1;
     }
 
-    public long findAuthorIdByNewsId(long newsId) {
-        long authorId = jdbcTemplate.queryForObject(FIND_AUTHOR_BY_NEWS_ID_QUERY, new Object[]{newsId}, Long.class);
+    public Long findAuthorIdByNewsId(long newsId) {
+        Long authorId;
+        try {
+            authorId = jdbcTemplate.queryForObject(FIND_AUTHOR_BY_NEWS_ID_QUERY, new Object[]{newsId}, Long.class);
+        } catch (EmptyResultDataAccessException e) {
+            authorId = null;
+        }
         logger.info("Find author id by news id result : {}", authorId);
         return authorId;
     }

@@ -110,9 +110,8 @@ public class TagRepositoryTest {
 
     @Test
     public void countAllTest() {
-        int expected = 3;
         int actual = tagRepository.countAll();
-        assertEquals(expected, actual);
+        assertEquals(EXPECTED_COUNT_ALL_TAGS, actual);
     }
 
     @Test

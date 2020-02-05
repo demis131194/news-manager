@@ -6,14 +6,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import static com.epam.lab.repository.DbTestObjects.*;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -24,46 +25,41 @@ public class NewsRepositoryTest {
     @Autowired
     private NewsRepository newsRepository;
 
-    private final long INIT_KEY_ID = 1L;
-
     @Test
     public void createTest() {
         News testNews = new News("Test title", "Test short text", "Test full text");
         long generatedKey = newsRepository.create(testNews);
-        assertNotEquals(0, generatedKey);
+        assertEquals(INIT_SEQUENCE_ALL_ID, generatedKey);
     }
 
     @Test
     public void updateTest() {
-        News testNews = new News(INIT_KEY_ID, "Test update title", "Test update short text", "Test update full text");
+        News testNews = new News(INIT_TEST_ID, "Test update title", "Test update short text", "Test update full text");
         boolean isUpdate = newsRepository.update(testNews);
         assertTrue(isUpdate);
     }
 
     @Test
     public void deleteTest() {
-        boolean isDeleted = newsRepository.delete(INIT_KEY_ID);
+        boolean isDeleted = newsRepository.delete(INIT_TEST_ID);
         assertTrue(isDeleted);
     }
 
     @Test
     public void findByIdTest() {
-        long id = INIT_KEY_ID;
-        News expected = new News(id, "News title 1", "Short text 1", "Full text 1");
-        News actual = newsRepository.findById(id);
-        assertEquals(expected, actual);
+        News actual = newsRepository.findById(INIT_TEST_ID);
+        assertEquals(EXPECTED_NEWS_1, actual);
     }
 
     @Test
     public void findAllTest() {
-        long startKey = INIT_KEY_ID;
         List<News> expected = Arrays.asList(
-                new News(startKey, "News title 1", "Short text 1", "Full text 1"),
-                new News(startKey + 1, "News title 2", "Short text 2", "Full text 2"),
-                new News(startKey + 2, "News title 3", "Short text 3", "Full text 3")
+                EXPECTED_NEWS_1,
+                EXPECTED_NEWS_2,
+                EXPECTED_NEWS_3
         );
         List<News> actual = newsRepository.findAll();
-        assertArrayEquals(expected.toArray(), actual.toArray());
+        assertEquals(expected, actual);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
@@ -74,110 +70,123 @@ public class NewsRepositoryTest {
 
     @Test
     public void updateFailWrongIdTest() {
-        News testTag = new News(0L, "Test update title", "Test update short text", "Test update full text");
+        News testTag = new News(INIT_TEST_ID - 1, "Test update title", "Test update short text", "Test update full text");
         boolean isUpdate = newsRepository.update(testTag);
         assertFalse(isUpdate);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
     public void updateFailNullFieldTest() {
-        News testNews = new News(INIT_KEY_ID, null, null, "Test update full text");
+        News testNews = new News(INIT_TEST_ID, null, null, "Test update full text");
         newsRepository.update(testNews);
     }
 
     @Test
     public void deleteFailWrongIdTest() {
-        boolean isDeleted = newsRepository.delete(INIT_KEY_ID - 1);
+        boolean isDeleted = newsRepository.delete(INIT_TEST_ID - 1);
         assertFalse(isDeleted);
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
+    @Test
     public void findByIdFailWrongIdTest() {
-        News actual = newsRepository.findById(INIT_KEY_ID - 1);
+        News actual = newsRepository.findById(INIT_TEST_ID - 1);
+        assertNull(actual);
     }
 
     @Test
     public void findAllByTagIdTest() {
-        List<News> allByTagId = newsRepository.findAllByTagId(1);
+        List<News> allByTagId = newsRepository.findAllByTagId(EXPECTED_TAG_1.getId());
         assertEquals(2, allByTagId.size());
     }
 
     @Test
+    public void findAllByTagIdFailTest() {
+        List<News> allByTagId = newsRepository.findAllByTagId(INIT_TEST_ID - 1);
+        assertEquals(0, allByTagId.size());
+    }
+
+    @Test
     public void createNewsTagBoundTest() {
-        boolean created = newsRepository.createNewsTagBound(2, 1);
-        assertTrue(created);
+        boolean isCreated = newsRepository.createNewsTagBound(EXPECTED_NEWS_2.getId(), EXPECTED_TAG_1.getId());
+        assertTrue(isCreated);
     }
 
     @Test
     public void createNewsAuthorBoundTest() {
-        boolean created = newsRepository.createNewsAuthorBound(3, 3);
+        boolean created = newsRepository.createNewsAuthorBound(EXPECTED_NEWS_3.getId(), EXPECTED_AUTHOR_3.getId());
         assertTrue(created);
     }
 
     @Test
     public void countAllTest() {
         long count = newsRepository.countAll();
-        assertEquals(3, count);
+        assertEquals(EXPECTED_COUNT_ALL_NEWS, count);
     }
 
     @Test
     public void findAuthorIdByNewsIdTest() {
-        long expected = 2;
-        long actual = newsRepository.findAuthorIdByNewsId(2);
-        assertEquals(expected, actual);
+        long actual = newsRepository.findAuthorIdByNewsId(EXPECTED_NEWS_2.getId());
+        assertEquals(EXPECTED_AUTHOR_2.getId().longValue(), actual);
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
+    @Test()
     public void findAuthorIdByNewsIdFailTest() {
-        long actual = newsRepository.findAuthorIdByNewsId(4);
+        Long actual = newsRepository.findAuthorIdByNewsId(INIT_TEST_ID - 1);
+        assertNull(actual);
     }
 
     @Test
     public void findTagsIdesByNewsIdTest() {
-        List<Long> expected = Arrays.asList(1L, 2L);
-        List<Long> tagsId = newsRepository.findTagsIdByNewsId(1);
+        List<Long> expected = Arrays.asList(EXPECTED_TAG_1.getId(),EXPECTED_TAG_2.getId());
+        List<Long> tagsId = newsRepository.findTagsIdByNewsId(EXPECTED_NEWS_1.getId());
         assertEquals(expected, tagsId);
     }
 
     @Test
+    public void findTagsIdesByNewsIdFailTest() {
+        List<Long> tagsId = newsRepository.findTagsIdByNewsId(INIT_TEST_ID - 1);
+        assertEquals(Collections.emptyList(), tagsId);
+    }
+
+    @Test
     public void deleteNewsTagBoundTest() {
-        boolean isDelete = newsRepository.deleteNewsTagBound(1, 2);
+        boolean isDelete = newsRepository.deleteNewsTagBound(EXPECTED_NEWS_1.getId(), EXPECTED_TAG_2.getId());
         assertTrue(isDelete);
     }
 
     @Test
     public void deleteNewsTagBoundFailTest() {
-        boolean isDelete = newsRepository.deleteNewsTagBound(1, 3);
+        boolean isDelete = newsRepository.deleteNewsTagBound(EXPECTED_NEWS_1.getId(), EXPECTED_TAG_3.getId());
         assertFalse(isDelete);
     }
 
     @Test
     public void deleteNewsAuthorBoundTest() {
-        boolean isDelete = newsRepository.deleteNewsAuthorBound(2, 2);
+        boolean isDelete = newsRepository.deleteNewsAuthorBound(EXPECTED_NEWS_2.getId(), EXPECTED_AUTHOR_2.getId());
         assertTrue(isDelete);
     }
 
     @Test
     public void deleteNewsAuthorBoundFailTest() {
-        boolean isDelete = newsRepository.deleteNewsAuthorBound(2, 1);
+        boolean isDelete = newsRepository.deleteNewsAuthorBound(EXPECTED_NEWS_2.getId(), EXPECTED_AUTHOR_1.getId());
         assertFalse(isDelete);
     }
 
     @Test
     public void updateNewsAuthorBoundTest() {
-        boolean isUpdate = newsRepository.updateNewsAuthorBound(1, 2);
+        boolean isUpdate = newsRepository.updateNewsAuthorBound(EXPECTED_NEWS_1.getId(), EXPECTED_AUTHOR_2.getId());
         assertTrue(isUpdate);
     }
 
     @Test
     public void updateNewsAuthorBoundFailWrongNewsIdTest() {
-        boolean isUpdate = newsRepository.updateNewsAuthorBound(4, 2);
+        boolean isUpdate = newsRepository.updateNewsAuthorBound(4, EXPECTED_AUTHOR_2.getId());
         assertFalse(isUpdate);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
     public void updateNewsAuthorBoundFailWrongAuthorIdTest() {
-        boolean isUpdate = newsRepository.updateNewsAuthorBound(1, 4);
+        boolean isUpdate = newsRepository.updateNewsAuthorBound(EXPECTED_NEWS_1.getId(), 4);
     }
 
 
