@@ -288,6 +288,18 @@ public class ValidatorTest {
         assertFalse(isValid);
     }
 
+    @Test
+    public void validateTagNameTest() {
+        boolean isValid = Validator.validateTagName(VALID_TAG_NAME);
+        assertTrue(isValid);
+    }
+
+    @Test
+    public void validateTagNameFailTest() {
+        boolean isValid = Validator.validateTagName(INVALID_LONG_TAG_NAME);
+        assertFalse(isValid);
+    }
+
 
 
 }

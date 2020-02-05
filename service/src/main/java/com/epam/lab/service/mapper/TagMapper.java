@@ -1,6 +1,5 @@
 package com.epam.lab.service.mapper;
 
-import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.Tag;
 import org.modelmapper.ModelMapper;

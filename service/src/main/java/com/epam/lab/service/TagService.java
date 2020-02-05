@@ -1,6 +1,5 @@
 package com.epam.lab.service;
 
-import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.Tag;
 import com.epam.lab.repository.TagRepository;
@@ -9,7 +8,9 @@ import com.epam.lab.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class TagService implements BaseService<TagTo> {
@@ -65,12 +66,36 @@ public class TagService implements BaseService<TagTo> {
     }
 
     @Override
-    public List<TagTo> findAll() {
-        return null;
+    public Set<TagTo> findAll() {
+        Set<Tag> allTags = tagRepository.findAll();
+        Set<TagTo> resultTagToSet = allTags.stream()
+                .map(tag -> mapper.toDto(tag))
+                .collect(Collectors.toSet());
+        return resultTagToSet;
     }
 
     @Override
     public int countAll() {
-        return 0;
+        return tagRepository.countAll();
+    }
+
+    public Set<TagTo> findTagsByNewsId(long newsId) {
+        if (Validator.validateId(newsId)) {
+            Set<Tag> tagsByNewsId = tagRepository.findTagsByNewsId(newsId);
+            Set<TagTo> resultTagTo = tagsByNewsId.stream()
+                    .map(tag -> mapper.toDto(tag))
+                    .collect(Collectors.toSet());
+            return resultTagTo;
+        }
+        return Collections.emptySet();
+    }
+
+    public TagTo findTagByName(String tagName) {
+        if (Validator.validateTagName(tagName)) {
+            Tag tagByName = tagRepository.findTagByName(tagName);
+            TagTo tagTo = mapper.toDto(tagByName);
+            return tagTo;
+        }
+        return null;
     }
 }

@@ -83,10 +83,11 @@ public class TagRepository implements BaseCrudRepository<Tag> {
     }
 
     @Override
-    public List<Tag> findAll() {
+    public Set<Tag> findAll() {
         List<Tag> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
-        logger.info("Find all tags result : {}", result);                   // FIXME: 1/31/2020
-        return result;
+        Set<Tag> resultSet = new HashSet<>(result);
+        logger.info("Find all tags result : {}", resultSet);                   // FIXME: 1/31/2020
+        return resultSet;
     }
 
     @Override

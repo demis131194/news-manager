@@ -69,7 +69,7 @@ public class TagRepositoryTest {
                 EXPECTED_TAG_2,
                 EXPECTED_TAG_3
         );
-        List<Tag> actual = tagRepository.findAll();
+        Set<Tag> actual = tagRepository.findAll();
         assertArrayEquals(expected.toArray(), actual.toArray());
     }
 
@@ -113,7 +113,7 @@ public class TagRepositoryTest {
                         EXPECTED_TAG_2
                 )
         );
-        Set<Tag> actualTags = tagRepository.findTagsByNewsId(1);
+        Set<Tag> actualTags = tagRepository.findTagsByNewsId(6);
         assertArrayEquals(expectedTags.toArray(), actualTags.toArray());
     }
 
