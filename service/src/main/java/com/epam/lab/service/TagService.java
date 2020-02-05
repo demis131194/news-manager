@@ -23,18 +23,18 @@ public class TagService implements BaseService<TagTo> {
 
     @Override
     public TagTo create(TagTo tagTo) {
-        if (Validator.validate(tagTo)) {
+        if (Validator.validate(tagTo) && tagTo.getId() == null) {
             Tag entity = mapper.toEntity(tagTo);
             long tagId = tagRepository.create(entity);
-            tagTo.setId(tagId);
-            return tagTo;
+            entity = tagRepository.findById(tagId);
+            return mapper.toDto(entity);
         }
         return null;
     }
 
     @Override
     public TagTo update(TagTo tagTo) {
-        if (Validator.validate(tagTo)) {
+        if (Validator.validate(tagTo) && tagTo.getId() != null) {
             Tag entity = mapper.toEntity(tagTo);
             boolean isUpdate = tagRepository.update(entity);
             if (isUpdate) {
@@ -48,8 +48,7 @@ public class TagService implements BaseService<TagTo> {
     @Override
     public boolean delete(long id) {
         if (Validator.validateId(id)) {
-            boolean isDeleted = tagRepository.delete(id);
-            return isDeleted;
+            return tagRepository.delete(id);
         }
         return false;
     }
@@ -58,9 +57,7 @@ public class TagService implements BaseService<TagTo> {
     public TagTo findById(long id) {
         if (Validator.validateId(id)) {
             Tag tag = tagRepository.findById(id);
-            if (tag != null) {
-                return mapper.toDto(tag);
-            }
+            return mapper.toDto(tag);
         }
         return null;
     }

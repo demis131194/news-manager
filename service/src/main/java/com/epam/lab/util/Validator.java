@@ -43,8 +43,8 @@ public class Validator {
     public static boolean validate(AuthorTo author) {
         return author != null
                 && (author.getId() == null || validateId(author.getId()))
-                && (author.getName() != null && author.getName().length() <= AUTHOR_MAX_NAME_LENGTH)
-                && (author.getSurname() != null && author.getSurname().length() <= AUTHOR_MAX_SURNAME_LENGTH);
+                && (validateAuthorName(author.getName()))
+                && (validateAuthorSurname(author.getSurname()));
     }
 
     public static boolean validate(TagTo tag) {
@@ -59,6 +59,14 @@ public class Validator {
 
     public static boolean validateTagName(String tagName) {
         return tagName != null && tagName.length() <= TAG_MAX_NAME_LENGTH;
+    }
+
+    public static boolean validateAuthorName(String authorName) {
+        return authorName != null && authorName.length() <= AUTHOR_MAX_NAME_LENGTH;
+    }
+
+    public static boolean validateAuthorSurname(String authorSurname) {
+        return authorSurname != null && authorSurname.length() <= AUTHOR_MAX_SURNAME_LENGTH;
     }
 
 }

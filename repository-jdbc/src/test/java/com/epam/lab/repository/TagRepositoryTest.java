@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.*;
+import static com.epam.lab.repository.DbTestObjects.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestDataSourceConfig.class})
@@ -24,37 +25,29 @@ public class TagRepositoryTest {
     @Autowired
     private TagRepository tagRepository;
 
-    private static final long INIT_KEY_ID = 1L;
-
-    private static final Tag EXPECTED_TAG_1 = new Tag(INIT_KEY_ID, "History");
-    private static final Tag EXPECTED_TAG_2 = new Tag(INIT_KEY_ID + 1, "SCIENCE");
-    private static final Tag EXPECTED_TAG_3 = new Tag(INIT_KEY_ID + 2, "FANNY");
-
-
     @Test
     public void createTest() {
-        Tag testTag = new Tag("Test");
-        long expectedIdKey = 10000;
-        long generatedIdKey = tagRepository.create(testTag);
-        assertEquals(expectedIdKey, generatedIdKey);
+        Tag createTestTag = new Tag("Test");
+        long generatedIdKey = tagRepository.create(createTestTag);
+        assertEquals(INIT_SEQUENCE_ALL_ID, generatedIdKey);
     }
 
     @Test
     public void updateTest() {
-        Tag testTag = new Tag(INIT_KEY_ID, "Update");
-        boolean isUpdate = tagRepository.update(testTag);
+        Tag updateTestTag = new Tag(INIT_TEST_ID, "Update");
+        boolean isUpdate = tagRepository.update(updateTestTag);
         assertTrue(isUpdate);
     }
 
     @Test
     public void deleteTest() {
-        boolean isDeleted = tagRepository.delete(INIT_KEY_ID);
+        boolean isDeleted = tagRepository.delete(INIT_TEST_ID);
         assertTrue(isDeleted);
     }
 
     @Test
     public void findByIdTest() {
-        long id = INIT_KEY_ID;
+        long id = INIT_TEST_ID;
         Tag actual = tagRepository.findById(id);
         assertEquals(EXPECTED_TAG_1, actual);
     }
@@ -80,28 +73,27 @@ public class TagRepositoryTest {
 
     @Test
     public void updateFailWrongIdTest() {
-        Tag testTag = new Tag(INIT_KEY_ID - 1, "Test update");
+        Tag testTag = new Tag(INIT_TEST_ID - 1, "Test update");
         boolean isUpdate = tagRepository.update(testTag);
         assertFalse(isUpdate);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
     public void updateFailNullFieldTest() {
-        Tag testTag = new Tag(INIT_KEY_ID, null);
+        Tag testTag = new Tag(INIT_TEST_ID, null);
         tagRepository.update(testTag);
     }
 
     @Test
     public void deleteFailWrongIdTest() {
-        boolean isDeleted = tagRepository.delete(INIT_KEY_ID + 3);
+        boolean isDeleted = tagRepository.delete(INIT_TEST_ID - 1);
         assertFalse(isDeleted);
     }
 
     @Test
     public void findByIdFailWrongIdTest() {
-        Tag expected = null;
-        Tag actual = tagRepository.findById(INIT_KEY_ID + 3);
-        assertEquals(expected, actual);
+        Tag actual = tagRepository.findById(INIT_TEST_ID - 1);
+        assertNull(actual);
     }
 
     @Test
@@ -112,7 +104,7 @@ public class TagRepositoryTest {
                         EXPECTED_TAG_2
                 )
         );
-        Set<Tag> actualTags = tagRepository.findTagsByNewsId(1);
+        Set<Tag> actualTags = tagRepository.findTagsByNewsId(INIT_TEST_ID);
         assertArrayEquals(expectedTags.toArray(), actualTags.toArray());
     }
 
@@ -131,9 +123,8 @@ public class TagRepositoryTest {
 
     @Test
     public void findTagByNameFailTest() {
-        Tag expected = null;
         Tag actualTag = tagRepository.findTagByName("Undefine tag");
-        assertEquals(expected, actualTag);
+        assertNull(actualTag);
     }
 
 }
