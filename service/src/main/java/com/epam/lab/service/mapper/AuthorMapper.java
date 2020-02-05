@@ -1,9 +1,7 @@
 package com.epam.lab.service.mapper;
 
 import com.epam.lab.dto.AuthorTo;
-import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.Author;
-import com.epam.lab.model.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

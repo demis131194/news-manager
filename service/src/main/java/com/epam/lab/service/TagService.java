@@ -1,40 +1,48 @@
 package com.epam.lab.service;
 
-import com.epam.lab.model.Tag;
+import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.repository.TagRepository;
+import com.epam.lab.service.mapper.TagMapper;
 import com.epam.lab.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class TagService {
+public class TagService implements BaseService<AuthorTo> {
 
     @Autowired
     private TagRepository tagRepository;
 
-    public long createTag(Tag tag) throws ServiceException {
-        if (Validator.validate(tag)) {
-            if (tag.isNew()) {
-                long authorId = tagRepository.create(tag);
-                tag.setId(authorId);
-            }
-            return tag.getId();
+    @Autowired
+    private TagMapper mapper;
+
+    @Override
+    public AuthorTo create(AuthorTo tagTo) {
+        if (Validator.validate(tagTo)) {
+
         }
-        throw new ServiceException("Illegal argument tag");
+        return null;
     }
 
-    public boolean updateTag(Tag tag) {
-        if (Validator.validate(tag)) {
-            return tagRepository.update(tag);
-        }
+    @Override
+    public AuthorTo update(AuthorTo tagTo) {
+        return null;
+    }
+
+    @Override
+    public boolean delete(long id) {
         return false;
     }
 
-    public boolean deleteTag(long tagId) {
-        return tagRepository.delete(tagId);
+    @Override
+    public AuthorTo findById(long id) {
+        return null;
     }
 
-    public Tag findById(long id) {
-        return tagRepository.findById(id);
+    @Override
+    public List<AuthorTo> findAll() {
+        return null;
     }
 }

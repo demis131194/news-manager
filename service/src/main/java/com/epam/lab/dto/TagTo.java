@@ -36,12 +36,8 @@ public class TagTo {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         TagTo tagTo = (TagTo) o;
         return Objects.equals(id, tagTo.id) &&
                 Objects.equals(name, tagTo.name);

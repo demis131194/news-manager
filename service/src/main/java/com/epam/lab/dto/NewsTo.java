@@ -1,8 +1,5 @@
 package com.epam.lab.dto;
 
-import com.epam.lab.model.Author;
-import com.epam.lab.model.News;
-import com.epam.lab.model.Tag;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
@@ -47,6 +44,16 @@ public class NewsTo {
 
     public NewsTo(String title, String shortText, String fullText, LocalDateTime creationDate, LocalDateTime modificationDate) {
         this(null, title, shortText, fullText, creationDate, modificationDate);
+    }
+
+    public NewsTo(Long id, String title, String shortText, String fullText, AuthorTo author, Set<TagTo> tags) {
+        this(id, title, shortText, fullText);
+        this.author = author;
+        this.tags = tags;
+    }
+
+    public NewsTo(String title, String shortText, String fullText, AuthorTo author, Set<TagTo> tags) {
+        this(null, title, shortText, fullText, author, tags);
     }
 
     public Long getId() {

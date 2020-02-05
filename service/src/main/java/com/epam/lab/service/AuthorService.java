@@ -4,7 +4,6 @@ import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.model.Author;
 import com.epam.lab.repository.AuthorRepository;
 import com.epam.lab.service.mapper.AuthorMapper;
-import com.epam.lab.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
