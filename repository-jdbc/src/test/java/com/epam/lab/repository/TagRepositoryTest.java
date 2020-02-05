@@ -107,4 +107,11 @@ public class TagRepositoryTest {
         System.out.println(actualTags);
         assertArrayEquals(expectedTags.toArray(), actualTags.toArray());
     }
+
+    @Test
+    public void countAllTest() {
+        int expected = 3;
+        int actual = tagRepository.countAll();
+        assertEquals(expected, actual);
+    }
 }

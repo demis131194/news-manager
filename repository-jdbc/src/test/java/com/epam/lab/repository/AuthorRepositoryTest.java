@@ -2,7 +2,6 @@ package com.epam.lab.repository;
 
 import com.epam.lab.configuration.TestDataSourceConfig;
 import com.epam.lab.model.Author;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +101,13 @@ public class AuthorRepositoryTest {
     public void findByNewsIdTest() {
         Author expected = new Author(INIT_KEY_ID, "DIMA", "FORD");
         Author actual = authorRepository.findById(INIT_KEY_ID);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void countAllTest() {
+        int expected = 3;
+        int actual = authorRepository.countAll();
         assertEquals(expected,actual);
     }
 }

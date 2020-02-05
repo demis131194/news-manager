@@ -53,4 +53,8 @@ public class Validator {
                 && tag.getName() != null && tag.getName().length() <= TAG_MAX_NAME_LENGTH;
     }
 
+    public static boolean validateId(Long id) {
+        return id != null && id > DTO_MIN_ID;
+    }
+
 }

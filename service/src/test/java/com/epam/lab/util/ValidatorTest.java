@@ -276,6 +276,18 @@ public class ValidatorTest {
         assertFalse(isValid);
     }
 
+    @Test
+    public void validateIdTest() {
+        boolean isValid = Validator.validateId(VALID_ID);
+        assertTrue(isValid);
+    }
+
+    @Test
+    public void validateIdFailTest() {
+        boolean isValid = Validator.validateId(INVALID_ID);
+        assertFalse(isValid);
+    }
+
 
 
 }

@@ -89,6 +89,13 @@ public class NewsRepository implements BaseCrudRepository<News> {
         return result;
     }
 
+    @Override
+    public int countAll() {
+        int result = jdbcTemplate.queryForObject(COUNT_ALL_NEWS_QUERY, Integer.class);
+        logger.info("Count all news result : {}", result);
+        return result;
+    }
+
     public List<News> findAllByTagId(long tagId) {
         List<News> result = jdbcTemplate.query(FIND_ALL_BY_TAG_QUERY, new Object[]{tagId}, rowMapper);
         logger.info("Find all news By Tag id {}, result : {}", tagId, result);                   // FIXME: 1/30/2020
@@ -135,11 +142,5 @@ public class NewsRepository implements BaseCrudRepository<News> {
         List<Long> tagsId = jdbcTemplate.queryForList(FIND_TAGS_BY_NEWS_ID_QUERY, new Object[]{newsId}, Long.class);
         logger.info("Find tags id by news id result : {}", tagsId);
         return tagsId;
-    }
-
-    public long countAllNews() {
-        Long result = jdbcTemplate.queryForObject(COUNT_ALL_NEWS_QUERY, Long.class);
-        logger.info("Count all news result : {}", result);
-        return result;
     }
 }

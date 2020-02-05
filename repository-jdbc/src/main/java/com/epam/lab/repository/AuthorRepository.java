@@ -23,6 +23,7 @@ public class AuthorRepository implements BaseCrudRepository<Author> {
     private static final String DELETE_QUERY = "DELETE FROM authors WHERE id = ?";
     private static final String FIND_BY_ID_QUERY = "SELECT id, name, surname FROM authors WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT id, name, surname FROM authors";
+    private static final String COUNT_ALL_QUERY = "SELECT COUNT(id) FROM authors";
     private static final String FIND_BY_NEWS_ID_QUERY = "SELECT nw_a.author_id AS id, a.name, a.surname FROM news_authors nw_a LEFT JOIN authors a ON nw_a.news_id = a.id WHERE news_id = ?";
 
     private JdbcTemplate jdbcTemplate;
@@ -76,6 +77,13 @@ public class AuthorRepository implements BaseCrudRepository<Author> {
     public List<Author> findAll() {
         List<Author> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
         logger.info("Find all authors result : {}", result);                   // FIXME: 1/30/2020
+        return result;
+    }
+
+    @Override
+    public int countAll() {
+        int result = jdbcTemplate.queryForObject(COUNT_ALL_QUERY, Integer.class);
+        logger.info("Count all authors result : {}", result);                   // FIXME: 1/30/2020
         return result;
     }
 

@@ -1,6 +1,7 @@
 package com.epam.lab.service.mapper;
 
 import com.epam.lab.dto.AuthorTo;
+import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,11 @@ public class TagMapper {
         this.modelMapper = modelMapper;
     }
 
-    public Tag toEntity(AuthorTo tagTo) {
+    public Tag toEntity(TagTo tagTo) {
         return Objects.isNull(tagTo) ? null : modelMapper.map(tagTo, Tag.class);
     }
 
-    public AuthorTo toDto(Tag tag) {
-        return Objects.isNull(tag) ? null : modelMapper.map(tag, AuthorTo.class);
+    public TagTo toDto(Tag tag) {
+        return Objects.isNull(tag) ? null : modelMapper.map(tag, TagTo.class);
     }
 }

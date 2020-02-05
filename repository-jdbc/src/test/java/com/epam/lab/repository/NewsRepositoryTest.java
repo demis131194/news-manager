@@ -115,8 +115,8 @@ public class NewsRepositoryTest {
     }
 
     @Test
-    public void countAllNewsTest() {
-        long count = newsRepository.countAllNews();
+    public void countAllTest() {
+        long count = newsRepository.countAll();
         assertEquals(3, count);
     }
 

@@ -8,4 +8,5 @@ public interface BaseService<T> {
     boolean delete(long id);
     T findById(long id);
     List<T> findAll();
+    int countAll();
 }

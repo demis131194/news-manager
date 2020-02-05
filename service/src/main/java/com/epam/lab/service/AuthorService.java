@@ -19,10 +19,7 @@ public class AuthorService implements BaseService<AuthorTo> {
     private AuthorMapper mapper;
 
     @Override
-    public AuthorTo create(AuthorTo authorTo) {
-//        Validator.
-        Author author = mapper.toEntity(authorTo);
-        long authorId = authorRepository.create(author);
+    public AuthorTo create(AuthorTo obj) {
         return null;
     }
 
@@ -45,6 +42,4 @@ public class AuthorService implements BaseService<AuthorTo> {
     public List<AuthorTo> findAll() {
         return null;
     }
-
-
 }

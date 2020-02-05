@@ -1,5 +1,6 @@
 package com.epam.lab.controller;
 
+import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.Tag;
 import com.epam.lab.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class MainController {
 
     @RequestMapping(value = "/news/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody Tag getTagById(@PathVariable("id") Long id) {
-        Tag tag = tagService.findById(id);
+    public @ResponseBody TagTo getTagById(@PathVariable("id") Long id) {
+        TagTo tag = tagService.findById(id);
         return tag;
     }
 
