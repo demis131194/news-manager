@@ -1,6 +1,6 @@
 package com.epam.lab.repository;
 
-import com.epam.lab.configuration.TestDataSourceConfig;
+import com.epam.lab.configuration.TestRepositoryConfig;
 import com.epam.lab.model.News;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ import static com.epam.lab.repository.DbTestObjects.*;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {TestDataSourceConfig.class})
+@ContextConfiguration(classes = {TestRepositoryConfig.class})
 @Sql(scripts = "classpath:db/test-init-db.sql")
 public class NewsRepositoryTest {
 

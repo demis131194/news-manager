@@ -1,6 +1,5 @@
 package com.epam.lab.configuration;
 
-import com.epam.lab.repository.AuthorRepository;
 import com.opentable.db.postgres.embedded.EmbeddedPostgres;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +12,7 @@ import java.io.IOException;
 
 @Configuration
 @ComponentScan("com.epam.lab.repository")
-public class TestDataSourceConfig {
+public class TestRepositoryConfig {
 
     @Bean
     public DataSource dataSource() throws IOException {                        // FIXME: 1/31/2020 ??????

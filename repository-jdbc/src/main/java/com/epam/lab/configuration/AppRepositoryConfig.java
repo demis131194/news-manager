@@ -1,8 +1,6 @@
 package com.epam.lab.configuration;
 
-import com.epam.lab.repository.mapper.AuthorRowMapper;
 import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariConfigMXBean;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +15,7 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan("com.epam.lab.repository")
 @PropertySource("classpath:db/datasource.properties")
-public class AppConfig {
+public class AppRepositoryConfig {
     private final String DATA_SOURCE_PROPERTY = "/db/datasource.properties";
 
     @Autowired

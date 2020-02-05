@@ -12,7 +12,7 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 @Configuration
 @ComponentScan("com.epam.lab.service")
-@Import(AppConfig.class)
+@Import(AppRepositoryConfig.class)
 public class AppServiceConfig {
 
     @Bean
