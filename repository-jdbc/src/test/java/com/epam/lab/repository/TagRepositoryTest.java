@@ -6,14 +6,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -63,11 +61,12 @@ public class TagRepositoryTest {
 
     @Test
     public void findAllTest() {
-        long startKey = INIT_KEY_ID;
-        List<Tag> expected = Arrays.asList(
-                EXPECTED_TAG_1,
-                EXPECTED_TAG_2,
-                EXPECTED_TAG_3
+        Set<Tag> expected = new HashSet<>(
+                Arrays.asList(
+                        EXPECTED_TAG_1,
+                        EXPECTED_TAG_2,
+                        EXPECTED_TAG_3
+                )
         );
         Set<Tag> actual = tagRepository.findAll();
         assertArrayEquals(expected.toArray(), actual.toArray());
@@ -113,7 +112,7 @@ public class TagRepositoryTest {
                         EXPECTED_TAG_2
                 )
         );
-        Set<Tag> actualTags = tagRepository.findTagsByNewsId(6);
+        Set<Tag> actualTags = tagRepository.findTagsByNewsId(1);
         assertArrayEquals(expectedTags.toArray(), actualTags.toArray());
     }
 

@@ -87,7 +87,7 @@ public class TagService implements BaseService<TagTo> {
                     .collect(Collectors.toSet());
             return resultTagTo;
         }
-        return Collections.emptySet();
+        return Collections.<TagTo>emptySet();
     }
 
     public TagTo findTagByName(String tagName) {

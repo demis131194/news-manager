@@ -1,7 +1,6 @@
 package com.epam.lab.controller;
 
 import com.epam.lab.dto.TagTo;
-import com.epam.lab.model.Tag;
 import com.epam.lab.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
