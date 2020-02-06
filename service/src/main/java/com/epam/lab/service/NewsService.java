@@ -6,10 +6,12 @@ import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.News;
 import com.epam.lab.repository.NewsRepository;
 import com.epam.lab.service.mapper.NewsMapper;
+import com.epam.lab.util.SearchCriteria;
 import com.epam.lab.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -113,5 +115,40 @@ public class NewsService implements BaseService<NewsTo> {
     @Override
     public int countAll() {
         return newsRepository.countAll();
+    }
+
+    public List<NewsTo> findAll(SearchCriteria searchCriteria) {       // FIXME: 2/6/2020 REFACTOR !!!
+        List<News> all = newsRepository.findAll();
+        List<NewsTo> allNewsTo = all.stream()
+                .map(news -> findById(news.getId()))
+                .collect(Collectors.toList());
+
+        if (searchCriteria.isAuthorSorting() && searchCriteria.isDateSorting()) {
+            allNewsTo = allNewsTo.stream()
+                    .sorted(Comparator.comparing(NewsTo::getAuthor)
+                            .thenComparing(NewsTo::getCreationDate))
+                    .collect(Collectors.toList());
+        } else if (searchCriteria.isAuthorSorting()) {
+            allNewsTo = allNewsTo.stream()
+                    .sorted(Comparator.comparing(NewsTo::getAuthor))
+                    .collect(Collectors.toList());
+        } else if (searchCriteria.isDateSorting()) {
+            allNewsTo = allNewsTo.stream()
+                    .sorted(Comparator.comparing(NewsTo::getCreationDate))
+                    .collect(Collectors.toList());
+        }
+
+        if (searchCriteria.getTagsFilterId() != null && searchCriteria.getTagsFilterId().size() > 0) {
+            allNewsTo = allNewsTo.stream()
+                    .filter(newsTo -> {
+                        List<Long> newsTagsId = newsTo.getTags()
+                                .stream()
+                                .map(TagTo::getId)
+                                .collect(Collectors.toList());
+                        return newsTagsId.containsAll(searchCriteria.getTagsFilterId());
+                    })
+                    .collect(Collectors.toList());
+        }
+        return allNewsTo;
     }
 }

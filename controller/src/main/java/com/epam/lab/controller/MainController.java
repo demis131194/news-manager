@@ -6,11 +6,13 @@ import com.epam.lab.dto.TagTo;
 import com.epam.lab.service.AuthorService;
 import com.epam.lab.service.NewsService;
 import com.epam.lab.service.TagService;
+import com.epam.lab.util.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -67,8 +69,12 @@ public class MainController {
     }
 
     @GetMapping(value = "/news")
-    public @ResponseBody List<NewsTo> getAllNews() {
-        List<NewsTo> all = newsService.findAll();
+    public @ResponseBody List<NewsTo> getAllNews(@RequestParam(name = "sortAuthor", defaultValue = "false") boolean sortAuthor,
+                                                 @RequestParam(name = "sortDate", defaultValue = "false") boolean sortDate,
+                                                 @RequestParam(name = "tag", required = false) List<Long> tagsId) {
+
+        SearchCriteria searchCriteria = new SearchCriteria(sortAuthor, sortDate, tagsId);
+        List<NewsTo> all = newsService.findAll(searchCriteria);
         return all;
     }
 

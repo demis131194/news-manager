@@ -1,8 +1,9 @@
 package com.epam.lab.dto;
 
+import java.util.Comparator;
 import java.util.Objects;
 
-public class AuthorTo {
+public class AuthorTo implements Comparable<AuthorTo> {
     private Long id;
     private String name;
     private String surname;
@@ -38,6 +39,11 @@ public class AuthorTo {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    @Override
+    public int compareTo(AuthorTo o) {
+        return Comparator.comparing(AuthorTo::getSurname).thenComparing(AuthorTo::getName).compare(this, o);
     }
 
     @Override
