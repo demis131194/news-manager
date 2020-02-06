@@ -31,6 +31,6 @@ public class TestObjects {
     public static final TagTo EXPECTED_DTO_TAG_1 = new TagTo(EXPECTED_TAG_1.getId(), EXPECTED_TAG_1.getName());
     public static final TagTo EXPECTED_DTO_TAG_2 = new TagTo(EXPECTED_TAG_2.getId(), EXPECTED_TAG_2.getName());
     public static final TagTo EXPECTED_DTO_TAG_3 = new TagTo(EXPECTED_TAG_3.getId(), EXPECTED_TAG_3.getName());
-    public static final TagTo CREATE_DTO_TAG_4 = new TagTo(CREATE_TEST_TAG_4.getId(), CREATE_TEST_TAG_4.getName());
+    public static final TagTo CREATE_DTO_TAG_4 = new TagTo(4L, CREATE_TEST_TAG_4.getName());
     public static final TagTo UPDATE_DTO_TAG_5 = new TagTo(UPDATE_TEST_TAG_5.getId(), UPDATE_TEST_TAG_5.getName());
 }

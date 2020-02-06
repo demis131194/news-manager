@@ -8,8 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import static com.epam.lab.configuration.TestObjects.*;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ServiceTestConfig.class)
@@ -20,9 +24,16 @@ public class TagServiceTest {
 
     @Test
     public void createTest() {
-        TagTo expected = new TagTo(INIT_TEST_ID + 3, CREATE_DTO_TAG_4.getName());
-        TagTo actual = tagService.create(CREATE_DTO_TAG_4);
-        assertEquals(expected, actual);
+        TagTo testTag = new TagTo(null, CREATE_TEST_TAG_4.getName());
+        TagTo actual = tagService.create(testTag);
+        assertEquals(CREATE_DTO_TAG_4, actual);
+    }
+
+    @Test
+    public void createFailWrongIdTest() {
+        TagTo testTagTo = new TagTo(INIT_TEST_ID, CREATE_DTO_TAG_4.getName());
+        TagTo actual = tagService.create(testTagTo);
+        assertNull(actual);
     }
 
     @Test
@@ -32,5 +43,41 @@ public class TagServiceTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void deleteTest() {
+        boolean isDelete = tagService.delete(EXPECTED_DTO_TAG_1.getId());
+        assertTrue(isDelete);
+    }
+
+    @Test
+    public void findByIdTest() {
+        TagTo actual = tagService.findById(EXPECTED_DTO_TAG_1.getId());
+        assertEquals(EXPECTED_DTO_TAG_1, actual);
+    }
+
+    @Test
+    public void findTagByNameTest() {
+        TagTo actual = tagService.findTagByName(EXPECTED_DTO_TAG_1.getName());
+        assertEquals(EXPECTED_DTO_TAG_1, actual);
+    }
+
+    @Test
+    public void findAllTest() {
+        Set<TagTo> expected = new HashSet<>(
+                Arrays.asList(
+                        EXPECTED_DTO_TAG_1,
+                        EXPECTED_DTO_TAG_2,
+                        EXPECTED_DTO_TAG_3
+                )
+        );
+        Set<TagTo> actual = tagService.findAll();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void countAllTest() {
+        int actual = tagService.countAll();
+        assertEquals(EXPECTED_COUNT_ALL_TAGS, actual);
+    }
 
 }

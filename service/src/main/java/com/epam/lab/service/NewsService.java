@@ -118,10 +118,7 @@ public class NewsService implements BaseService<NewsTo> {
     }
 
     public List<NewsTo> findAll(SearchCriteria searchCriteria) {       // FIXME: 2/6/2020 REFACTOR !!!
-        List<News> all = newsRepository.findAll();
-        List<NewsTo> allNewsTo = all.stream()
-                .map(news -> findById(news.getId()))
-                .collect(Collectors.toList());
+        List<NewsTo> allNewsTo = findAll();
 
         if (searchCriteria.isAuthorSorting() && searchCriteria.isDateSorting()) {
             allNewsTo = allNewsTo.stream()

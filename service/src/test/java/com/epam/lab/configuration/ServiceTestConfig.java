@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 import static com.epam.lab.configuration.TestObjects.*;
 
@@ -32,14 +35,21 @@ public class ServiceTestConfig {
     @Bean
     public TagRepository tagRepository() {
         TagRepository mockTagRepo = Mockito.mock(TagRepository.class);
-//        Mockito.when(mockTagRepo.findById(EXPECTED_TAG_1.getId())).thenReturn(EXPECTED_TAG_1);
-//        Mockito.when(mockTagRepo.findById(EXPECTED_TAG_2.getId())).thenReturn(EXPECTED_TAG_2);
-//        Mockito.when(mockTagRepo.findById(EXPECTED_TAG_2.getId())).thenReturn(EXPECTED_TAG_3);
+        Mockito.when(mockTagRepo.findById(EXPECTED_TAG_1.getId())).thenReturn(EXPECTED_TAG_1);
+        Mockito.when(mockTagRepo.findById(EXPECTED_TAG_2.getId())).thenReturn(EXPECTED_TAG_2);
+        Mockito.when(mockTagRepo.findById(EXPECTED_TAG_2.getId())).thenReturn(EXPECTED_TAG_3);
         Mockito.when(mockTagRepo.create(CREATE_TEST_TAG_4)).thenReturn(INIT_TEST_ID + 3);
         Mockito.when(mockTagRepo.findById(INIT_TEST_ID + 3)).thenReturn(new Tag(INIT_TEST_ID + 3, CREATE_TEST_TAG_4.getName()));
         Mockito.when(mockTagRepo.update(UPDATE_TEST_TAG_5)).thenReturn(true);
         Mockito.when(mockTagRepo.findById(UPDATE_TEST_TAG_5.getId())).thenReturn(UPDATE_TEST_TAG_5);
-
+        Mockito.when(mockTagRepo.delete(EXPECTED_DTO_TAG_1.getId())).thenReturn(true);
+        Mockito.when(mockTagRepo.delete(EXPECTED_DTO_TAG_2.getId())).thenReturn(true);
+        Mockito.when(mockTagRepo.delete(EXPECTED_DTO_TAG_3.getId())).thenReturn(true);
+        Mockito.when(mockTagRepo.findTagByName(EXPECTED_DTO_TAG_1.getName())).thenReturn(EXPECTED_TAG_1);
+        Mockito.when(mockTagRepo.countAll()).thenReturn(EXPECTED_COUNT_ALL_TAGS);
+        Mockito.when(mockTagRepo.findAll()).thenReturn(
+                new HashSet<>(Arrays.asList(EXPECTED_TAG_1, EXPECTED_TAG_2, EXPECTED_TAG_3))
+        );
         return mockTagRepo;
     }
 
