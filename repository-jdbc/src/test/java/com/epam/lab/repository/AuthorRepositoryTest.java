@@ -30,7 +30,7 @@ public class AuthorRepositoryTest {
     public void createTest() {
         Author testAuthor = new Author("Pavel", "Pavel");
         long generatedKey = authorRepository.create(testAuthor);
-        assertEquals(INIT_SEQUENCE_ALL_ID, generatedKey);
+        assertEquals(INIT_TEST_ID + EXPECTED_COUNT_ALL_AUTHORS, generatedKey);
     }
 
     @Test

@@ -26,8 +26,8 @@ public class AuthorService implements BaseService<AuthorTo> {   // FIXME: 2/5/20
         if (Validator.validate(authorTo) && authorTo.getId() == null) {
             Author entity = mapper.toEntity(authorTo);
             long authorId = authorRepository.create(entity);
-            entity = authorRepository.findById(authorId);
-            return mapper.toDto(entity);
+            authorTo.setId(authorId);
+            return authorTo;
         }
         return null;
     }

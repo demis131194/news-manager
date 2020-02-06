@@ -29,7 +29,7 @@ public class NewsRepositoryTest {
     public void createTest() {
         News testNews = new News("Test title", "Test short text", "Test full text");
         long generatedKey = newsRepository.create(testNews);
-        assertEquals(INIT_SEQUENCE_ALL_ID, generatedKey);
+        assertEquals(INIT_TEST_ID + EXPECTED_COUNT_ALL_NEWS, generatedKey);
     }
 
     @Test
@@ -161,14 +161,26 @@ public class NewsRepositoryTest {
     }
 
     @Test
+    public void deleteAllNewsTagBoundsTest() {
+        boolean isDelete = newsRepository.deleteAllNewsTagBounds(EXPECTED_NEWS_1.getId());
+        assertTrue(isDelete);
+    }
+
+    @Test
+    public void deleteAllNewsTagBoundsFailTest() {
+        boolean isDelete = newsRepository.deleteAllNewsTagBounds(INIT_TEST_ID - 1);
+        assertFalse(isDelete);
+    }
+
+    @Test
     public void deleteNewsAuthorBoundTest() {
-        boolean isDelete = newsRepository.deleteNewsAuthorBound(EXPECTED_NEWS_2.getId(), EXPECTED_AUTHOR_2.getId());
+        boolean isDelete = newsRepository.deleteNewsAuthorBound(EXPECTED_NEWS_2.getId());
         assertTrue(isDelete);
     }
 
     @Test
     public void deleteNewsAuthorBoundFailTest() {
-        boolean isDelete = newsRepository.deleteNewsAuthorBound(EXPECTED_NEWS_2.getId(), EXPECTED_AUTHOR_1.getId());
+        boolean isDelete = newsRepository.deleteNewsAuthorBound(INIT_TEST_ID - 1);
         assertFalse(isDelete);
     }
 

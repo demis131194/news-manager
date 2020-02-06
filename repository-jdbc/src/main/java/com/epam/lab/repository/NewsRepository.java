@@ -28,9 +28,10 @@ public class NewsRepository implements BaseCrudRepository<News> {
     private static final String FIND_ALL_BY_TAG_QUERY = "SELECT id, title, short_text, full_text, creation_date, modification_date FROM news n LEFT JOIN news_tags nt on n.id = nt.news_id WHERE tag_id = ?";
     private static final String CREATE_NEWS_TAG_BOUND_QUERY = "INSERT INTO news_tags (news_id, tag_id) VALUES (?, ?)";
     private static final String DELETE_NEWS_TAG_BOUND_QUERY = "DELETE FROM news_tags WHERE news_id = ? AND tag_id = ?";
+    private static final String DELETE_ALL_NEWS_TAG_BOUNDS_QUERY = "DELETE FROM news_tags WHERE news_id = ?";
     private static final String CREATE_NEWS_AUTHOR_BOUND_QUERY = "INSERT INTO news_authors (news_id, author_id) VALUES (?, ?)";
     private static final String UPDATE_NEWS_AUTHOR_BOUND_QUERY = "UPDATE news_authors SET author_id = ? WHERE news_id = ?";
-    private static final String DELETE_NEWS_AUTHOR_BOUND_QUERY = "DELETE FROM news_authors WHERE news_id = ? AND author_id = ?";
+    private static final String DELETE_NEWS_AUTHOR_BOUND_QUERY = "DELETE FROM news_authors WHERE news_id = ?";
     private static final String COUNT_ALL_NEWS_QUERY = "SELECT COUNT(id) FROM news";
     private static final String FIND_AUTHOR_BY_NEWS_ID_QUERY = "SELECT author_id FROM news_authors WHERE news_id = ?";
     private static final String FIND_TAGS_BY_NEWS_ID_QUERY = "SELECT tag_id FROM news_tags WHERE news_id = ?";
@@ -132,8 +133,14 @@ public class NewsRepository implements BaseCrudRepository<News> {
         return delete == 1;
     }
 
-    public boolean deleteNewsAuthorBound(long newsId, long authorId) {
-        int delete = jdbcTemplate.update(DELETE_NEWS_AUTHOR_BOUND_QUERY, newsId, authorId);
+    public boolean deleteAllNewsTagBounds(long newsId) {
+        int delete = jdbcTemplate.update(DELETE_ALL_NEWS_TAG_BOUNDS_QUERY, newsId);
+        logger.info("Delete all news tag bounds result : {}", delete);                   // FIXME: 1/30/2020
+        return delete != 0;
+    }
+
+    public boolean deleteNewsAuthorBound(long newsId) {
+        int delete = jdbcTemplate.update(DELETE_NEWS_AUTHOR_BOUND_QUERY, newsId);
         logger.info("Delete news tag bound result : {}", delete);                   // FIXME: 1/30/2020
         return delete == 1;
     }

@@ -30,7 +30,7 @@ public class AuthorRepository implements BaseCrudRepository<Author> {
     private static final String FIND_AUTHOR_BY_SURNAME_QUERY = "SELECT id, name, surname FROM authors WHERE surname = ?";
     private static final String FIND_ALL_QUERY = "SELECT id, name, surname FROM authors";
     private static final String COUNT_ALL_QUERY = "SELECT COUNT(id) FROM authors";
-    private static final String FIND_BY_NEWS_ID_QUERY = "SELECT nw_a.author_id AS id, a.name, a.surname FROM news_authors nw_a LEFT JOIN authors a ON nw_a.news_id = a.id WHERE news_id = ?";
+    private static final String FIND_BY_NEWS_ID_QUERY = "SELECT nw_a.author_id AS id, a.name, a.surname FROM news_authors nw_a LEFT JOIN authors a ON nw_a.author_id = a.id WHERE news_id = ?";
 
     private JdbcTemplate jdbcTemplate;
 

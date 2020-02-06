@@ -29,7 +29,7 @@ public class TagRepositoryTest {
     public void createTest() {
         Tag createTestTag = new Tag("Test");
         long generatedIdKey = tagRepository.create(createTestTag);
-        assertEquals(INIT_SEQUENCE_ALL_ID, generatedIdKey);
+        assertEquals(INIT_TEST_ID + EXPECTED_COUNT_ALL_TAGS, generatedIdKey);
     }
 
     @Test

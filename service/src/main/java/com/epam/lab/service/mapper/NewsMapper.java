@@ -27,13 +27,13 @@ public class NewsMapper {
         return Objects.isNull(newsTo) ? null : modelMapper.map(newsTo, News.class);
     }
 
-    public NewsTo toDto(News news, Author author, Set<Tag> tags) {
-        if (news == null || author == null || tags == null) {
+    public NewsTo toDto(News news, AuthorTo author, Set<TagTo> tags) {
+        if (news == null || tags == null) {
             return null;
         }
         NewsTo newsTo = modelMapper.map(news, NewsTo.class);
-        newsTo.setAuthor(modelMapper.map(author, AuthorTo.class));
-        tags.forEach(tag -> newsTo.getTags().add(modelMapper.map(tag, TagTo.class)));
+        newsTo.setAuthor(author);
+        newsTo.setTags(tags);
         return newsTo;
     }
 }
