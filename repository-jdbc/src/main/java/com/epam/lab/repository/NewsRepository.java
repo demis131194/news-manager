@@ -2,7 +2,8 @@ package com.epam.lab.repository;
 
 import com.epam.lab.model.News;
 import com.epam.lab.repository.mapper.NewsRowMapper;
-import com.epam.lab.repository.search.SearchCriteria;
+import com.epam.lab.repository.specification.SearchCriteria;
+import com.epam.lab.repository.specification.Specification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,11 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.util.Collection;
 import java.util.List;
 
 @Repository("news-repository")
-public class NewsRepository implements BaseCrudRepository<News> {
+public class NewsRepository implements SpecificationRepository<News> {
     private static final Logger logger = LogManager.getLogger(NewsRepository.class);
 
     private static final String INSERT_QUERY = "INSERT INTO news (title, short_text, full_text) VALUES (?, ?, ?)";
@@ -95,6 +97,11 @@ public class NewsRepository implements BaseCrudRepository<News> {
         List<News> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
         logger.info("Find all news result : {}", result);                   // FIXME: 1/30/2020
         return result;
+    }
+
+    @Override
+    public Collection<News> findBySpecification(Specification specification) {
+        return null;
     }
 
     @Override

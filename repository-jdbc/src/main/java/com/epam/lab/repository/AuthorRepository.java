@@ -1,8 +1,10 @@
 package com.epam.lab.repository;
 
 import com.epam.lab.model.Author;
+import com.epam.lab.model.News;
 import com.epam.lab.model.Tag;
 import com.epam.lab.repository.mapper.AuthorRowMapper;
+import com.epam.lab.repository.specification.Specification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,12 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 @Repository("author-repository")
-public class AuthorRepository implements BaseCrudRepository<Author> {
+public class AuthorRepository implements SpecificationRepository<Author> {
     private static final Logger logger = LogManager.getLogger(AuthorRepository.class);
 
     private static final String INSERT_QUERY = "INSERT INTO authors (name, surname) VALUES (?, ?)";
@@ -89,6 +92,11 @@ public class AuthorRepository implements BaseCrudRepository<Author> {
         List<Author> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
         logger.info("Find all authors result : {}", result);                   // FIXME: 1/30/2020
         return result;
+    }
+
+    @Override
+    public Collection<Author> findBySpecification(Specification specification) {
+        return null;
     }
 
     @Override

@@ -5,13 +5,12 @@ import com.epam.lab.dto.NewsTo;
 import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.News;
 import com.epam.lab.repository.NewsRepository;
-import com.epam.lab.repository.search.SearchCriteria;
+import com.epam.lab.repository.specification.SearchCriteria;
 import com.epam.lab.service.mapper.NewsMapper;
 import com.epam.lab.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

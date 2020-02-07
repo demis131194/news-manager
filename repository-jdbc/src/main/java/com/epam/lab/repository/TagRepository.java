@@ -1,7 +1,9 @@
 package com.epam.lab.repository;
 
+import com.epam.lab.model.News;
 import com.epam.lab.model.Tag;
 import com.epam.lab.repository.mapper.TagRowMapper;
+import com.epam.lab.repository.specification.Specification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,13 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Repository("tag-repository")
-public class TagRepository implements BaseCrudRepository<Tag> {
+public class TagRepository implements SpecificationRepository<Tag> {
     private static final Logger logger = LogManager.getLogger(TagRepository.class);
 
     private static final String INSERT_QUERY = "INSERT INTO tags (name) VALUES (?)";
@@ -88,6 +91,11 @@ public class TagRepository implements BaseCrudRepository<Tag> {
         Set<Tag> resultSet = new HashSet<>(result);
         logger.info("Find all tags result : {}", resultSet);                   // FIXME: 1/31/2020
         return resultSet;
+    }
+
+    @Override
+    public Collection<Tag> findBySpecification(Specification specification) {
+        return null;
     }
 
     @Override

@@ -3,16 +3,14 @@ package com.epam.lab.controller;
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.dto.NewsTo;
 import com.epam.lab.dto.TagTo;
-import com.epam.lab.repository.search.SearchCriteria;
+import com.epam.lab.repository.specification.SearchCriteria;
 import com.epam.lab.service.AuthorService;
 import com.epam.lab.service.NewsService;
 import com.epam.lab.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
