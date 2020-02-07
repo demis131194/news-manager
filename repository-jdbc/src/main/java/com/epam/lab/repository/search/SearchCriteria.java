@@ -2,9 +2,7 @@ package com.epam.lab.repository.search;
 
 import com.epam.lab.model.Author;
 import com.epam.lab.model.Tag;
-import com.healthmarketscience.sqlbuilder.BinaryCondition;
-import com.healthmarketscience.sqlbuilder.Condition;
-import com.healthmarketscience.sqlbuilder.SelectQuery;
+import com.healthmarketscience.sqlbuilder.*;
 import com.healthmarketscience.sqlbuilder.dbspec.basic.*;
 
 import java.util.ArrayList;
@@ -81,7 +79,7 @@ public class SearchCriteria {
 //    SearchCriteria searchCriteria_2 = new SearchCriteria(5L, Arrays.asList(1L, 3L), false, false);
 //    SearchCriteria searchCriteria_3 = new SearchCriteria(7L, Arrays.asList(1L, 3L), false, false);
 //    SearchCriteria searchCriteria_4 = new SearchCriteria(null, null, false, false);
-//    SearchCriteria searchCriteria = searchCriteria_1;
+//    SearchCriteria searchCriteria = searchCriteria_1_1;
 //
 //    BinaryCondition authorCondition = null;
 //    List<Condition> tagsConditions = new ArrayList<>();
@@ -102,7 +100,9 @@ public class SearchCriteria {
 //        selectQuery.addCondition(authorCondition);
 //    }
 //        if (tagsConditions.size() > 0) {
-//        tagsConditions.forEach(selectQuery::addCondition);
+//        ComboCondition or = ComboCondition.or();
+//        tagsConditions.forEach(or::addCondition);
+//        selectQuery.addCondition(or);
 //    }
 //        if (searchCriteria.isAuthorSort()) {
 //        selectQuery.addOrderings(authorsSurnameColumn, authorsNameColumn);
@@ -111,9 +111,13 @@ public class SearchCriteria {
 //        selectQuery.addOrderings(newsCreationDateColumn);
 //    }
 //
-//    String s = selectQuery.addGroupings(newsIdColumn)
-//            .validate()
-//            .toString();
+//        selectQuery.addGroupings(newsIdColumn);
+//
+//        if (tagsConditions.size() > 0) {
+//        selectQuery.addHaving(BinaryCondition.equalTo(FunctionCall.count().addColumnParams(newsIdColumn), tagsConditions.size()));
+//    }
+//
+//    String s = selectQuery.validate().toString();
 //
 //
 //        System.out.println(s);
