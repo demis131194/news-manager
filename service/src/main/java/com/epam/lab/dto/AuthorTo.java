@@ -42,8 +42,8 @@ public class AuthorTo implements Comparable<AuthorTo> {
     }
 
     @Override
-    public int compareTo(AuthorTo o) {
-        return Comparator.comparing(AuthorTo::getSurname).thenComparing(AuthorTo::getName).compare(this, o);
+    public int compareTo(AuthorTo authorTo) {
+        return Comparator.comparing(AuthorTo::getSurname).thenComparing(AuthorTo::getName).compare(this, authorTo);
     }
 
     @Override

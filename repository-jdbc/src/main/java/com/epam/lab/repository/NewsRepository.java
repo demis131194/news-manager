@@ -2,6 +2,7 @@ package com.epam.lab.repository;
 
 import com.epam.lab.model.News;
 import com.epam.lab.repository.mapper.NewsRowMapper;
+import com.epam.lab.repository.search.SearchCriteria;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +102,10 @@ public class NewsRepository implements BaseCrudRepository<News> {
         int result = jdbcTemplate.queryForObject(COUNT_ALL_NEWS_QUERY, Integer.class);
         logger.info("Count all news result : {}", result);
         return result;
+    }
+
+    public List<News> findAll(SearchCriteria searchCriteria) {
+        return null;
     }
 
     public List<News> findAllByTagId(long tagId) {

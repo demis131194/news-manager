@@ -164,23 +164,58 @@ CREATE TRIGGER news_update_modification_date_trigger
 	AFTER UPDATE ON news FOR EACH ROW
 	EXECUTE PROCEDURE news_update_modification_date();
 
-INSERT INTO authors(name, surname) VALUES ('DIMA', 'FORD'),
-    ('VASYA', 'VASYA'),
-    ('SOVA', 'SOVA');
+INSERT INTO authors(name, surname) VALUES ('Dima', 'Ford'),
+    ('Vasya', 'Pupkin'),
+    ('Sova', 'sovna'),
+    ('Artem', 'Hlebny'),
+    ('Vasya', 'Asin'),
+    ('Nikita', 'Semenov'),
+    ('Dima', 'Ford'),
+    ('Dima', 'Jackson');
 
 INSERT INTO tags(name) VALUES ('History'),
-    ('SCIENCE'),
-    ('FANNY');
+    ('Science'),
+    ('Comedy'),
+    ('Nature'),
+    ('Art'),
+    ('My'),
+    ('Dogs'),
+    ('Cats');
 
-INSERT INTO news(title, short_text, full_text) VALUES ('News title 1', 'Short text 1', 'Full text 1'),
-    ('News title 2', 'Short text 2', 'Full text 2'),
-    ('News title 3', 'Short text 3', 'Full text 3');
+INSERT INTO news(title, short_text, full_text) VALUES ('Robokop', 'Short text 1', 'Full text 1'),
+    ('WoRk', 'Short text 2', 'Full text 2'),
+    ('work', 'Short text 3', 'Full text 3'),
+    ('News title 4', 'Short text 4', 'Full text 4'),
+    ('Boring', 'Short text 5', 'Full text 5'),
+    ('Bomb shel', 'Short text 6', 'Full text 6'),
+    ('UFO', 'Short text 7', 'Full text 7'),
+    ('Warning', 'Short text 8', 'Full text 8'),
+    ('JAVA core', 'Short text 9', 'Full text 9'),
+    ('Spring', 'Short text 10', 'Full text 10'),
+    ('Postgresql', 'Short text 11', 'Full text 11');
 
-INSERT INTO news_tags(news_id, tag_id) VALUES (1, 1),
-    (1, 2),
-    (2, 3),
-    (3, 1),
-    (3, 3);
+INSERT INTO news_tags(news_id, tag_id) VALUES
+    (1, 2), (1, 3), (1, 6),
+    (2, 3), (2, 4), (2, 8), (2, 2),
+    (3, 3), (3, 5), (3, 8),
+    (4, 1), (4, 3), (4, 8), (4, 2), (4, 7),
+    (5, 1), (5, 3), (5, 5),
+    (6, 2), (6, 6), (6, 7),
+    (7, 1), (7, 2), (7, 3),
+    (8, 5), (8, 6),
+    (9, 2), (9, 5), (9, 6),
+    (10, 2), (10, 5), (10, 6),
+    (11, 1), (11, 2), (11, 3), (11, 7), (11, 8);
 
-INSERT INTO news_authors(news_id, author_id) VALUES (1, 1),
-    (2, 2);
+INSERT INTO news_authors(news_id, author_id) VALUES
+    (1, 1),
+    (2, 7),
+    (3, 2),
+    (4, 4),
+    (5, 5),
+    (6, 8),
+    (7, 4),
+    (8, 7),
+    (9, 8),
+    (10, 1),
+    (11, 1);

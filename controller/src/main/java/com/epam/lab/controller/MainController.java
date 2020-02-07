@@ -3,10 +3,10 @@ package com.epam.lab.controller;
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.dto.NewsTo;
 import com.epam.lab.dto.TagTo;
+import com.epam.lab.repository.search.SearchCriteria;
 import com.epam.lab.service.AuthorService;
 import com.epam.lab.service.NewsService;
 import com.epam.lab.service.TagService;
-import com.epam.lab.util.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -71,9 +71,10 @@ public class MainController {
     @GetMapping(value = "/news")
     public @ResponseBody List<NewsTo> getAllNews(@RequestParam(name = "sortAuthor", defaultValue = "false") boolean sortAuthor,
                                                  @RequestParam(name = "sortDate", defaultValue = "false") boolean sortDate,
-                                                 @RequestParam(name = "tag", required = false) List<Long> tagsId) {
+                                                 @RequestParam(name = "tagId", required = false) List<Long> tagsId,
+                                                 @RequestParam(name = "authorId", required = false) Long authorId) {
 
-        SearchCriteria searchCriteria = new SearchCriteria(sortAuthor, sortDate, tagsId);
+        SearchCriteria searchCriteria = new SearchCriteria(authorId, tagsId, sortAuthor, sortDate);
         List<NewsTo> all = newsService.findAll(searchCriteria);
         return all;
     }
