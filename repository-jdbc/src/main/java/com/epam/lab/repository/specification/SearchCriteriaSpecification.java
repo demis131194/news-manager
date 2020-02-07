@@ -17,26 +17,24 @@ public class SearchCriteriaSpecification implements Specification {
 
     @Override
     public String query() {
-        BinaryCondition authorCondition = null;
-        List<Condition> tagsConditions = new ArrayList<>();
-
-        if (searchCriteria.getAuthorId() != null) {
-            authorCondition = BinaryCondition.equalTo(authorsIdColumn, searchCriteria.getAuthorId());
-        }
-
-        searchCriteria.getTagsId().forEach(tagId -> tagsConditions.add(BinaryCondition.equalTo(tagsIdColumn, tagId)));
+        int countSearchTags = searchCriteria.getTagsId().size();
 
         SelectQuery selectQuery = new SelectQuery();
-        selectQuery.addAllTableColumns(newsTable)
-                .addJoins(SelectQuery.JoinType.LEFT_OUTER, newsAuthorsNewsJoin, newsAuthorsAuthorsJoin, newsTagsNewsJoin, newsTagsTagsJoin);
+        selectQuery.addAllTableColumns(newsTable).addJoins(
+                        SelectQuery.JoinType.LEFT_OUTER,
+                        newsAuthorsNewsJoin,
+                        newsAuthorsAuthorsJoin,
+                        newsTagsNewsJoin,
+                        newsTagsTagsJoin);
 
-        if (authorCondition != null) {
-            selectQuery.addCondition(authorCondition);
+        if (searchCriteria.getAuthorId() != null) {
+            selectQuery.addCondition(BinaryCondition.equalTo(authorsIdColumn, searchCriteria.getAuthorId()));
         }
-        if (tagsConditions.size() > 0) {
+        if (countSearchTags > 0) {
             ComboCondition comboOrCondition = ComboCondition.or();
-            tagsConditions.forEach(comboOrCondition::addCondition);
+            searchCriteria.getTagsId().forEach(tagId -> comboOrCondition.addCondition(BinaryCondition.equalTo(tagsIdColumn, tagId)));
             selectQuery.addCondition(comboOrCondition);
+            selectQuery.addHaving(BinaryCondition.equalTo(FunctionCall.count().addColumnParams(newsIdColumn), countSearchTags));
         }
         if (searchCriteria.isAuthorSort()) {
             selectQuery.addCustomOrderings(FunctionCall.min().addColumnParams(authorsSurnameColumn), FunctionCall.min().addColumnParams(authorsNameColumn));
@@ -45,9 +43,6 @@ public class SearchCriteriaSpecification implements Specification {
             selectQuery.addOrderings(newsCreationDateColumn);
         }
         selectQuery.addGroupings(newsIdColumn);
-        if (tagsConditions.size() > 0) {
-            selectQuery.addHaving(BinaryCondition.equalTo(FunctionCall.count().addColumnParams(newsIdColumn), tagsConditions.size()));
-        }
 
         return selectQuery.validate().toString();
     }
