@@ -3,7 +3,7 @@ package com.epam.lab.controller;
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.dto.NewsTo;
 import com.epam.lab.dto.TagTo;
-import com.epam.lab.repository.specification.SearchCriteria;
+import com.epam.lab.repository.SearchCriteria;
 import com.epam.lab.service.AuthorService;
 import com.epam.lab.service.NewsService;
 import com.epam.lab.service.TagService;

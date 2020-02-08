@@ -5,7 +5,7 @@ import com.epam.lab.dto.NewsTo;
 import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.News;
 import com.epam.lab.repository.NewsRepository;
-import com.epam.lab.repository.specification.SearchCriteria;
+import com.epam.lab.repository.SearchCriteria;
 import com.epam.lab.service.mapper.NewsMapper;
 import com.epam.lab.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;

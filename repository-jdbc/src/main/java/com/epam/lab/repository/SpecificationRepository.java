@@ -2,14 +2,14 @@ package com.epam.lab.repository;
 
 import com.epam.lab.repository.specification.Specification;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface SpecificationRepository<T> {
     long create(T obj);
     boolean update(T obj);
     boolean delete(long id);
     T findById(long id);
-    Collection<T> findAll();
+    List<T> findAll();
     int countAll();
-    Collection<T> findBySpecification(Specification specification);
+    List<T> findBySpecification(Specification specification);
 }

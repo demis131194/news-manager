@@ -33,7 +33,6 @@ public class AuthorRepository implements SpecificationRepository<Author> {
     private static final String FIND_AUTHOR_BY_SURNAME_QUERY = "SELECT id, name, surname FROM authors WHERE surname = ?";
     private static final String FIND_ALL_QUERY = "SELECT id, name, surname FROM authors";
     private static final String COUNT_ALL_QUERY = "SELECT COUNT(id) FROM authors";
-    private static final String FIND_BY_NEWS_ID_QUERY = "SELECT nw_a.author_id AS id, a.name, a.surname FROM news_authors nw_a LEFT JOIN authors a ON nw_a.author_id = a.id WHERE news_id = ?";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -95,47 +94,16 @@ public class AuthorRepository implements SpecificationRepository<Author> {
     }
 
     @Override
-    public Collection<Author> findBySpecification(Specification specification) {
-        return null;
+    public List<Author> findBySpecification(Specification specification) {
+        List<Author> result = jdbcTemplate.query(specification.query(), rowMapper);
+        logger.info("Find authors by {}, result : {}", specification.getClass().getSimpleName(), result);
+        return result;
     }
 
     @Override
     public int countAll() {
         int result = jdbcTemplate.queryForObject(COUNT_ALL_QUERY, Integer.class);
         logger.info("Count all authors result : {}", result);                   // FIXME: 1/30/2020
-        return result;
-    }
-
-    public Author findByNewsId(long id) {
-        Author result;
-        try {
-            result = jdbcTemplate.queryForObject(FIND_BY_NEWS_ID_QUERY, new Object[]{id}, rowMapper);
-        } catch (DataAccessException e) {
-            result = null;
-        }
-        logger.info("Find author by news id result : {}", result);                   // FIXME: 1/30/2020
-        return result;
-    }
-
-    public List<Author> findByName(String authorName) {
-        List<Author> result;
-        try {
-            result = jdbcTemplate.query(FIND_AUTHOR_BY_NAME_QUERY, new Object[]{authorName}, rowMapper);
-        } catch (EmptyResultDataAccessException e) {
-            result = Collections.emptyList();
-        }
-        logger.info("Find author by authorName result : {}", result);                   // FIXME: 1/31/2020
-        return result;
-    }
-
-    public List<Author> findBySurname(String authorSurname) {
-        List<Author> result;
-        try {
-            result = jdbcTemplate.query(FIND_AUTHOR_BY_SURNAME_QUERY, new Object[]{authorSurname}, rowMapper);
-        } catch (EmptyResultDataAccessException e) {
-            result = Collections.emptyList();
-        }
-        logger.info("Find author by authorSurname result : {}", result);                   // FIXME: 1/31/2020
         return result;
     }
 }

@@ -1,4 +1,4 @@
-package com.epam.lab.repository.specification;
+package com.epam.lab.repository;
 
 import java.util.Collections;
 import java.util.HashSet;

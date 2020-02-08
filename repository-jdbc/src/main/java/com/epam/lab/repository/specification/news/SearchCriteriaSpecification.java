@@ -1,9 +1,11 @@
-package com.epam.lab.repository.specification;
+package com.epam.lab.repository.specification.news;
 
-import com.healthmarketscience.sqlbuilder.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.epam.lab.repository.SearchCriteria;
+import com.epam.lab.repository.specification.Specification;
+import com.healthmarketscience.sqlbuilder.BinaryCondition;
+import com.healthmarketscience.sqlbuilder.ComboCondition;
+import com.healthmarketscience.sqlbuilder.FunctionCall;
+import com.healthmarketscience.sqlbuilder.SelectQuery;
 
 import static com.epam.lab.repository.DbInfo.*;
 

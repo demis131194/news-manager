@@ -3,6 +3,8 @@ package com.epam.lab.service;
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.model.Author;
 import com.epam.lab.repository.AuthorRepository;
+import com.epam.lab.repository.specification.Specification;
+import com.epam.lab.repository.specification.author.FindAuthorByNewsIdSpecification;
 import com.epam.lab.service.mapper.AuthorMapper;
 import com.epam.lab.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,31 +80,10 @@ public class AuthorService implements BaseService<AuthorTo> {   // FIXME: 2/5/20
 
     public AuthorTo findByNewsId(long newsId) {
         if (Validator.validateId(newsId)) {
-            Author authorByNewsId = authorRepository.findByNewsId(newsId);
-            return mapper.toDto(authorByNewsId);
+            Specification specification = new FindAuthorByNewsIdSpecification(newsId);
+            List<Author> author = authorRepository.findBySpecification(specification);
+            return mapper.toDto(author.get(0));
         }
         return null;
-    }
-
-    public List<AuthorTo> findByName(String name) {
-        if (Validator.validateAuthorName(name)) {
-            List<Author> allByName = authorRepository.findByName(name);
-            List<AuthorTo> result = allByName.stream()
-                    .map(author -> mapper.toDto(author))
-                    .collect(Collectors.toList());
-            return result;
-        }
-        return Collections.emptyList();
-    }
-
-    public List<AuthorTo> findBySurname(String surname) {
-        if (Validator.validateAuthorSurname(surname)) {
-            List<Author> allByName = authorRepository.findBySurname(surname);
-            List<AuthorTo> result = allByName.stream()
-                    .map(author -> mapper.toDto(author))
-                    .collect(Collectors.toList());
-            return result;
-        }
-        return Collections.emptyList();
     }
 }

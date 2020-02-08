@@ -166,7 +166,7 @@ CREATE TRIGGER news_update_modification_date_trigger
 
 INSERT INTO authors(name, surname) VALUES ('Dima', 'Ford'),
     ('Vasya', 'Pupkin'),
-    ('Sova', 'sovna'),
+    ('Sova', 'Sovna'),
     ('Artem', 'Hlebny'),
     ('Vasya', 'Asin'),
     ('Nikita', 'Semenov'),

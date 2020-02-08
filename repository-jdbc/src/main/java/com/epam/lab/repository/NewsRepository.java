@@ -2,7 +2,6 @@ package com.epam.lab.repository;
 
 import com.epam.lab.model.News;
 import com.epam.lab.repository.mapper.NewsRowMapper;
-import com.epam.lab.repository.specification.SearchCriteria;
 import com.epam.lab.repository.specification.Specification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -100,7 +99,7 @@ public class NewsRepository implements SpecificationRepository<News> {
     }
 
     @Override
-    public Collection<News> findBySpecification(Specification specification) {
+    public List<News> findBySpecification(Specification specification) {
         return null;
     }
 
