@@ -15,7 +15,7 @@ import java.io.IOException;
 public class TestRepositoryConfig {
 
     @Bean
-    public DataSource dataSource() throws IOException {                        // FIXME: 1/31/2020 ??????
+    public DataSource dataSource() throws IOException {
         return EmbeddedPostgres.start().getPostgresDatabase();
     }
 

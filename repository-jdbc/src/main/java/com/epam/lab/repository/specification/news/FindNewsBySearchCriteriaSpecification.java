@@ -1,6 +1,5 @@
 package com.epam.lab.repository.specification.news;
 
-import com.epam.lab.repository.SearchCriteria;
 import com.epam.lab.repository.specification.Specification;
 import com.healthmarketscience.sqlbuilder.BinaryCondition;
 import com.healthmarketscience.sqlbuilder.ComboCondition;

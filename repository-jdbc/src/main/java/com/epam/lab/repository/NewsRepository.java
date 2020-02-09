@@ -56,21 +56,21 @@ public class NewsRepository implements SpecificationRepository<News> {
         }, keyHolder);
 
         long generatedId = keyHolder.getKey().longValue();
-        logger.info("Creating news id : {}", generatedId);                   // FIXME: 1/31/2020
+        logger.info("Creating news id : {}", generatedId);
         return generatedId;
     }
 
     @Override
     public boolean update(News obj) {
         int result = jdbcTemplate.update(UPDATE_QUERY, obj.getTitle(), obj.getShortText(), obj.getFullText(), obj.getId());
-        logger.info("Updating news result : {}", result);                   // FIXME: 1/30/2020
+        logger.info("Updating news result : {}", result);
         return result == 1;
     }
 
     @Override
     public boolean delete(long id) {
         int result = jdbcTemplate.update(DELETE_QUERY, id);
-        logger.info("Delete news result : {}", result);                   // FIXME: 1/30/2020
+        logger.info("Delete news result : {}", result);
         return result == 1;
     }
 
@@ -82,14 +82,14 @@ public class NewsRepository implements SpecificationRepository<News> {
         } catch (DataAccessException e) {
             result = null;
         }
-        logger.info("Find news result : {}", result);                   // FIXME: 1/30/2020
+        logger.info("Find news result : {}", result);
         return result;
     }
 
     @Override
     public List<News> findAll() {
         List<News> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
-        logger.info("Find all news result : {}", result);                   // FIXME: 1/30/2020
+        logger.info("Find all news result : {}", result);
         return result;
     }
 
@@ -109,37 +109,37 @@ public class NewsRepository implements SpecificationRepository<News> {
 
     public boolean createNewsTagBound(long newsId, long tagId) {
         int update = jdbcTemplate.update(CREATE_NEWS_TAG_BOUND_QUERY, newsId, tagId);
-        logger.info("Create news tag bound result : {}", update);                   // FIXME: 1/30/2020
+        logger.info("Create news tag bound result : {}", update);
         return update == 1;
     }
 
     public boolean createNewsAuthorBound(long newsId, long authorId) {
         int update = jdbcTemplate.update(CREATE_NEWS_AUTHOR_BOUND_QUERY, newsId, authorId);
-        logger.info("Create news author bound result : {}", update);                   // FIXME: 1/30/2020
+        logger.info("Create news author bound result : {}", update);
         return update == 1;
     }
 
     public boolean updateNewsAuthorBound(long newsId, long authorId) {
         int update = jdbcTemplate.update(UPDATE_NEWS_AUTHOR_BOUND_QUERY, authorId , newsId);
-        logger.info("Update news tag bound result : {}", update);                   // FIXME: 1/30/2020
+        logger.info("Update news tag bound result : {}", update);
         return update == 1;
     }
 
     public boolean deleteNewsTagBound(long newsId, long tagId) {
         int delete = jdbcTemplate.update(DELETE_NEWS_TAG_BOUND_QUERY, newsId, tagId);
-        logger.info("Delete news tag bound result : {}", delete);                   // FIXME: 1/30/2020
+        logger.info("Delete news tag bound result : {}", delete);
         return delete == 1;
     }
 
     public boolean deleteAllNewsTagBounds(long newsId) {
         int delete = jdbcTemplate.update(DELETE_ALL_NEWS_TAG_BOUNDS_QUERY, newsId);
-        logger.info("Delete all news tag bounds result : {}", delete);                   // FIXME: 1/30/2020
+        logger.info("Delete all news tag bounds result : {}", delete);
         return delete != 0;
     }
 
     public boolean deleteNewsAuthorBound(long newsId) {
         int delete = jdbcTemplate.update(DELETE_NEWS_AUTHOR_BOUND_QUERY, newsId);
-        logger.info("Delete news tag bound result : {}", delete);                   // FIXME: 1/30/2020
+        logger.info("Delete news tag bound result : {}", delete);
         return delete == 1;
     }
 }

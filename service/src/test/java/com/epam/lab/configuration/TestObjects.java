@@ -6,7 +6,7 @@ import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.Author;
 import com.epam.lab.model.News;
 import com.epam.lab.model.Tag;
-import com.epam.lab.repository.SearchCriteria;
+import com.epam.lab.repository.specification.news.SearchCriteria;
 
 import java.util.Arrays;
 import java.util.Collections;

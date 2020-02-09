@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AuthorService implements BaseService<AuthorTo> {   // FIXME: 2/5/2020 Use validator exception?
+public class AuthorService implements BaseService<AuthorTo> {
 
     private AuthorRepository authorRepository;
     private AuthorMapper mapper;

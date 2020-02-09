@@ -48,21 +48,21 @@ public class TagRepository implements SpecificationRepository<Tag> {
         }, keyHolder);
 
         long newId = keyHolder.getKey().longValue();
-        logger.info("Creating tag id : {}", newId);                   // FIXME: 1/31/2020
+        logger.info("Creating tag id : {}", newId);
         return newId;
     }
 
     @Override
     public boolean update(Tag obj) {
         int result = jdbcTemplate.update(UPDATE_QUERY, obj.getName(), obj.getId());
-        logger.info("Updating tag result : {}", result);                   // FIXME: 1/31/2020
+        logger.info("Updating tag result : {}", result);
         return result == 1;
     }
 
     @Override
     public boolean delete(long id) {
         int result = jdbcTemplate.update(DELETE_QUERY, id);
-        logger.info("Delete tags result : {}", result);                   // FIXME: 1/31/2020
+        logger.info("Delete tags result : {}", result);
         return result == 1;
     }
 
@@ -74,14 +74,14 @@ public class TagRepository implements SpecificationRepository<Tag> {
         } catch (EmptyResultDataAccessException e) {
             result = null;
         }
-        logger.info("Find tag result : {}", result);                   // FIXME: 1/31/2020
+        logger.info("Find tag result : {}", result);
         return result;
     }
 
     @Override
     public List<Tag> findAll() {
         List<Tag> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
-        logger.info("Find all tags result : {}", result);                   // FIXME: 1/31/2020
+        logger.info("Find all tags result : {}", result);
         return result;
     }
 
@@ -95,7 +95,7 @@ public class TagRepository implements SpecificationRepository<Tag> {
     @Override
     public int countAll() {
         int result = jdbcTemplate.queryForObject(COUNT_ALL_QUERY, Integer.class);
-        logger.info("Count all tags result : {}", result);                   // FIXME: 1/31/2020
+        logger.info("Count all tags result : {}", result);
         return result;
     }
 }

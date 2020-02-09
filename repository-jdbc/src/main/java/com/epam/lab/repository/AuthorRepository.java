@@ -49,21 +49,21 @@ public class AuthorRepository implements SpecificationRepository<Author> {
         }, keyHolder);
 
         long newId = keyHolder.getKey().longValue();
-        logger.info("Creating author id : {}", newId);                   // FIXME: 1/30/2020
+        logger.info("Creating author id : {}", newId);                   
         return newId;
     }
 
     @Override
     public boolean update(Author obj) {
         int result = jdbcTemplate.update(UPDATE_QUERY, obj.getName(), obj.getSurname(), obj.getId());
-        logger.info("Updating author result : {}", result);                   // FIXME: 1/30/2020
+        logger.info("Updating author result : {}", result);                   
         return result == 1;
     }
 
     @Override
     public boolean delete(long id) {
         int result = jdbcTemplate.update(DELETE_QUERY, id);
-        logger.info("Delete author result : {}", result);                   // FIXME: 1/30/2020
+        logger.info("Delete author result : {}", result);                   
         return result == 1;
     }
 
@@ -75,14 +75,14 @@ public class AuthorRepository implements SpecificationRepository<Author> {
         } catch (EmptyResultDataAccessException e) {
             result = null;
         }
-        logger.info("Find author result : {}", result);                   // FIXME: 1/30/2020
+        logger.info("Find author result : {}", result);                   
         return result;
     }
 
     @Override
     public List<Author> findAll() {
         List<Author> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
-        logger.info("Find all authors result : {}", result);                   // FIXME: 1/30/2020
+        logger.info("Find all authors result : {}", result);                   
         return result;
     }
 
@@ -96,7 +96,7 @@ public class AuthorRepository implements SpecificationRepository<Author> {
     @Override
     public int countAll() {
         int result = jdbcTemplate.queryForObject(COUNT_ALL_QUERY, Integer.class);
-        logger.info("Count all authors result : {}", result);                   // FIXME: 1/30/2020
+        logger.info("Count all authors result : {}", result);                   
         return result;
     }
 }
