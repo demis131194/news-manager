@@ -34,15 +34,8 @@ public class NewsService implements BaseService<NewsTo> {
     @Override
     public NewsTo create(NewsTo newsTo) {
         if (Validator.validate(newsTo) && newsTo.getId() == null) {
-            if (newsTo.getAuthor().getId() == null) {
-                authorService.create(newsTo.getAuthor());
-            }
-            newsTo.getTags().forEach(tagTo -> {
-                if (tagTo.getId() == null) {
-                    long tagId = tagService.create(tagTo).getId();
-                    tagTo.setId(tagId);
-                }
-            });
+            createAuthorIfAbsent(newsTo);
+            createTagsIfAbsent(newsTo);
             long newsId = newsRepository.create(mapper.toEntity(newsTo));
             newsTo.setId(newsId);
             newsRepository.createNewsAuthorBound(newsId, newsTo.getAuthor().getId());
@@ -57,27 +50,12 @@ public class NewsService implements BaseService<NewsTo> {
         if (Validator.validate(newsTo) && newsTo.getId() != null) {
             boolean isUpdateNews = newsRepository.update(mapper.toEntity(newsTo));
             if (isUpdateNews) {
-
-                if (newsTo.getAuthor().getId() == null) {
-                    AuthorTo createdAuthor = authorService.create(newsTo.getAuthor());
-                    newsTo.setAuthor(createdAuthor);
-                }
-
-                newsTo.getTags().forEach(tagTo -> {
-                    if (tagTo.getId() == null) {
-                        long tagId = tagService.create(tagTo).getId();
-                        tagTo.setId(tagId);
-                    }
-                });
-
-
-                newsRepository.deleteNewsAuthorBound(newsTo.getId());
-                newsRepository.createNewsAuthorBound(newsTo.getId(), newsTo.getAuthor().getId());
-
+                createAuthorIfAbsent(newsTo);
+                createTagsIfAbsent(newsTo);
+                newsRepository.updateNewsAuthorBound(newsTo.getId(), newsTo.getAuthor().getId());
                 newsRepository.deleteAllNewsTagBounds(newsTo.getId());
                 newsTo.getTags().forEach(tagTo -> newsRepository.createNewsTagBound(newsTo.getId(), tagTo.getId()));
-
-                return findById(newsTo.getId());
+                return newsTo;
             }
         }
         return null;
@@ -106,10 +84,9 @@ public class NewsService implements BaseService<NewsTo> {
     @Override
     public List<NewsTo> findAll() {
         List<News> all = newsRepository.findAll();
-        List<NewsTo> allNewsTo = all.stream()
+        return all.stream()
                 .map(news -> findById(news.getId()))
                 .collect(Collectors.toList());
-        return allNewsTo;
     }
 
     @Override
@@ -117,10 +94,32 @@ public class NewsService implements BaseService<NewsTo> {
         return newsRepository.countAll();
     }
 
-    public List<NewsTo> findAll(SearchCriteria searchCriteria) {       // FIXME: 2/6/2020 REFACTOR !!!
+    public List<NewsTo> findAll(SearchCriteria searchCriteria) {
         Specification specification = new FindNewsBySearchCriteriaSpecification(searchCriteria);
-        List<News> all = newsRepository.findBySpecification(specification);
+        List<News> allNews = newsRepository.findBySpecification(specification);
+        return allNews.stream()
+                .map(news -> {
+                    AuthorTo author = authorService.findByNewsId(news.getId());
+                    List<TagTo> tags = tagService.findTagsByNewsId(news.getId());
+                    return mapper.toDto(news, author, tags);
+                })
+                .collect(Collectors.toList());
+    }
 
-        return null;
+    private void createAuthorIfAbsent(NewsTo newsTo) {
+        if (newsTo.getAuthor().getId() == null) {
+            AuthorTo createdAuthor = authorService.create(newsTo.getAuthor());
+            newsTo.setAuthor(createdAuthor);
+        }
+    }
+
+    private void createTagsIfAbsent(NewsTo newsTo) {
+        newsTo.getTags().forEach(tagTo -> {
+            if (tagTo.getId() == null) {
+                TagTo tagByName = tagService.findTagByName(tagTo.getName());
+                long tagId = tagByName == null ? tagService.create(tagTo).getId() : tagByName.getId();
+                tagTo.setId(tagId);
+            }
+        });
     }
 }

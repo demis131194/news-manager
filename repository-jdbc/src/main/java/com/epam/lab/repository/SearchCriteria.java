@@ -1,9 +1,6 @@
 package com.epam.lab.repository;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class SearchCriteria {
     private Long authorId;
@@ -36,4 +33,19 @@ public class SearchCriteria {
         return isCreateDateSort;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SearchCriteria that = (SearchCriteria) o;
+        return isAuthorSort == that.isAuthorSort &&
+                isCreateDateSort == that.isCreateDateSort &&
+                Objects.equals(authorId, that.authorId) &&
+                Objects.equals(tagsId, that.tagsId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(authorId, tagsId, isAuthorSort, isCreateDateSort);
+    }
 }

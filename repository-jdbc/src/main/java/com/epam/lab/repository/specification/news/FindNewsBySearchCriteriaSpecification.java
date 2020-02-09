@@ -7,6 +7,8 @@ import com.healthmarketscience.sqlbuilder.ComboCondition;
 import com.healthmarketscience.sqlbuilder.FunctionCall;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
 
+import java.util.Objects;
+
 import static com.epam.lab.repository.DbInfo.*;
 
 public class FindNewsBySearchCriteriaSpecification implements Specification {
@@ -47,5 +49,18 @@ public class FindNewsBySearchCriteriaSpecification implements Specification {
         selectQuery.addGroupings(newsIdColumn);
 
         return selectQuery.validate().toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FindNewsBySearchCriteriaSpecification that = (FindNewsBySearchCriteriaSpecification) o;
+        return Objects.equals(searchCriteria, that.searchCriteria);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(searchCriteria);
     }
 }
