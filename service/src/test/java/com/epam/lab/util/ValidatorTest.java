@@ -7,9 +7,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.HashSet;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ValidatorTest {
 
@@ -95,19 +95,19 @@ public class ValidatorTest {
         TagTo validTagToForNews = new TagTo(2L, "Science");
         validNewsTo = new NewsTo(VALID_ID, VALID_NEWS_TITLE, VALID_NEWS_SHORT_TEXT, VALID_NEWS_FULL_TEXT,
                 validAuthorTo,
-                new HashSet<TagTo>(Arrays.asList(validTagTo, validTagToForNews))
+                Arrays.asList(validTagTo, validTagToForNews)
         );
         invalidNewsToInvalidAuthorTo = new NewsTo(VALID_ID, VALID_NEWS_TITLE, VALID_NEWS_SHORT_TEXT, VALID_NEWS_FULL_TEXT,
                 invalidAuthorToLongName,
-                new HashSet<TagTo>(Arrays.asList(validTagTo, validTagToForNews))
+                Arrays.asList(validTagTo, validTagToForNews)
         );
         invalidNewsToNullAuthorTo = new NewsTo(VALID_ID, VALID_NEWS_TITLE, VALID_NEWS_SHORT_TEXT, VALID_NEWS_FULL_TEXT,
                 null,
-                new HashSet<TagTo>(Arrays.asList(validTagTo, validTagToForNews))
+                Arrays.asList(validTagTo, validTagToForNews)
         );
         invalidNewsToInvalidTagsTo = new NewsTo(VALID_ID, VALID_NEWS_TITLE, VALID_NEWS_SHORT_TEXT, VALID_NEWS_FULL_TEXT,
                 validAuthorTo,
-                new HashSet<TagTo>(Arrays.asList(validTagTo, invalidTagToTooLongName))
+                Arrays.asList(validTagTo, invalidTagToTooLongName)
         );
         invalidNewsToNullTagsTo = new NewsTo(VALID_ID, VALID_NEWS_TITLE, VALID_NEWS_SHORT_TEXT, VALID_NEWS_FULL_TEXT,
                 validAuthorTo,
@@ -115,31 +115,31 @@ public class ValidatorTest {
         );
         invalidNewsToLongTitle = new NewsTo(VALID_ID, INVALID_NEWS_LONG_TITLE, VALID_NEWS_SHORT_TEXT, VALID_NEWS_FULL_TEXT,
                 validAuthorTo,
-                new HashSet<TagTo>(Arrays.asList(validTagTo, validTagToForNews))
+                Arrays.asList(validTagTo, validTagToForNews)
         );
         invalidNewsToNullTitle = invalidNewsToLongTitle = new NewsTo(VALID_ID, null, VALID_NEWS_SHORT_TEXT, VALID_NEWS_FULL_TEXT,
                 validAuthorTo,
-                new HashSet<TagTo>(Arrays.asList(validTagTo, validTagToForNews))
+                Arrays.asList(validTagTo, validTagToForNews)
         );
         invalidNewsToLongShortText = new NewsTo(VALID_ID, VALID_NEWS_TITLE, INVALID_NEWS_LONG_SHORT_TEXT, VALID_NEWS_FULL_TEXT,
                 validAuthorTo,
-                new HashSet<TagTo>(Arrays.asList(validTagTo, validTagToForNews))
+                Arrays.asList(validTagTo, validTagToForNews)
         );
         invalidNewsToNullShortText = new NewsTo(VALID_ID, VALID_NEWS_TITLE, null, VALID_NEWS_FULL_TEXT,
                 validAuthorTo,
-                new HashSet<TagTo>(Arrays.asList(validTagTo, validTagToForNews))
+                Arrays.asList(validTagTo, validTagToForNews)
         );
         invalidNewsToLongFullText = new NewsTo(VALID_ID, VALID_NEWS_TITLE, VALID_NEWS_SHORT_TEXT, INVALID_NEWS_LONG_FULL_TEXT,
                 validAuthorTo,
-                new HashSet<TagTo>(Arrays.asList(validTagTo, validTagToForNews))
+                Arrays.asList(validTagTo, validTagToForNews)
         );
         invalidNewsToNullFullText = new NewsTo(VALID_ID, VALID_NEWS_TITLE, VALID_NEWS_SHORT_TEXT, null,
                 validAuthorTo,
-                new HashSet<TagTo>(Arrays.asList(validTagTo, validTagToForNews))
+                Arrays.asList(validTagTo, validTagToForNews)
         );
         invalidNewsToInvalidId = new NewsTo(INVALID_ID, VALID_NEWS_TITLE, VALID_NEWS_SHORT_TEXT, VALID_NEWS_FULL_TEXT,
                 validAuthorTo,
-                new HashSet<TagTo>(Arrays.asList(validTagTo, validTagToForNews))
+                Arrays.asList(validTagTo, validTagToForNews)
         );
 
     }

@@ -3,9 +3,9 @@ package com.epam.lab.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class NewsTo {
     private Long id;
@@ -20,7 +20,7 @@ public class NewsTo {
     private LocalDateTime modificationDate;
 
     private AuthorTo author;
-    private Set<TagTo> tags = new HashSet<>();
+    private List<TagTo> tags = new ArrayList<>();
 
     public NewsTo() {
     }
@@ -46,13 +46,13 @@ public class NewsTo {
         this(null, title, shortText, fullText, creationDate, modificationDate);
     }
 
-    public NewsTo(Long id, String title, String shortText, String fullText, AuthorTo author, Set<TagTo> tags) {
+    public NewsTo(Long id, String title, String shortText, String fullText, AuthorTo author, List<TagTo> tags) {
         this(id, title, shortText, fullText);
         this.author = author;
         this.tags = tags;
     }
 
-    public NewsTo(String title, String shortText, String fullText, AuthorTo author, Set<TagTo> tags) {
+    public NewsTo(String title, String shortText, String fullText, AuthorTo author, List<TagTo> tags) {
         this(null, title, shortText, fullText, author, tags);
     }
 
@@ -112,11 +112,11 @@ public class NewsTo {
         this.author = author;
     }
 
-    public Set<TagTo> getTags() {
+    public List<TagTo> getTags() {
         return tags;
     }
 
-    public void setTags(Set<TagTo> tags) {
+    public void setTags(List<TagTo> tags) {
         this.tags = tags;
     }
 

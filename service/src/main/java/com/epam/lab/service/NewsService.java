@@ -6,13 +6,14 @@ import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.News;
 import com.epam.lab.repository.NewsRepository;
 import com.epam.lab.repository.SearchCriteria;
+import com.epam.lab.repository.specification.Specification;
+import com.epam.lab.repository.specification.news.FindNewsBySearchCriteriaSpecification;
 import com.epam.lab.service.mapper.NewsMapper;
 import com.epam.lab.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -95,7 +96,7 @@ public class NewsService implements BaseService<NewsTo> {
         if (Validator.validateId(newsId)) {
             News newsEntity = newsRepository.findById(newsId);
             AuthorTo authorTo = authorService.findByNewsId(newsId);
-            Set<TagTo> tags = tagService.findTagsByNewsId(newsId);
+            List<TagTo> tags = tagService.findTagsByNewsId(newsId);
             NewsTo newsTo = mapper.toDto(newsEntity, authorTo, tags);
             return newsTo;
         }
@@ -117,35 +118,9 @@ public class NewsService implements BaseService<NewsTo> {
     }
 
     public List<NewsTo> findAll(SearchCriteria searchCriteria) {       // FIXME: 2/6/2020 REFACTOR !!!
+        Specification specification = new FindNewsBySearchCriteriaSpecification(searchCriteria);
+        List<News> all = newsRepository.findBySpecification(specification);
 
-        List<News> all = newsRepository.findAll(searchCriteria);
-//
-//        if (searchCriteria.isAuthorSorting() && searchCriteria.isDateSorting()) {
-//            allNewsTo = allNewsTo.stream()
-//                    .sorted(Comparator.comparing(NewsTo::getAuthor)
-//                            .thenComparing(NewsTo::getCreationDate))
-//                    .collect(Collectors.toList());
-//        } else if (searchCriteria.isAuthorSorting()) {
-//            allNewsTo = allNewsTo.stream()
-//                    .sorted(Comparator.comparing(NewsTo::getAuthor))
-//                    .collect(Collectors.toList());
-//        } else if (searchCriteria.isDateSorting()) {
-//            allNewsTo = allNewsTo.stream()
-//                    .sorted(Comparator.comparing(NewsTo::getCreationDate))
-//                    .collect(Collectors.toList());
-//        }
-//
-//        if (searchCriteria.getTagsFilterId() != null && searchCriteria.getTagsFilterId().size() > 0) {
-//            allNewsTo = allNewsTo.stream()
-//                    .filter(newsTo -> {
-//                        List<Long> newsTagsId = newsTo.getTags()
-//                                .stream()
-//                                .map(TagTo::getId)
-//                                .collect(Collectors.toList());
-//                        return newsTagsId.containsAll(searchCriteria.getTagsFilterId());
-//                    })
-//                    .collect(Collectors.toList());
-//        }
         return null;
     }
 }

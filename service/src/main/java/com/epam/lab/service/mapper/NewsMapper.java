@@ -3,15 +3,13 @@ package com.epam.lab.service.mapper;
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.dto.NewsTo;
 import com.epam.lab.dto.TagTo;
-import com.epam.lab.model.Author;
 import com.epam.lab.model.News;
-import com.epam.lab.model.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Component
 public class NewsMapper {
@@ -27,7 +25,7 @@ public class NewsMapper {
         return Objects.isNull(newsTo) ? null : modelMapper.map(newsTo, News.class);
     }
 
-    public NewsTo toDto(News news, AuthorTo author, Set<TagTo> tags) {
+    public NewsTo toDto(News news, AuthorTo author, List<TagTo> tags) {
         if (news == null || tags == null) {
             return null;
         }

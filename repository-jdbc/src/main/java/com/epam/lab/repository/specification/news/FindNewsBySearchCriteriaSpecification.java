@@ -9,11 +9,11 @@ import com.healthmarketscience.sqlbuilder.SelectQuery;
 
 import static com.epam.lab.repository.DbInfo.*;
 
-public class SearchCriteriaSpecification implements Specification {
+public class FindNewsBySearchCriteriaSpecification implements Specification {
 
     private SearchCriteria searchCriteria;
 
-    public SearchCriteriaSpecification(SearchCriteria searchCriteria) {
+    public FindNewsBySearchCriteriaSpecification(SearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
     }
 

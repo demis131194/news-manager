@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -15,7 +14,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
-import java.util.Collection;
 import java.util.List;
 
 @Repository("news-repository")
@@ -27,7 +25,6 @@ public class NewsRepository implements SpecificationRepository<News> {
     private static final String DELETE_QUERY = "DELETE FROM news WHERE id = ?";
     private static final String FIND_BY_ID_QUERY = "SELECT id, title, short_text, full_text, creation_date, modification_date FROM news WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT id, title, short_text, full_text, creation_date, modification_date FROM news";
-    private static final String FIND_ALL_BY_TAG_QUERY = "SELECT id, title, short_text, full_text, creation_date, modification_date FROM news n LEFT JOIN news_tags nt on n.id = nt.news_id WHERE tag_id = ?";
     private static final String CREATE_NEWS_TAG_BOUND_QUERY = "INSERT INTO news_tags (news_id, tag_id) VALUES (?, ?)";
     private static final String DELETE_NEWS_TAG_BOUND_QUERY = "DELETE FROM news_tags WHERE news_id = ? AND tag_id = ?";
     private static final String DELETE_ALL_NEWS_TAG_BOUNDS_QUERY = "DELETE FROM news_tags WHERE news_id = ?";
@@ -35,8 +32,6 @@ public class NewsRepository implements SpecificationRepository<News> {
     private static final String UPDATE_NEWS_AUTHOR_BOUND_QUERY = "UPDATE news_authors SET author_id = ? WHERE news_id = ?";
     private static final String DELETE_NEWS_AUTHOR_BOUND_QUERY = "DELETE FROM news_authors WHERE news_id = ?";
     private static final String COUNT_ALL_NEWS_QUERY = "SELECT COUNT(id) FROM news";
-    private static final String FIND_AUTHOR_BY_NEWS_ID_QUERY = "SELECT author_id FROM news_authors WHERE news_id = ?";
-    private static final String FIND_TAGS_BY_NEWS_ID_QUERY = "SELECT tag_id FROM news_tags WHERE news_id = ?";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -100,23 +95,15 @@ public class NewsRepository implements SpecificationRepository<News> {
 
     @Override
     public List<News> findBySpecification(Specification specification) {
-        return null;
+        List<News> result = jdbcTemplate.query(specification.query(), rowMapper);
+        logger.info("Find news by {}, result : {}", specification.getClass().getSimpleName(), result);
+        return result;
     }
 
     @Override
     public int countAll() {
         int result = jdbcTemplate.queryForObject(COUNT_ALL_NEWS_QUERY, Integer.class);
         logger.info("Count all news result : {}", result);
-        return result;
-    }
-
-    public List<News> findAll(SearchCriteria searchCriteria) {
-        return null;
-    }
-
-    public List<News> findAllByTagId(long tagId) {
-        List<News> result = jdbcTemplate.query(FIND_ALL_BY_TAG_QUERY, new Object[]{tagId}, rowMapper);
-        logger.info("Find all news By Tag id {}, result : {}", tagId, result);                   // FIXME: 1/30/2020
         return result;
     }
 
@@ -154,22 +141,5 @@ public class NewsRepository implements SpecificationRepository<News> {
         int delete = jdbcTemplate.update(DELETE_NEWS_AUTHOR_BOUND_QUERY, newsId);
         logger.info("Delete news tag bound result : {}", delete);                   // FIXME: 1/30/2020
         return delete == 1;
-    }
-
-    public Long findAuthorIdByNewsId(long newsId) {
-        Long authorId;
-        try {
-            authorId = jdbcTemplate.queryForObject(FIND_AUTHOR_BY_NEWS_ID_QUERY, new Object[]{newsId}, Long.class);
-        } catch (EmptyResultDataAccessException e) {
-            authorId = null;
-        }
-        logger.info("Find author id by news id result : {}", authorId);
-        return authorId;
-    }
-
-    public List<Long> findTagsIdByNewsId(long newsId) {
-        List<Long> tagsId = jdbcTemplate.queryForList(FIND_TAGS_BY_NEWS_ID_QUERY, new Object[]{newsId}, Long.class);
-        logger.info("Find tags id by news id result : {}", tagsId);
-        return tagsId;
     }
 }
