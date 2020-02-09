@@ -6,9 +6,15 @@ DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS users;
 
-DROP SEQUENCE IF EXISTS serial;
+DROP SEQUENCE IF EXISTS authors_id_seq;
+DROP SEQUENCE IF EXISTS tags_id_seq;
+DROP SEQUENCE IF EXISTS news_id_seq;
+DROP SEQUENCE IF EXISTS users_id_seq;
 DROP TRIGGER IF EXISTS news_update_modification_date_trigger ON news;
 DROP FUNCTION IF EXISTS news_update_modification_date;
+
+DROP TRIGGER IF EXISTS news_update_modification_date_trigger ON news_authors;
+DROP FUNCTION IF EXISTS author_delete_related_news;
 
 
 CREATE TABLE public.authors
@@ -150,19 +156,30 @@ ALTER TABLE public.roles
 -- Triggers
 
 CREATE FUNCTION news_update_modification_date () RETURNS trigger AS '
-BEGIN
-	IF
-		OLD.title!=NEW.title OR OLD.short_text!=NEW.short_text OR OLD.full_text!=NEW.full_text THEN
-		UPDATE news SET modification_date = now() WHERE id = NEW.id;
-	END IF;
-	return OLD;
-END;
+    BEGIN
+        IF
+                    OLD.title!=NEW.title OR OLD.short_text!=NEW.short_text OR OLD.full_text!=NEW.full_text THEN
+            UPDATE news SET modification_date = now() WHERE id = NEW.id;
+        END IF;
+        return NEW;
+    END;
+' LANGUAGE plpgsql;
+
+CREATE FUNCTION author_delete_related_news () RETURNS trigger AS '
+    BEGIN
+        DELETE FROM news WHERE news.id = OLD.news_id;
+        return OLD;
+    END;
 ' LANGUAGE plpgsql;
 
 
 CREATE TRIGGER news_update_modification_date_trigger
 	AFTER UPDATE ON news FOR EACH ROW
 	EXECUTE PROCEDURE news_update_modification_date();
+
+CREATE TRIGGER author_delete_related_news_trigger
+    AFTER DELETE ON news_authors FOR EACH ROW
+EXECUTE PROCEDURE author_delete_related_news();
 
 INSERT INTO authors(name, surname) VALUES ('Dima', 'Ford'),
     ('Vasya', 'Pupkin'),
@@ -182,17 +199,17 @@ INSERT INTO tags(name) VALUES ('History'),
     ('Dogs'),
     ('Cats');
 
-INSERT INTO news(title, short_text, full_text) VALUES ('Robokop', 'Short text 1', 'Full text 1'),
-    ('WoRk', 'Short text 2', 'Full text 2'),
-    ('work', 'Short text 3', 'Full text 3'),
-    ('News', 'Short text 4', 'Full text 4'),
-    ('Boring', 'Short text 5', 'Full text 5'),
-    ('Bomb shel', 'Short text 6', 'Full text 6'),
-    ('UFO', 'Short text 7', 'Full text 7'),
-    ('Warning', 'Short text 8', 'Full text 8'),
-    ('JAVA core', 'Short text 9', 'Full text 9'),
-    ('Spring', 'Short text 10', 'Full text 10'),
-    ('Postgresql', 'Short text 11', 'Full text 11');
+INSERT INTO news(title, short_text, full_text, creation_date) VALUES ('Robokop', 'Short text 1', 'Full text 1', '2020-01-01 00:49:39'),
+    ('WoRk', 'Short text 2', 'Full text 2', '2020-01-04 00:50:39'),
+    ('work', 'Short text 3', 'Full text 3', '2020-01-02 00:50:39'),
+    ('News', 'Short text 4', 'Full text 4', '2020-01-10 00:50:39'),
+    ('Boring', 'Short text 5', 'Full text 5', '2020-01-13 02:50:39'),
+    ('Bomb shel', 'Short text 6', 'Full text 6', '2020-01-14 02:50:39'),
+    ('UFO', 'Short text 7', 'Full text 7', '2020-01-17 02:50:39'),
+    ('Warning', 'Short text 8', 'Full text 8', '2020-01-15 01:50:39'),
+    ('JAVA core', 'Short text 9', 'Full text 9', '2020-01-21 02:50:39'),
+    ('Spring', 'Short text 10', 'Full text 10', '2020-01-23 02:50:39'),
+    ('Postgresql', 'Short text 11', 'Full text 11', '2020-01-27 02:50:39');
 
 INSERT INTO news_tags(news_id, tag_id) VALUES
     (1, 2), (1, 3), (1, 6),
@@ -210,6 +227,7 @@ INSERT INTO news_tags(news_id, tag_id) VALUES
 INSERT INTO news_authors(news_id, author_id) VALUES
     (1, 1),
     (2, 7),
+    (3, 3),
     (4, 4),
     (5, 5),
     (6, 8),

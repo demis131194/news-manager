@@ -41,7 +41,7 @@ public class FindNewsBySearchCriteriaSpecification implements Specification {
             selectQuery.addHaving(BinaryCondition.equalTo(FunctionCall.count().addColumnParams(newsIdColumn), countSearchTags));
         }
         if (searchCriteria.isAuthorSort()) {
-            selectQuery.addCustomOrderings(FunctionCall.min().addColumnParams(authorsSurnameColumn), FunctionCall.min().addColumnParams(authorsNameColumn));
+            selectQuery.addCustomOrderings(FunctionCall.min().addColumnParams(authorsSurnameColumn), FunctionCall.min().addColumnParams(authorsNameColumn), FunctionCall.min().addColumnParams(authorsIdColumn));
         }
         if (searchCriteria.isCreateDateSort()) {
             selectQuery.addOrderings(newsCreationDateColumn);

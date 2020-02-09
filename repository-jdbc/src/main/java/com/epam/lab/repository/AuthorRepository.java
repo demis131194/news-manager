@@ -1,14 +1,11 @@
 package com.epam.lab.repository;
 
 import com.epam.lab.model.Author;
-import com.epam.lab.model.News;
-import com.epam.lab.model.Tag;
 import com.epam.lab.repository.mapper.AuthorRowMapper;
 import com.epam.lab.repository.specification.Specification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,8 +14,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Repository("author-repository")
@@ -29,8 +24,6 @@ public class AuthorRepository implements SpecificationRepository<Author> {
     private static final String UPDATE_QUERY = "UPDATE authors SET name = ?, surname = ? WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM authors WHERE id = ?";
     private static final String FIND_BY_ID_QUERY = "SELECT id, name, surname FROM authors WHERE id = ?";
-    private static final String FIND_AUTHOR_BY_NAME_QUERY = "SELECT id, name, surname FROM authors WHERE name = ?";
-    private static final String FIND_AUTHOR_BY_SURNAME_QUERY = "SELECT id, name, surname FROM authors WHERE surname = ?";
     private static final String FIND_ALL_QUERY = "SELECT id, name, surname FROM authors";
     private static final String COUNT_ALL_QUERY = "SELECT COUNT(id) FROM authors";
 

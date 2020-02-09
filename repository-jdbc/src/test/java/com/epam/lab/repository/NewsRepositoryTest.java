@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -98,10 +99,9 @@ public class NewsRepositoryTest {
         assertTrue(isCreated);
     }
 
-    @Test
-    public void createNewsAuthorBoundTest() {
-        boolean created = newsRepository.createNewsAuthorBound(EXPECTED_NEWS_3.getId(), EXPECTED_AUTHOR_3.getId());
-        assertTrue(created);
+    @Test(expected = DuplicateKeyException.class)
+    public void createNewsAuthorBoundFailTest() {
+        newsRepository.createNewsAuthorBound(EXPECTED_NEWS_3.getId(), EXPECTED_AUTHOR_3.getId());
     }
 
     @Test
