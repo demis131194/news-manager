@@ -8,6 +8,8 @@ import com.epam.lab.repository.specification.tag.FindTagByNameSpecification;
 import com.epam.lab.repository.specification.tag.FindTagsByNewsIdSpecification;
 import com.epam.lab.service.mapper.TagMapper;
 import com.epam.lab.util.Validator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class TagService implements BaseService<TagTo> {
+    private static final Logger logger = LogManager.getLogger(AuthorService.class);
 
     private TagRepository tagRepository;
     private TagMapper mapper;
@@ -35,6 +38,7 @@ public class TagService implements BaseService<TagTo> {
             tagTo.setId(tagId);
             return tagTo;
         }
+        logger.warn("TagService, validation fail : " + tagTo.toString());
         return null;
     }
 
@@ -45,6 +49,7 @@ public class TagService implements BaseService<TagTo> {
             boolean isUpdate = tagRepository.update(entity);
             return isUpdate ? tagTo : null;
         }
+        logger.warn("TagService, validation fail : " + tagTo.toString());
         return null;
     }
 
@@ -53,6 +58,7 @@ public class TagService implements BaseService<TagTo> {
         if (Validator.validateId(id)) {
             return tagRepository.delete(id);
         }
+        logger.warn("TagService, validation fail id: " + id);
         return false;
     }
 
@@ -62,6 +68,7 @@ public class TagService implements BaseService<TagTo> {
             Tag tag = tagRepository.findById(id);
             return mapper.toDto(tag);
         }
+        logger.warn("TagService, validation fail id: " + id);
         return null;
     }
 
@@ -86,6 +93,7 @@ public class TagService implements BaseService<TagTo> {
                     .map(tag -> mapper.toDto(tag))
                     .collect(Collectors.toList());
         }
+        logger.warn("TagService, validation fail newsId: " + newsId);
         return Collections.<TagTo>emptyList();
     }
 
@@ -95,6 +103,7 @@ public class TagService implements BaseService<TagTo> {
             List<Tag> result = tagRepository.findBySpecification(specification);
             return !result.isEmpty() ? mapper.toDto(result.get(0)) : null;
         }
+        logger.warn("TagService, validation fail tagName: " + tagName);
         return null;
     }
 }

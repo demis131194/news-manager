@@ -7,6 +7,8 @@ import com.epam.lab.repository.specification.Specification;
 import com.epam.lab.repository.specification.author.FindAuthorByNewsIdSpecification;
 import com.epam.lab.service.mapper.AuthorMapper;
 import com.epam.lab.util.Validator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class AuthorService implements BaseService<AuthorTo> {
+    private static final Logger logger = LogManager.getLogger(AuthorService.class);
 
     private AuthorRepository authorRepository;
     private AuthorMapper mapper;
@@ -33,6 +36,7 @@ public class AuthorService implements BaseService<AuthorTo> {
             authorTo.setId(authorId);
             return authorTo;
         }
+        logger.warn("AuthorService, validation fail : " + authorTo.toString());
         return null;
     }
 
@@ -43,6 +47,7 @@ public class AuthorService implements BaseService<AuthorTo> {
             boolean isUpdate = authorRepository.update(entity);
             return isUpdate ? authorTo : null;
         }
+        logger.warn("AuthorService, validation fail : " + authorTo.toString());
         return null;
     }
 
@@ -51,6 +56,7 @@ public class AuthorService implements BaseService<AuthorTo> {
         if (Validator.validateId(id)) {
             return authorRepository.delete(id);
         }
+        logger.warn("AuthorService, validation fail id: " + id);
         return false;
     }
 
@@ -60,6 +66,7 @@ public class AuthorService implements BaseService<AuthorTo> {
             Author author = authorRepository.findById(id);
             return mapper.toDto(author);
         }
+        logger.warn("AuthorService, validation fail id: " + id);
         return null;
     }
 
@@ -82,6 +89,7 @@ public class AuthorService implements BaseService<AuthorTo> {
             List<Author> author = authorRepository.findBySpecification(specification);
             return !author.isEmpty() ? mapper.toDto(author.get(0)) : null;
         }
+        logger.warn("AuthorService, validation fail newsId: " + newsId);
         return null;
     }
 }
