@@ -3,23 +3,30 @@ package com.epam.lab.service;
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.model.Author;
 import com.epam.lab.repository.AuthorRepository;
+import com.epam.lab.repository.specification.Specification;
+import com.epam.lab.repository.specification.author.FindAuthorByNewsIdSpecification;
 import com.epam.lab.service.mapper.AuthorMapper;
 import com.epam.lab.util.Validator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AuthorService implements BaseService<AuthorTo> {   // FIXME: 2/5/2020 Use validator exception?
+public class AuthorService implements BaseService<AuthorTo> {
+    private static final Logger logger = LogManager.getLogger(AuthorService.class);
 
-    @Autowired
     private AuthorRepository authorRepository;
+    private AuthorMapper mapper;
 
     @Autowired
-    private AuthorMapper mapper;
+    public AuthorService(AuthorRepository authorRepository, AuthorMapper mapper) {
+        this.authorRepository = authorRepository;
+        this.mapper = mapper;
+    }
 
     @Override
     public AuthorTo create(AuthorTo authorTo) {
@@ -29,6 +36,7 @@ public class AuthorService implements BaseService<AuthorTo> {   // FIXME: 2/5/20
             authorTo.setId(authorId);
             return authorTo;
         }
+        logger.warn("AuthorService, validation fail : " + authorTo.toString());
         return null;
     }
 
@@ -37,11 +45,9 @@ public class AuthorService implements BaseService<AuthorTo> {   // FIXME: 2/5/20
         if (Validator.validate(authorTo) && authorTo.getId() != null) {
             Author entity = mapper.toEntity(authorTo);
             boolean isUpdate = authorRepository.update(entity);
-            if (isUpdate) {
-                Author updatedAuthor = authorRepository.findById(entity.getId());
-                return mapper.toDto(updatedAuthor);
-            }
+            return isUpdate ? authorTo : null;
         }
+        logger.warn("AuthorService, validation fail : " + authorTo.toString());
         return null;
     }
 
@@ -50,6 +56,7 @@ public class AuthorService implements BaseService<AuthorTo> {   // FIXME: 2/5/20
         if (Validator.validateId(id)) {
             return authorRepository.delete(id);
         }
+        logger.warn("AuthorService, validation fail id: " + id);
         return false;
     }
 
@@ -59,16 +66,16 @@ public class AuthorService implements BaseService<AuthorTo> {   // FIXME: 2/5/20
             Author author = authorRepository.findById(id);
             return mapper.toDto(author);
         }
+        logger.warn("AuthorService, validation fail id: " + id);
         return null;
     }
 
     @Override
     public List<AuthorTo> findAll() {
         List<Author> allAuthors = authorRepository.findAll();
-        List<AuthorTo> allAuthorsTo = allAuthors.stream()
+        return allAuthors.stream()
                 .map(author -> mapper.toDto(author))
                 .collect(Collectors.toList());
-        return allAuthorsTo;
     }
 
     @Override
@@ -78,31 +85,11 @@ public class AuthorService implements BaseService<AuthorTo> {   // FIXME: 2/5/20
 
     public AuthorTo findByNewsId(long newsId) {
         if (Validator.validateId(newsId)) {
-            Author authorByNewsId = authorRepository.findByNewsId(newsId);
-            return mapper.toDto(authorByNewsId);
+            Specification specification = new FindAuthorByNewsIdSpecification(newsId);
+            List<Author> author = authorRepository.findBySpecification(specification);
+            return !author.isEmpty() ? mapper.toDto(author.get(0)) : null;
         }
+        logger.warn("AuthorService, validation fail newsId: " + newsId);
         return null;
-    }
-
-    public List<AuthorTo> findByName(String name) {
-        if (Validator.validateAuthorName(name)) {
-            List<Author> allByName = authorRepository.findByName(name);
-            List<AuthorTo> result = allByName.stream()
-                    .map(author -> mapper.toDto(author))
-                    .collect(Collectors.toList());
-            return result;
-        }
-        return Collections.emptyList();
-    }
-
-    public List<AuthorTo> findBySurname(String surname) {
-        if (Validator.validateAuthorSurname(surname)) {
-            List<Author> allByName = authorRepository.findBySurname(surname);
-            List<AuthorTo> result = allByName.stream()
-                    .map(author -> mapper.toDto(author))
-                    .collect(Collectors.toList());
-            return result;
-        }
-        return Collections.emptyList();
     }
 }

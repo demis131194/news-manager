@@ -3,12 +3,11 @@ package com.epam.lab.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-public class NewsTo {
-    private Long id;
+public class NewsTo extends BaseDto{
     private String title;
     private String shortText;
     private String fullText;
@@ -20,13 +19,14 @@ public class NewsTo {
     private LocalDateTime modificationDate;
 
     private AuthorTo author;
-    private Set<TagTo> tags = new HashSet<>();
+    private List<TagTo> tags = new ArrayList<>();
 
     public NewsTo() {
+        super(null);
     }
 
     public NewsTo(Long id, String title, String shortText, String fullText) {
-        this.id = id;
+        super(id);
         this.title = title;
         this.shortText = shortText;
         this.fullText = fullText;
@@ -46,22 +46,14 @@ public class NewsTo {
         this(null, title, shortText, fullText, creationDate, modificationDate);
     }
 
-    public NewsTo(Long id, String title, String shortText, String fullText, AuthorTo author, Set<TagTo> tags) {
+    public NewsTo(Long id, String title, String shortText, String fullText, AuthorTo author, List<TagTo> tags) {
         this(id, title, shortText, fullText);
         this.author = author;
         this.tags = tags;
     }
 
-    public NewsTo(String title, String shortText, String fullText, AuthorTo author, Set<TagTo> tags) {
+    public NewsTo(String title, String shortText, String fullText, AuthorTo author, List<TagTo> tags) {
         this(null, title, shortText, fullText, author, tags);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -112,11 +104,11 @@ public class NewsTo {
         this.author = author;
     }
 
-    public Set<TagTo> getTags() {
+    public List<TagTo> getTags() {
         return tags;
     }
 
-    public void setTags(Set<TagTo> tags) {
+    public void setTags(List<TagTo> tags) {
         this.tags = tags;
     }
 
@@ -124,9 +116,9 @@ public class NewsTo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         NewsTo newsTo = (NewsTo) o;
-        return Objects.equals(id, newsTo.id) &&
-                Objects.equals(title, newsTo.title) &&
+        return Objects.equals(title, newsTo.title) &&
                 Objects.equals(shortText, newsTo.shortText) &&
                 Objects.equals(fullText, newsTo.fullText) &&
                 Objects.equals(author, newsTo.author) &&
@@ -135,13 +127,13 @@ public class NewsTo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, shortText, fullText, author, tags);
+        return Objects.hash(super.hashCode(), title, shortText, fullText, author, tags);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("NewsTo{");
-        sb.append("id=").append(id);
+        sb.append("id=").append(this.getId());
         sb.append(", title='").append(title).append('\'');
         sb.append(", shortText='").append(shortText).append('\'');
         sb.append(", fullText='").append(fullText).append('\'');

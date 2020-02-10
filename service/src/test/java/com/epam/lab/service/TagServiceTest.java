@@ -9,8 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import static com.epam.lab.configuration.TestObjects.*;
 import static org.junit.Assert.*;
@@ -38,9 +37,8 @@ public class TagServiceTest {
 
     @Test
     public void updateTest() {
-        TagTo expected = UPDATE_DTO_TAG_5;
         TagTo actual = tagService.update(UPDATE_DTO_TAG_5);
-        assertEquals(expected, actual);
+        assertEquals(UPDATE_DTO_TAG_5, actual);
     }
 
     @Test
@@ -63,14 +61,12 @@ public class TagServiceTest {
 
     @Test
     public void findAllTest() {
-        Set<TagTo> expected = new HashSet<>(
-                Arrays.asList(
-                        EXPECTED_DTO_TAG_1,
-                        EXPECTED_DTO_TAG_2,
-                        EXPECTED_DTO_TAG_3
-                )
+        List<TagTo> expected = Arrays.asList(
+                EXPECTED_DTO_TAG_1,
+                EXPECTED_DTO_TAG_2,
+                EXPECTED_DTO_TAG_3
         );
-        Set<TagTo> actual = tagService.findAll();
+        List<TagTo> actual = tagService.findAll();
         assertEquals(expected, actual);
     }
 

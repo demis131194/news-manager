@@ -2,6 +2,9 @@ package com.epam.lab.repository;
 
 import com.epam.lab.configuration.TestRepositoryConfig;
 import com.epam.lab.model.Tag;
+import com.epam.lab.repository.specification.Specification;
+import com.epam.lab.repository.specification.tag.FindTagByNameSpecification;
+import com.epam.lab.repository.specification.tag.FindTagsByNewsIdSpecification;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -54,15 +58,12 @@ public class TagRepositoryTest {
 
     @Test
     public void findAllTest() {
-        Set<Tag> expected = new HashSet<>(
-                Arrays.asList(
-                        EXPECTED_TAG_1,
-                        EXPECTED_TAG_2,
-                        EXPECTED_TAG_3
-                )
+        List<Tag> expected = Arrays.asList(
+                EXPECTED_TAG_1, EXPECTED_TAG_2, EXPECTED_TAG_3, EXPECTED_TAG_4,
+                EXPECTED_TAG_5, EXPECTED_TAG_6, EXPECTED_TAG_7, EXPECTED_TAG_8
         );
-        Set<Tag> actual = tagRepository.findAll();
-        assertArrayEquals(expected.toArray(), actual.toArray());
+        List<Tag> actual = tagRepository.findAll();
+        assertEquals(expected, actual);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
@@ -98,14 +99,14 @@ public class TagRepositoryTest {
 
     @Test
     public void findTagsByNewsIdTest() {
-        Set<Tag> expectedTags = new HashSet<>(
-                Arrays.asList(
-                        EXPECTED_TAG_1,
-                        EXPECTED_TAG_2
-                )
+        List<Tag> expectedTags = Arrays.asList(
+                        EXPECTED_TAG_2,
+                        EXPECTED_TAG_3,
+                        EXPECTED_TAG_6
         );
-        Set<Tag> actualTags = tagRepository.findTagsByNewsId(INIT_TEST_ID);
-        assertArrayEquals(expectedTags.toArray(), actualTags.toArray());
+        Specification specification = new FindTagsByNewsIdSpecification(INIT_TEST_ID);
+        List<Tag> actualTags = tagRepository.findBySpecification(specification);
+        assertEquals(expectedTags, actualTags);
     }
 
     @Test
@@ -116,14 +117,16 @@ public class TagRepositoryTest {
 
     @Test
     public void findTagByNameTest() {
-        Tag actualTag = tagRepository.findTagByName(EXPECTED_TAG_2.getName());
+        Specification specification = new FindTagByNameSpecification(EXPECTED_TAG_2.getName());
+        Tag actualTag = tagRepository.findBySpecification(specification).get(0);
         assertEquals(EXPECTED_TAG_2, actualTag);
     }
 
     @Test
     public void findTagByNameFailTest() {
-        Tag actualTag = tagRepository.findTagByName("Undefine tag");
-        assertNull(actualTag);
+        Specification specification = new FindTagByNameSpecification("Undefine tag");
+        List<Tag> tags = tagRepository.findBySpecification(specification);
+        assertTrue(tags.isEmpty());
     }
 
 }

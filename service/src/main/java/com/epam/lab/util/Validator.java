@@ -4,7 +4,7 @@ import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.dto.NewsTo;
 import com.epam.lab.dto.TagTo;
 
-import java.util.Set;
+import java.util.List;
 
 public class Validator {
 
@@ -23,7 +23,7 @@ public class Validator {
             AuthorTo authorTo = newsTo.getAuthor();
             boolean isValidAuthor = validate(authorTo);
 
-            Set<TagTo> tagsTo = newsTo.getTags();
+            List<TagTo> tagsTo = newsTo.getTags();
 
             boolean isValidTags = tagsTo != null
                     && tagsTo.stream()

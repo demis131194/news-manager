@@ -8,3 +8,4 @@
 /service/logs/
 /service/target/
 /controller/target/
+/controller/src/main/java/com/epam/lab/Main.java

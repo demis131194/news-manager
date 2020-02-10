@@ -2,6 +2,10 @@ package com.epam.lab.repository;
 
 import com.epam.lab.configuration.TestRepositoryConfig;
 import com.epam.lab.model.Author;
+import com.epam.lab.repository.specification.Specification;
+import com.epam.lab.repository.specification.author.FindAuthorByNewsIdSpecification;
+import com.epam.lab.repository.specification.author.FindAuthorsByNameSpecification;
+import com.epam.lab.repository.specification.author.FindAuthorsBySurnameSpecification;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,12 +59,11 @@ public class AuthorRepositoryTest {
     @Test
     public void findAllTest() {
         List<Author> expected = Arrays.asList(
-                EXPECTED_AUTHOR_1,
-                EXPECTED_AUTHOR_2,
-                EXPECTED_AUTHOR_3
+                EXPECTED_AUTHOR_1, EXPECTED_AUTHOR_2, EXPECTED_AUTHOR_3, EXPECTED_AUTHOR_4,
+                EXPECTED_AUTHOR_5, EXPECTED_AUTHOR_6, EXPECTED_AUTHOR_7, EXPECTED_AUTHOR_8
         );
         List<Author> actual = authorRepository.findAll();
-        assertArrayEquals(expected.toArray(), actual.toArray());
+        assertEquals(expected, actual);
     }
 
     @Test(expected = DataIntegrityViolationException.class)
@@ -96,8 +99,9 @@ public class AuthorRepositoryTest {
 
     @Test
     public void findByNewsIdTest() {
-        Author actual = authorRepository.findByNewsId(INIT_TEST_ID);
-        assertEquals(EXPECTED_AUTHOR_1,actual);
+        Specification specification = new FindAuthorByNewsIdSpecification(INIT_TEST_ID);
+        List<Author> bySpecification = authorRepository.findBySpecification(specification);
+        assertEquals(EXPECTED_AUTHOR_1,bySpecification.get(0));
     }
 
     @Test
@@ -108,32 +112,38 @@ public class AuthorRepositoryTest {
 
     @Test
     public void findByNewsIdFailTest() {
-        Author actual = authorRepository.findByNewsId(INIT_TEST_ID - 1);
-        assertNull(actual);
+        Specification specification = new FindAuthorByNewsIdSpecification(INIT_TEST_ID - 1);
+        List<Author> actual = authorRepository.findBySpecification(specification);
+        assertTrue(actual.isEmpty());
     }
 
     @Test
     public void findByNameTest() {
-        List<Author> actual = authorRepository.findByName(EXPECTED_AUTHOR_2.getName());
-        assertEquals(Collections.singletonList(EXPECTED_AUTHOR_2), actual);
+        Specification specification = new FindAuthorsByNameSpecification(EXPECTED_AUTHOR_1.getName());
+        List<Author> expected = Arrays.asList(EXPECTED_AUTHOR_1, EXPECTED_AUTHOR_7, EXPECTED_AUTHOR_8);
+        List<Author> actual = authorRepository.findBySpecification(specification);
+        assertEquals(expected, actual);
     }
 
     @Test
     public void findByNameFailTest() {
-        List<Author> actual = authorRepository.findByName("No name");
-        assertEquals(Collections.emptyList(), actual);
+        Specification specification = new FindAuthorsByNameSpecification("No name");
+        List<Author> actual = authorRepository.findBySpecification(specification);
+        assertTrue(actual.isEmpty());
     }
 
     @Test
     public void findBySurnameTest() {
-        List<Author> actual = authorRepository.findBySurname(EXPECTED_AUTHOR_2.getSurname());
+        Specification specification = new FindAuthorsBySurnameSpecification(EXPECTED_AUTHOR_2.getSurname());
+        List<Author> actual = authorRepository.findBySpecification(specification);
         assertEquals(Collections.singletonList(EXPECTED_AUTHOR_2), actual);
     }
 
     @Test
     public void findBySurnameFailTest() {
-        List<Author> actual = authorRepository.findByName("No surname");
-        assertEquals(Collections.emptyList(), actual);
+        Specification specification = new FindAuthorsBySurnameSpecification("No surname");
+        List<Author> actual = authorRepository.findBySpecification(specification);
+        assertTrue(actual.isEmpty());
     }
 
 
