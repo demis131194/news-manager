@@ -2,6 +2,9 @@ package com.epam.lab.model;
 
 import java.util.Objects;
 
+/**
+ * The type Tag.
+ */
 public class Tag extends BaseEntity {
     private String name;
 

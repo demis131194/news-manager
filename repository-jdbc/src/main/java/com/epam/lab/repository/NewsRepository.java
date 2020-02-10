@@ -16,6 +16,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.util.List;
 
+/**
+ * The type News repository.
+ */
 @Repository("news-repository")
 public class NewsRepository implements SpecificationRepository<News> {
     private static final Logger logger = LogManager.getLogger(NewsRepository.class);

@@ -3,6 +3,9 @@ package com.epam.lab.model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * The type News.
+ */
 public class News extends BaseEntity {
     private String title;
     private String shortText;

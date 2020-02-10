@@ -6,6 +6,9 @@ import com.epam.lab.dto.TagTo;
 
 import java.util.List;
 
+/**
+ * The type Validator.
+ */
 public class Validator {
 
     private static final int DTO_MIN_ID = 0;
@@ -18,6 +21,12 @@ public class Validator {
     private static final int NEWS_MAX_SHORT_TEXT_LENGTH = 100;
     private static final int NEWS_MAX_FULL_TEXT_LENGTH = 2000;
 
+    /**
+     * Validate boolean.
+     *
+     * @param newsTo the news to
+     * @return the boolean
+     */
     public static boolean validate(NewsTo newsTo) {
         if (newsTo != null) {
             AuthorTo authorTo = newsTo.getAuthor();
@@ -40,6 +49,12 @@ public class Validator {
         return false;
     }
 
+    /**
+     * Validate boolean.
+     *
+     * @param author the author
+     * @return the boolean
+     */
     public static boolean validate(AuthorTo author) {
         return author != null
                 && (author.getId() == null || validateId(author.getId()))
@@ -47,24 +62,54 @@ public class Validator {
                 && (validateAuthorSurname(author.getSurname()));
     }
 
+    /**
+     * Validate boolean.
+     *
+     * @param tag the tag
+     * @return the boolean
+     */
     public static boolean validate(TagTo tag) {
         return tag != null
                 && (tag.getId() == null || validateId(tag.getId()))
                 && validateTagName(tag.getName());
     }
 
+    /**
+     * Validate id boolean.
+     *
+     * @param id the id
+     * @return the boolean
+     */
     public static boolean validateId(Long id) {
         return id != null && id > DTO_MIN_ID;
     }
 
+    /**
+     * Validate tag name boolean.
+     *
+     * @param tagName the tag name
+     * @return the boolean
+     */
     public static boolean validateTagName(String tagName) {
         return tagName != null && tagName.length() <= TAG_MAX_NAME_LENGTH;
     }
 
+    /**
+     * Validate author name boolean.
+     *
+     * @param authorName the author name
+     * @return the boolean
+     */
     public static boolean validateAuthorName(String authorName) {
         return authorName != null && authorName.length() <= AUTHOR_MAX_NAME_LENGTH;
     }
 
+    /**
+     * Validate author surname boolean.
+     *
+     * @param authorSurname the author surname
+     * @return the boolean
+     */
     public static boolean validateAuthorSurname(String authorSurname) {
         return authorSurname != null && authorSurname.length() <= AUTHOR_MAX_SURNAME_LENGTH;
     }

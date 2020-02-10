@@ -2,6 +2,9 @@ package com.epam.lab.repository;
 
 import com.healthmarketscience.sqlbuilder.dbspec.basic.*;
 
+/**
+ * The type Db info.
+ */
 public class DbInfo {
     public static final String NEWS_TABLE_NAME = "news";
     public static final String AUTHORS_TABLE_NAME = "authors";

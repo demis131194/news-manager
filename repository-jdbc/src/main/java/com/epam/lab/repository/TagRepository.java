@@ -16,6 +16,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.util.List;
 
+/**
+ * The type Tag repository.
+ */
 @Repository("tag-repository")
 public class TagRepository implements SpecificationRepository<Tag> {
     private static final Logger logger = LogManager.getLogger(TagRepository.class);
@@ -31,6 +34,12 @@ public class TagRepository implements SpecificationRepository<Tag> {
 
     private RowMapper<Tag> rowMapper;
 
+    /**
+     * Instantiates a new Tag repository.
+     *
+     * @param jdbcTemplate the jdbc template
+     * @param rowMapper    the row mapper
+     */
     @Autowired
     public TagRepository(JdbcTemplate jdbcTemplate, RowMapper<Tag> rowMapper) {
         this.jdbcTemplate = jdbcTemplate;

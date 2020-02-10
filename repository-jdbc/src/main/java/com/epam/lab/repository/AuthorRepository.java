@@ -16,6 +16,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.util.List;
 
+/**
+ * The type Author repository.
+ */
 @Repository("author-repository")
 public class AuthorRepository implements SpecificationRepository<Author> {
     private static final Logger logger = LogManager.getLogger(AuthorRepository.class);
@@ -31,6 +34,12 @@ public class AuthorRepository implements SpecificationRepository<Author> {
 
     private RowMapper<Author> rowMapper;
 
+    /**
+     * Instantiates a new Author repository.
+     *
+     * @param jdbcTemplate the jdbc template
+     * @param rowMapper    the row mapper
+     */
     @Autowired
     public AuthorRepository(JdbcTemplate jdbcTemplate, RowMapper<Author> rowMapper) {
         this.jdbcTemplate = jdbcTemplate;

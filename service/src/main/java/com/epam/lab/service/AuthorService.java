@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Author service.
+ */
 @Service
 public class AuthorService implements BaseService<AuthorTo> {
     private static final Logger logger = LogManager.getLogger(AuthorService.class);
@@ -22,6 +25,12 @@ public class AuthorService implements BaseService<AuthorTo> {
     private AuthorRepository authorRepository;
     private AuthorMapper mapper;
 
+    /**
+     * Instantiates a new Author service.
+     *
+     * @param authorRepository the author repository
+     * @param mapper           the mapper
+     */
     @Autowired
     public AuthorService(AuthorRepository authorRepository, AuthorMapper mapper) {
         this.authorRepository = authorRepository;
@@ -82,6 +91,12 @@ public class AuthorService implements BaseService<AuthorTo> {
         return authorRepository.countAll();
     }
 
+    /**
+     * Find by news id author to.
+     *
+     * @param newsId the news id
+     * @return the author to
+     */
     public AuthorTo findByNewsId(long newsId) {
         if (Validator.validateId(newsId)) {
             Specification specification = new FindAuthorByNewsIdSpecification(newsId);

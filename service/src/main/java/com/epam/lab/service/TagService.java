@@ -17,6 +17,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Tag service.
+ */
 @Service
 public class TagService implements BaseService<TagTo> {
     private static final Logger logger = LogManager.getLogger(AuthorService.class);
@@ -24,6 +27,12 @@ public class TagService implements BaseService<TagTo> {
     private TagRepository tagRepository;
     private TagMapper mapper;
 
+    /**
+     * Instantiates a new Tag service.
+     *
+     * @param tagRepository the tag repository
+     * @param mapper        the mapper
+     */
     @Autowired
     public TagService(TagRepository tagRepository, TagMapper mapper) {
         this.tagRepository = tagRepository;
@@ -84,6 +93,12 @@ public class TagService implements BaseService<TagTo> {
         return tagRepository.countAll();
     }
 
+    /**
+     * Find tags by news id list.
+     *
+     * @param newsId the news id
+     * @return the list
+     */
     public List<TagTo> findTagsByNewsId(long newsId) {
         if (Validator.validateId(newsId)) {
             Specification specification = new FindTagsByNewsIdSpecification(newsId);
@@ -96,6 +111,12 @@ public class TagService implements BaseService<TagTo> {
         return Collections.<TagTo>emptyList();
     }
 
+    /**
+     * Find tag by name tag to.
+     *
+     * @param tagName the tag name
+     * @return the tag to
+     */
     public TagTo findTagByName(String tagName) {
         if (Validator.validateTagName(tagName)) {
             Specification specification = new FindTagByNameSpecification(tagName);

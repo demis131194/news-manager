@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type News service.
+ */
 @Service
 public class NewsService implements BaseService<NewsTo> {
     private static final Logger logger = LogManager.getLogger(AuthorService.class);
@@ -100,6 +103,12 @@ public class NewsService implements BaseService<NewsTo> {
         return newsRepository.countAll();
     }
 
+    /**
+     * Find all list.
+     *
+     * @param searchCriteria the search criteria
+     * @return the list
+     */
     public List<NewsTo> findAll(SearchCriteria searchCriteria) {
         Specification specification = new FindNewsBySearchCriteriaSpecification(searchCriteria);
         List<News> allNews = newsRepository.findBySpecification(specification);
