@@ -5,6 +5,8 @@ import com.epam.lab.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -15,7 +17,7 @@ public class AuthorController {
     private AuthorService authorService;
 
     @GetMapping(value = "/{id}")
-    public @ResponseBody AuthorTo getAuthorById(@PathVariable("id") Long id) {
+    public @ResponseBody AuthorTo getAuthorById(@PathVariable("id") @Positive long id) {
         AuthorTo authorTo = authorService.findById(id);
         return authorTo;
     }
@@ -32,17 +34,17 @@ public class AuthorController {
     }
 
     @PostMapping(value = "/post")
-    public @ResponseBody AuthorTo postAuthor(@RequestBody AuthorTo authorTo) {
+    public @ResponseBody AuthorTo postAuthor(@RequestBody @Valid AuthorTo authorTo) {
         return authorService.create(authorTo);
     }
 
     @PutMapping(value = "/put")
-    public @ResponseBody AuthorTo putAuthor(@RequestBody AuthorTo authorTo) {
+    public @ResponseBody AuthorTo putAuthor(@RequestBody @Valid AuthorTo authorTo) {
         return authorService.update(authorTo);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public boolean deleteAuthor(@PathVariable("id") long id) {
+    public boolean deleteAuthor(@PathVariable("id") @Positive long id) {
         return authorService.delete(id);
     }
 }

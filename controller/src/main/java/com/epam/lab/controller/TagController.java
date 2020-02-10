@@ -5,6 +5,8 @@ import com.epam.lab.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -15,7 +17,7 @@ public class TagController {
     private TagService tagService;
 
     @GetMapping(value = "/{id}")
-    public @ResponseBody TagTo getTagById(@PathVariable("id") Long id) {
+    public @ResponseBody TagTo getTagById(@PathVariable("id") @Positive long id) {
         TagTo tag = tagService.findById(id);
         return tag;
     }
@@ -32,17 +34,17 @@ public class TagController {
     }
 
     @PostMapping(value = "/post")
-    public @ResponseBody TagTo postTag(@RequestBody TagTo tagTo) {
+    public @ResponseBody TagTo postTag(@RequestBody @Valid TagTo tagTo) {
         return tagService.create(tagTo);
     }
 
     @PutMapping(value = "/put")
-    public @ResponseBody TagTo putTag(@RequestBody TagTo tagTo) {
+    public @ResponseBody TagTo putTag(@RequestBody @Valid TagTo tagTo) {
         return tagService.update(tagTo);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public boolean deleteTag(@PathVariable("id") long id) {
+    public boolean deleteTag(@PathVariable("id") @Positive long id) {
         return tagService.delete(id);
     }
 

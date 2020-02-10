@@ -1,9 +1,16 @@
 package com.epam.lab.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class AuthorTo extends BaseDto {
+    @NotNull
+    @Size(min = 1, max = 30)
     private String name;
+
+    @NotNull
+    @Size(min = 1, max = 30)
     private String surname;
 
     public AuthorTo() {

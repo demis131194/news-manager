@@ -6,7 +6,7 @@ import com.epam.lab.repository.AuthorRepository;
 import com.epam.lab.repository.specification.Specification;
 import com.epam.lab.repository.specification.author.FindAuthorByNewsIdSpecification;
 import com.epam.lab.service.mapper.AuthorMapper;
-import com.epam.lab.util.Validator;
+import com.epam.lab.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,7 @@ public class AuthorService implements BaseService<AuthorTo> {
         if (Validator.validate(authorTo) && authorTo.getId() == null) {
             Author entity = mapper.toEntity(authorTo);
             long authorId = authorRepository.create(entity);
-            authorTo.setId(authorId);
-            return authorTo;
+            return findById(authorId);
         }
         logger.warn("AuthorService, validation fail : " + authorTo.toString());
         return null;
@@ -45,7 +44,7 @@ public class AuthorService implements BaseService<AuthorTo> {
         if (Validator.validate(authorTo) && authorTo.getId() != null) {
             Author entity = mapper.toEntity(authorTo);
             boolean isUpdate = authorRepository.update(entity);
-            return isUpdate ? authorTo : null;
+            return isUpdate ? findById(authorTo.getId()) : null;
         }
         logger.warn("AuthorService, validation fail : " + authorTo.toString());
         return null;

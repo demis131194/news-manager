@@ -6,6 +6,8 @@ import com.epam.lab.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
@@ -16,7 +18,7 @@ public class NewsController {
     private NewsService newsService;
 
     @GetMapping(value = "/{id}")
-    public @ResponseBody NewsTo getNewsById(@PathVariable("id") Long id) {
+    public @ResponseBody NewsTo getNewsById(@PathVariable("id") @Positive long id) {
         NewsTo newsTo = newsService.findById(id);
         return newsTo;
     }
@@ -38,17 +40,17 @@ public class NewsController {
     }
 
     @PostMapping(value = "/post")
-    public @ResponseBody NewsTo postNews(@RequestBody NewsTo newsTo) {
+    public @ResponseBody NewsTo postNews(@RequestBody @Valid NewsTo newsTo) {
         return newsService.create(newsTo);
     }
 
     @PutMapping(value = "/put")
-    public @ResponseBody NewsTo putTag(@RequestBody NewsTo newsTo) {
+    public @ResponseBody NewsTo putTag(@RequestBody @Valid NewsTo newsTo) {
         return newsService.update(newsTo);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public boolean deleteNews(@PathVariable("id") long id) {
+    public boolean deleteNews(@PathVariable("id") @Positive long id) {
         return newsService.delete(id);
     }
 }

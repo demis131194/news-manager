@@ -46,7 +46,7 @@ public class NewsServiceTest {
 
     @Test
     public void updateTest() {
-        NewsTo newsTo = new NewsTo(INIT_TEST_ID, UPDATE_TEST_DTO_NEWS_5.getTitle(),
+        NewsTo newsTo = new NewsTo(UPDATE_TEST_DTO_NEWS_5.getId(), UPDATE_TEST_DTO_NEWS_5.getTitle(),
                 UPDATE_TEST_DTO_NEWS_5.getShortText(), UPDATE_TEST_DTO_NEWS_5.getFullText(),
                 UPDATE_TEST_DTO_NEWS_5.getAuthor(),
                 UPDATE_TEST_DTO_NEWS_5.getTags()

@@ -7,7 +7,7 @@ import com.epam.lab.repository.specification.Specification;
 import com.epam.lab.repository.specification.tag.FindTagByNameSpecification;
 import com.epam.lab.repository.specification.tag.FindTagsByNewsIdSpecification;
 import com.epam.lab.service.mapper.TagMapper;
-import com.epam.lab.util.Validator;
+import com.epam.lab.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,7 @@ public class TagService implements BaseService<TagTo> {
         if (Validator.validate(tagTo) && tagTo.getId() == null) {
             Tag entity = mapper.toEntity(tagTo);
             long tagId = tagRepository.create(entity);
-            tagTo.setId(tagId);
-            return tagTo;
+            return findById(tagId);
         }
         logger.warn("TagService, validation fail : " + tagTo.toString());
         return null;
@@ -47,7 +46,7 @@ public class TagService implements BaseService<TagTo> {
         if (Validator.validate(tagTo) && tagTo.getId() != null) {
             Tag entity = mapper.toEntity(tagTo);
             boolean isUpdate = tagRepository.update(entity);
-            return isUpdate ? tagTo : null;
+            return isUpdate ? findById(tagTo.getId()) : null;
         }
         logger.warn("TagService, validation fail : " + tagTo.toString());
         return null;

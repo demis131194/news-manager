@@ -1,4 +1,4 @@
-package com.epam.lab.util;
+package com.epam.lab.validator;
 
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.dto.NewsTo;

@@ -2,14 +2,25 @@ package com.epam.lab.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class NewsTo extends BaseDto{
+    @NotNull
+    @Size(min = 1, max = 30)
     private String title;
+
+    @NotNull
+    @Size(min = 1, max = 200)
     private String shortText;
+
+    @NotNull
+    @Size(min = 1, max = 2000)
     private String fullText;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
@@ -18,8 +29,11 @@ public class NewsTo extends BaseDto{
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime modificationDate;
 
+    @Valid
     private AuthorTo author;
-    private List<TagTo> tags = new ArrayList<>();
+
+    @Valid
+    private List<@Valid TagTo> tags = new ArrayList<>();
 
     public NewsTo() {
         super(null);

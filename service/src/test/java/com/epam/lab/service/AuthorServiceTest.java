@@ -30,14 +30,14 @@ public class AuthorServiceTest {
 
     @Test
     public void createFailHasIdTest() {
-        AuthorTo authorTo = new AuthorTo(1L, CREATE_TEST_DTO_AUTHOR_4.getName(), CREATE_TEST_DTO_AUTHOR_4.getSurname());
+        AuthorTo authorTo = new AuthorTo(INIT_TEST_ID, CREATE_TEST_DTO_AUTHOR_4.getName(), CREATE_TEST_DTO_AUTHOR_4.getSurname());
         AuthorTo actual = authorService.create(authorTo);
         assertNull(actual);
     }
 
     @Test
     public void updateTest() {
-        AuthorTo authorTo = new AuthorTo(INIT_TEST_ID, UPDATE_TEST_DTO_AUTHOR_5.getName(), UPDATE_TEST_DTO_AUTHOR_5.getSurname());
+        AuthorTo authorTo = new AuthorTo(UPDATE_TEST_DTO_AUTHOR_5.getId(), UPDATE_TEST_DTO_AUTHOR_5.getName(), UPDATE_TEST_DTO_AUTHOR_5.getSurname());
         AuthorTo expected = authorService.update(authorTo);
         assertEquals(UPDATE_TEST_DTO_AUTHOR_5, expected);
     }

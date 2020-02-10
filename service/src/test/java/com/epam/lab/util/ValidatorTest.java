@@ -3,6 +3,7 @@ package com.epam.lab.util;
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.dto.NewsTo;
 import com.epam.lab.dto.TagTo;
+import com.epam.lab.validator.Validator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

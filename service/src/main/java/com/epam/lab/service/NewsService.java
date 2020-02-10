@@ -9,7 +9,7 @@ import com.epam.lab.repository.specification.Specification;
 import com.epam.lab.repository.specification.news.FindNewsBySearchCriteriaSpecification;
 import com.epam.lab.repository.specification.news.SearchCriteria;
 import com.epam.lab.service.mapper.NewsMapper;
-import com.epam.lab.util.Validator;
+import com.epam.lab.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +40,9 @@ public class NewsService implements BaseService<NewsTo> {
             createAuthorIfAbsent(newsTo);
             createTagsIfAbsent(newsTo);
             long newsId = newsRepository.create(mapper.toEntity(newsTo));
-            newsTo.setId(newsId);
             newsRepository.createNewsAuthorBound(newsId, newsTo.getAuthor().getId());
             newsTo.getTags().forEach(tagTo -> newsRepository.createNewsTagBound(newsId, tagTo.getId()));
-            return newsTo;
+            return findById(newsId);
         }
         logger.warn("NewsService, validation fail : " + newsTo.toString());
         return null;
@@ -59,7 +58,7 @@ public class NewsService implements BaseService<NewsTo> {
                 newsRepository.updateNewsAuthorBound(newsTo.getId(), newsTo.getAuthor().getId());
                 newsRepository.deleteAllNewsTagBounds(newsTo.getId());
                 newsTo.getTags().forEach(tagTo -> newsRepository.createNewsTagBound(newsTo.getId(), tagTo.getId()));
-                return newsTo;
+                return findById(newsTo.getId());
             }
         }
         logger.warn("NewsService, validation fail : " + newsTo.toString());
