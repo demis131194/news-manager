@@ -1,29 +1,21 @@
 package com.epam.lab.configuration;
 
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-
-public class WebAppInitializer implements WebApplicationInitializer {
+public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
-        applicationContext.register(ApplicationContextConfig.class);
-        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("SpringDispatcher",
-                new DispatcherServlet(applicationContext));
-        dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/");
-        FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("encodingFilter",
-                CharacterEncodingFilter.class);
-        filterRegistration.setInitParameter("encoding", "UTF-8");
-        filterRegistration.setInitParameter("forceEncoding", "true");
-        filterRegistration.addMappingForUrlPatterns(null, true, "/*");
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class[]{AppContextConfig.class};
+    }
+
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class[]{WebConfig.class};
+    }
+
+    @Override
+    protected  String[] getServletMappings() {
+        return new String[]{"/"};
     }
 }
