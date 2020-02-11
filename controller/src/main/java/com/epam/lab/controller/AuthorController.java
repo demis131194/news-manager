@@ -1,7 +1,8 @@
 package com.epam.lab.controller;
 
 import com.epam.lab.dto.AuthorTo;
-import com.epam.lab.service.AuthorService;
+import com.epam.lab.service.AuthorServiceInterface;
+import com.epam.lab.service.impl.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,18 +15,16 @@ import java.util.List;
 public class AuthorController {
 
     @Autowired
-    private AuthorService authorService;
+    private AuthorServiceInterface authorService;
 
     @GetMapping(value = "/{id}")
     public @ResponseBody AuthorTo getAuthorById(@PathVariable("id") @Positive long id) {
-        AuthorTo authorTo = authorService.findById(id);
-        return authorTo;
+        return authorService.findById(id);
     }
 
     @GetMapping
     public @ResponseBody List<AuthorTo> getAllAuthors() {
-        List<AuthorTo> all = authorService.findAll();
-        return all;
+        return authorService.findAll();
     }
 
     @GetMapping(value = "/count")

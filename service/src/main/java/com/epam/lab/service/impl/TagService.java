@@ -1,4 +1,4 @@
-package com.epam.lab.service;
+package com.epam.lab.service.impl;
 
 import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.Tag;
@@ -6,7 +6,8 @@ import com.epam.lab.repository.TagRepository;
 import com.epam.lab.repository.specification.Specification;
 import com.epam.lab.repository.specification.tag.FindTagByNameSpecification;
 import com.epam.lab.repository.specification.tag.FindTagsByNewsIdSpecification;
-import com.epam.lab.service.mapper.TagMapper;
+import com.epam.lab.service.TagServiceInterface;
+import com.epam.lab.service.impl.mapper.TagMapper;
 import com.epam.lab.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional(readOnly = true)
-public class TagService implements BaseService<TagTo> {
+public class TagService implements TagServiceInterface {
     private static final Logger logger = LogManager.getLogger(AuthorService.class);
 
     private TagRepository tagRepository;
@@ -66,6 +67,7 @@ public class TagService implements BaseService<TagTo> {
     }
 
     @Override
+    @Transactional
     public boolean delete(long id) {
         if (Validator.validateId(id)) {
             return tagRepository.delete(id);
@@ -103,6 +105,7 @@ public class TagService implements BaseService<TagTo> {
      * @param newsId the news id
      * @return the list
      */
+    @Override
     public List<TagTo> findTagsByNewsId(long newsId) {
         if (Validator.validateId(newsId)) {
             Specification specification = new FindTagsByNewsIdSpecification(newsId);
@@ -112,7 +115,7 @@ public class TagService implements BaseService<TagTo> {
                     .collect(Collectors.toList());
         }
         logger.warn("TagService, validation fail newsId: " + newsId);
-        return Collections.<TagTo>emptyList();
+        return Collections.emptyList();
     }
 
     /**
@@ -121,6 +124,7 @@ public class TagService implements BaseService<TagTo> {
      * @param tagName the tag name
      * @return the tag to
      */
+    @Override
     public TagTo findTagByName(String tagName) {
         if (Validator.validateTagName(tagName)) {
             Specification specification = new FindTagByNameSpecification(tagName);

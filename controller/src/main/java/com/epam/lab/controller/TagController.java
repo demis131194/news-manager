@@ -1,7 +1,8 @@
 package com.epam.lab.controller;
 
 import com.epam.lab.dto.TagTo;
-import com.epam.lab.service.TagService;
+import com.epam.lab.service.TagServiceInterface;
+import com.epam.lab.service.impl.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,18 +15,16 @@ import java.util.List;
 public class TagController {
 
     @Autowired
-    private TagService tagService;
+    private TagServiceInterface tagService;
 
     @GetMapping(value = "/{id}")
     public @ResponseBody TagTo getTagById(@PathVariable("id") @Positive long id) {
-        TagTo tag = tagService.findById(id);
-        return tag;
+        return tagService.findById(id);
     }
 
     @GetMapping
     public @ResponseBody List<TagTo> getAllTags() {
-        List<TagTo> all = tagService.findAll();
-        return all;
+        return tagService.findAll();
     }
 
     @GetMapping(value = "/count")
