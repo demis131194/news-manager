@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
  * The type Tag service.
  */
 @Service
+@Transactional(readOnly = true)
 public class TagService implements BaseService<TagTo> {
     private static final Logger logger = LogManager.getLogger(AuthorService.class);
 
@@ -40,6 +42,7 @@ public class TagService implements BaseService<TagTo> {
     }
 
     @Override
+    @Transactional
     public TagTo create(TagTo tagTo) {
         if (Validator.validate(tagTo) && tagTo.getId() == null) {
             Tag entity = mapper.toEntity(tagTo);
@@ -51,6 +54,7 @@ public class TagService implements BaseService<TagTo> {
     }
 
     @Override
+    @Transactional
     public TagTo update(TagTo tagTo) {
         if (Validator.validate(tagTo) && tagTo.getId() != null) {
             Tag entity = mapper.toEntity(tagTo);

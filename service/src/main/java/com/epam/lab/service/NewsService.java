@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
  * The type News service.
  */
 @Service
+@Transactional(readOnly = true)
 public class NewsService implements BaseService<NewsTo> {
     private static final Logger logger = LogManager.getLogger(AuthorService.class);
 
@@ -38,6 +40,7 @@ public class NewsService implements BaseService<NewsTo> {
     private NewsMapper mapper;
 
     @Override
+    @Transactional
     public NewsTo create(NewsTo newsTo) {
         if (Validator.validate(newsTo) && newsTo.getId() == null) {
             createAuthorIfAbsent(newsTo);
@@ -52,6 +55,7 @@ public class NewsService implements BaseService<NewsTo> {
     }
 
     @Override
+    @Transactional
     public NewsTo update(NewsTo newsTo) {
         if (Validator.validate(newsTo) && newsTo.getId() != null) {
             boolean isUpdateNews = newsRepository.update(mapper.toEntity(newsTo));
@@ -78,19 +82,20 @@ public class NewsService implements BaseService<NewsTo> {
     }
 
     @Override
+    @Transactional
     public NewsTo findById(long newsId) {
         if (Validator.validateId(newsId)) {
             News newsEntity = newsRepository.findById(newsId);
             AuthorTo authorTo = authorService.findByNewsId(newsId);
             List<TagTo> tags = tagService.findTagsByNewsId(newsId);
-            NewsTo newsTo = mapper.toDto(newsEntity, authorTo, tags);
-            return newsTo;
+            return mapper.toDto(newsEntity, authorTo, tags);
         }
         logger.warn("NewsService, validation fail newsId: " + newsId);
         return null;
     }
 
     @Override
+    @Transactional
     public List<NewsTo> findAll() {
         List<News> all = newsRepository.findAll();
         return all.stream()
@@ -109,6 +114,7 @@ public class NewsService implements BaseService<NewsTo> {
      * @param searchCriteria the search criteria
      * @return the list
      */
+    @Transactional
     public List<NewsTo> findAll(SearchCriteria searchCriteria) {
         Specification specification = new FindNewsBySearchCriteriaSpecification(searchCriteria);
         List<News> allNews = newsRepository.findBySpecification(specification);

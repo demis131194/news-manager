@@ -20,7 +20,7 @@ public class TestRepositoryConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate(@Autowired DataSource dataSource) {
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 

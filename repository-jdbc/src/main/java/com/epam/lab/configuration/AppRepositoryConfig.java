@@ -22,7 +22,7 @@ public class AppRepositoryConfig {
     }
 
     @Bean(name = "jdbc-template")
-    public JdbcTemplate jdbcTemplate(@Autowired HikariDataSource dataSource) {
+    public JdbcTemplate jdbcTemplate(HikariDataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 }

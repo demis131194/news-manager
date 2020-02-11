@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
  * The type Author service.
  */
 @Service
+@Transactional(readOnly = true)
 public class AuthorService implements BaseService<AuthorTo> {
     private static final Logger logger = LogManager.getLogger(AuthorService.class);
 
@@ -38,6 +40,7 @@ public class AuthorService implements BaseService<AuthorTo> {
     }
 
     @Override
+    @Transactional
     public AuthorTo create(AuthorTo authorTo) {
         if (Validator.validate(authorTo) && authorTo.getId() == null) {
             Author entity = mapper.toEntity(authorTo);
@@ -49,6 +52,7 @@ public class AuthorService implements BaseService<AuthorTo> {
     }
 
     @Override
+    @Transactional
     public AuthorTo update(AuthorTo authorTo) {
         if (Validator.validate(authorTo) && authorTo.getId() != null) {
             Author entity = mapper.toEntity(authorTo);

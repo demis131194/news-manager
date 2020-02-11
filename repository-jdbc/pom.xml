@@ -97,6 +97,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- SQL Builder -->
         <dependency>
             <groupId>com.healthmarketscience.sqlbuilder</groupId>
             <artifactId>sqlbuilder</artifactId>
