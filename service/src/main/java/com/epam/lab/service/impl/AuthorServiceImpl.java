@@ -5,7 +5,7 @@ import com.epam.lab.model.Author;
 import com.epam.lab.repository.AuthorRepository;
 import com.epam.lab.repository.specification.Specification;
 import com.epam.lab.repository.specification.author.FindAuthorByNewsIdSpecification;
-import com.epam.lab.service.AuthorServiceInterface;
+import com.epam.lab.service.AuthorService;
 import com.epam.lab.service.impl.mapper.AuthorMapper;
 import com.epam.lab.validator.Validator;
 import org.apache.logging.log4j.LogManager;
@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional(readOnly = true)
-public class AuthorService implements AuthorServiceInterface {
-    private static final Logger logger = LogManager.getLogger(AuthorService.class);
+public class AuthorServiceImpl implements AuthorService {
+    private static final Logger logger = LogManager.getLogger(AuthorServiceImpl.class);
 
     private AuthorRepository authorRepository;
     private AuthorMapper mapper;
@@ -35,7 +35,7 @@ public class AuthorService implements AuthorServiceInterface {
      * @param mapper           the mapper
      */
     @Autowired
-    public AuthorService(AuthorRepository authorRepository, AuthorMapper mapper) {
+    public AuthorServiceImpl(AuthorRepository authorRepository, AuthorMapper mapper) {
         this.authorRepository = authorRepository;
         this.mapper = mapper;
     }

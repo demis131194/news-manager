@@ -8,9 +8,9 @@ import com.epam.lab.repository.NewsRepository;
 import com.epam.lab.repository.specification.Specification;
 import com.epam.lab.repository.specification.news.FindNewsBySearchCriteriaSpecification;
 import com.epam.lab.repository.specification.news.SearchCriteria;
-import com.epam.lab.service.AuthorServiceInterface;
-import com.epam.lab.service.NewsServiceInterface;
-import com.epam.lab.service.TagServiceInterface;
+import com.epam.lab.service.AuthorService;
+import com.epam.lab.service.NewsService;
+import com.epam.lab.service.TagService;
 import com.epam.lab.service.impl.mapper.NewsMapper;
 import com.epam.lab.validator.Validator;
 import org.apache.logging.log4j.LogManager;
@@ -27,17 +27,17 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional(readOnly = true)
-public class NewsService implements NewsServiceInterface {
-    private static final Logger logger = LogManager.getLogger(AuthorService.class);
+public class NewsServiceImpl implements NewsService {
+    private static final Logger logger = LogManager.getLogger(AuthorServiceImpl.class);
 
     @Autowired
     private NewsRepository newsRepository;
 
     @Autowired
-    private AuthorServiceInterface authorService;
+    private AuthorService authorService;
 
     @Autowired
-    private TagServiceInterface tagService;
+    private TagService tagService;
 
     @Autowired
     private NewsMapper mapper;

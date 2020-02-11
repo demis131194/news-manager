@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * The type News to.
  */
-public class NewsTo extends BaseDto{
+public class NewsTo extends BaseTo {
     @NotNull
     @Size(min = 1, max = 30)
     private String title;

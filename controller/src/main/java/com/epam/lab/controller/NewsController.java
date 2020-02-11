@@ -2,8 +2,7 @@ package com.epam.lab.controller;
 
 import com.epam.lab.dto.NewsTo;
 import com.epam.lab.repository.specification.news.SearchCriteria;
-import com.epam.lab.service.NewsServiceInterface;
-import com.epam.lab.service.impl.NewsService;
+import com.epam.lab.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,7 @@ import java.util.List;
 public class NewsController {
 
     @Autowired
-    private NewsServiceInterface newsService;
+    private NewsService newsService;
 
     @GetMapping(value = "/{id}")
     public @ResponseBody NewsTo getNewsById(@PathVariable("id") @Positive long id) {

@@ -1,8 +1,7 @@
 package com.epam.lab.controller;
 
 import com.epam.lab.dto.TagTo;
-import com.epam.lab.service.TagServiceInterface;
-import com.epam.lab.service.impl.TagService;
+import com.epam.lab.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,7 @@ import java.util.List;
 public class TagController {
 
     @Autowired
-    private TagServiceInterface tagService;
+    private TagService tagService;
 
     @GetMapping(value = "/{id}")
     public @ResponseBody TagTo getTagById(@PathVariable("id") @Positive long id) {

@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * The type Tag to.
  */
-public class TagTo extends BaseDto{
+public class TagTo extends BaseTo {
     @NotNull
     @Size(min = 1, max = 30)
     private String name;

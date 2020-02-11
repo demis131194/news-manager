@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * The type Base dto.
  */
-public abstract class BaseDto {
+public abstract class BaseTo {
 
     @BaseIdConstraint
     private Long id;
@@ -17,7 +17,7 @@ public abstract class BaseDto {
      *
      * @param id the id
      */
-    public BaseDto(Long id) {
+    public BaseTo(Long id) {
         this.id = id;
     }
 
@@ -43,8 +43,8 @@ public abstract class BaseDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BaseDto baseDto = (BaseDto) o;
-        return Objects.equals(id, baseDto.id);
+        BaseTo baseTo = (BaseTo) o;
+        return Objects.equals(id, baseTo.id);
     }
 
     @Override

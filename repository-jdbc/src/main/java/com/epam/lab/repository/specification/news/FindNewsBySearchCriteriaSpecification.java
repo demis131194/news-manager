@@ -6,6 +6,7 @@ import com.healthmarketscience.sqlbuilder.ComboCondition;
 import com.healthmarketscience.sqlbuilder.FunctionCall;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
 
+import java.util.Collection;
 import java.util.Objects;
 
 import static com.epam.lab.repository.DbInfo.*;
@@ -20,34 +21,50 @@ public class FindNewsBySearchCriteriaSpecification implements Specification {
 
     @Override
     public String query() {
-        int countSearchTags = searchCriteria.getTagsId().size();
-
         SelectQuery selectQuery = new SelectQuery();
-        selectQuery.addAllTableColumns(newsTable).addJoins(
-                        SelectQuery.JoinType.LEFT_OUTER,
-                        newsAuthorsNewsJoin,
-                        newsAuthorsAuthorsJoin,
-                        newsTagsNewsJoin,
-                        newsTagsTagsJoin);
+        selectQuery.addAllTableColumns(newsTable)
+                .addJoins(SelectQuery.JoinType.LEFT_OUTER, newsAuthorsNewsJoin, newsAuthorsAuthorsJoin, newsTagsNewsJoin, newsTagsTagsJoin);
 
-        if (searchCriteria.getAuthorId() != null) {
-            selectQuery.addCondition(BinaryCondition.equalTo(authorsIdColumn, searchCriteria.getAuthorId()));
-        }
-        if (countSearchTags > 0) {
-            ComboCondition comboOrCondition = ComboCondition.or();
-            searchCriteria.getTagsId().forEach(tagId -> comboOrCondition.addCondition(BinaryCondition.equalTo(tagsIdColumn, tagId)));
-            selectQuery.addCondition(comboOrCondition);
-            selectQuery.addHaving(BinaryCondition.equalTo(FunctionCall.count().addColumnParams(newsIdColumn), countSearchTags));
-        }
-        if (searchCriteria.isAuthorSort()) {
-            selectQuery.addCustomOrderings(FunctionCall.min().addColumnParams(authorsSurnameColumn), FunctionCall.min().addColumnParams(authorsNameColumn), FunctionCall.min().addColumnParams(authorsIdColumn));
-        }
-        if (searchCriteria.isCreateDateSort()) {
+        addAuthorConditionIfExist(selectQuery, searchCriteria.getAuthorId());
+        addTagsConditionsIfExist(selectQuery, searchCriteria.getTagsId());
+        addAuthorSort(selectQuery, searchCriteria.isAuthorSort());
+        addNewsCreationDateSort(selectQuery, searchCriteria.isCreateDateSort());
+
+        selectQuery.addGroupings(newsIdColumn);
+        return selectQuery.validate().toString();
+    }
+
+    private void addNewsCreationDateSort(SelectQuery selectQuery, boolean sort) {
+        if (sort) {
             selectQuery.addOrderings(newsCreationDateColumn);
         }
-        selectQuery.addGroupings(newsIdColumn);
+    }
 
-        return selectQuery.validate().toString();
+    private void addAuthorSort(SelectQuery selectQuery, boolean sort) {
+        if (sort) {
+            FunctionCall authorSurnameOrdering = FunctionCall.min().addColumnParams(authorsSurnameColumn);
+            FunctionCall authorNameOrdering = FunctionCall.min().addColumnParams(authorsNameColumn);
+            FunctionCall authorIdOrdering = FunctionCall.min().addColumnParams(authorsIdColumn);
+            selectQuery.addCustomOrderings(authorSurnameOrdering, authorNameOrdering , authorIdOrdering);
+        }
+    }
+
+    private void addTagsConditionsIfExist(SelectQuery selectQuery, Collection<Long> tagsId) {
+        if (tagsId != null) {
+            int countSearchTags = tagsId.size();
+            if (countSearchTags > 0) {
+                ComboCondition comboOrCondition = ComboCondition.or();
+                tagsId.forEach(tagId -> comboOrCondition.addCondition(BinaryCondition.equalTo(tagsIdColumn, tagId)));
+                selectQuery.addCondition(comboOrCondition);
+                selectQuery.addHaving(BinaryCondition.equalTo(FunctionCall.count().addColumnParams(newsIdColumn), countSearchTags));
+            }
+        }
+    }
+
+    private void addAuthorConditionIfExist(SelectQuery selectQuery, Long authorId) {
+        if (authorId != null) {
+            selectQuery.addCondition(BinaryCondition.equalTo(authorsIdColumn, authorId));
+        }
     }
 
     @Override

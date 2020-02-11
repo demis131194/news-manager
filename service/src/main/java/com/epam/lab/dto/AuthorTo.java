@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * The type Author to.
  */
-public class AuthorTo extends BaseDto {
+public class AuthorTo extends BaseTo {
     @NotNull
     @Size(min = 1, max = 30)
     private String name;

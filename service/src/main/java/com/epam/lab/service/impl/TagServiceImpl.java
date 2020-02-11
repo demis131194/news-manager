@@ -6,7 +6,7 @@ import com.epam.lab.repository.TagRepository;
 import com.epam.lab.repository.specification.Specification;
 import com.epam.lab.repository.specification.tag.FindTagByNameSpecification;
 import com.epam.lab.repository.specification.tag.FindTagsByNewsIdSpecification;
-import com.epam.lab.service.TagServiceInterface;
+import com.epam.lab.service.TagService;
 import com.epam.lab.service.impl.mapper.TagMapper;
 import com.epam.lab.validator.Validator;
 import org.apache.logging.log4j.LogManager;
@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional(readOnly = true)
-public class TagService implements TagServiceInterface {
-    private static final Logger logger = LogManager.getLogger(AuthorService.class);
+public class TagServiceImpl implements TagService {
+    private static final Logger logger = LogManager.getLogger(AuthorServiceImpl.class);
 
     private TagRepository tagRepository;
     private TagMapper mapper;
@@ -37,7 +37,7 @@ public class TagService implements TagServiceInterface {
      * @param mapper        the mapper
      */
     @Autowired
-    public TagService(TagRepository tagRepository, TagMapper mapper) {
+    public TagServiceImpl(TagRepository tagRepository, TagMapper mapper) {
         this.tagRepository = tagRepository;
         this.mapper = mapper;
     }
