@@ -1,4 +1,4 @@
-package com.epam.lab.service;
+package com.epam.lab.service.impl;
 
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.dto.NewsTo;
@@ -8,7 +8,10 @@ import com.epam.lab.repository.NewsRepository;
 import com.epam.lab.repository.specification.Specification;
 import com.epam.lab.repository.specification.news.FindNewsBySearchCriteriaSpecification;
 import com.epam.lab.repository.specification.news.SearchCriteria;
-import com.epam.lab.service.mapper.NewsMapper;
+import com.epam.lab.service.AuthorServiceInterface;
+import com.epam.lab.service.NewsServiceInterface;
+import com.epam.lab.service.TagServiceInterface;
+import com.epam.lab.service.impl.mapper.NewsMapper;
 import com.epam.lab.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,17 +27,17 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional(readOnly = true)
-public class NewsService implements BaseService<NewsTo> {
+public class NewsService implements NewsServiceInterface {
     private static final Logger logger = LogManager.getLogger(AuthorService.class);
 
     @Autowired
     private NewsRepository newsRepository;
 
     @Autowired
-    private AuthorService authorService;
+    private AuthorServiceInterface authorService;
 
     @Autowired
-    private TagService tagService;
+    private TagServiceInterface tagService;
 
     @Autowired
     private NewsMapper mapper;
@@ -73,6 +76,7 @@ public class NewsService implements BaseService<NewsTo> {
     }
 
     @Override
+    @Transactional
     public boolean delete(long newsId) {
         if (Validator.validateId(newsId)) {
             return newsRepository.delete(newsId);
@@ -115,6 +119,7 @@ public class NewsService implements BaseService<NewsTo> {
      * @return the list
      */
     @Transactional
+    @Override
     public List<NewsTo> findAll(SearchCriteria searchCriteria) {
         Specification specification = new FindNewsBySearchCriteriaSpecification(searchCriteria);
         List<News> allNews = newsRepository.findBySpecification(specification);

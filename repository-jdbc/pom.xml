@@ -15,6 +15,7 @@
         <log4j.version>2.13.0</log4j.version>
         <spring.version>5.2.2.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>4.12</junit.version>
     </properties>
 
     <build>
@@ -45,7 +46,7 @@
             <version>${log4j.version}</version>
         </dependency>
 
-        <!-- Data Base connector-->
+        <!-- Data Base connector -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -57,14 +58,6 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>3.4.1</version>
-        </dependency>
-
-        <!-- DB in memory -->
-        <dependency>
-            <groupId>com.opentable.components</groupId>
-            <artifactId>otj-pg-embedded</artifactId>
-            <version>0.13.3</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- Spring -->
@@ -93,7 +86,13 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13</version>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.opentable.components</groupId>
+            <artifactId>otj-pg-embedded</artifactId>
+            <version>0.13.3</version>
             <scope>test</scope>
         </dependency>
 

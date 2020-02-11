@@ -1,11 +1,12 @@
-package com.epam.lab.service;
+package com.epam.lab.service.impl;
 
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.model.Author;
 import com.epam.lab.repository.AuthorRepository;
 import com.epam.lab.repository.specification.Specification;
 import com.epam.lab.repository.specification.author.FindAuthorByNewsIdSpecification;
-import com.epam.lab.service.mapper.AuthorMapper;
+import com.epam.lab.service.AuthorServiceInterface;
+import com.epam.lab.service.impl.mapper.AuthorMapper;
 import com.epam.lab.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional(readOnly = true)
-public class AuthorService implements BaseService<AuthorTo> {
+public class AuthorService implements AuthorServiceInterface {
     private static final Logger logger = LogManager.getLogger(AuthorService.class);
 
     private AuthorRepository authorRepository;
@@ -64,6 +65,7 @@ public class AuthorService implements BaseService<AuthorTo> {
     }
 
     @Override
+    @Transactional
     public boolean delete(long id) {
         if (Validator.validateId(id)) {
             return authorRepository.delete(id);
@@ -101,6 +103,7 @@ public class AuthorService implements BaseService<AuthorTo> {
      * @param newsId the news id
      * @return the author to
      */
+    @Override
     public AuthorTo findByNewsId(long newsId) {
         if (Validator.validateId(newsId)) {
             Specification specification = new FindAuthorByNewsIdSpecification(newsId);
