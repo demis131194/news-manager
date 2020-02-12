@@ -38,47 +38,59 @@ public class DbInfo {
     public static final String ROLES_ROLE_NAME_COLUMN_NAME = "role_name";
 
 
-    public static final DbSpec dbSpec = new DbSpec();
-    public static final DbSchema dbSchema = dbSpec.addDefaultSchema();
+    public static final DbSpec DB_SPEC = new DbSpec();
+    public static final DbSchema DB_SCHEMA = DB_SPEC.addDefaultSchema();
 
-    public static final DbTable newsTable = dbSchema.addTable(NEWS_TABLE_NAME);
-    public static final DbColumn newsIdColumn = newsTable.addColumn(NEWS_ID_COLUMN_NAME);
-    public static final DbColumn newsTitleColumn = newsTable.addColumn(NEWS_TITLE_COLUMN_NAME);
-    public static final DbColumn newsShortTextColumn = newsTable.addColumn(NEWS_SHORT_TEXT_COLUMN_NAME);
-    public static final DbColumn newsFullTextColumn = newsTable.addColumn(NEWS_FULL_TEXT_COLUMN_NAME);
-    public static final DbColumn newsCreationDateColumn = newsTable.addColumn(NEWS_CREATION_DATE_COLUMN_NAME);
-    public static final DbColumn newsModificationDateColumn = newsTable.addColumn(NEWS_MODIFICATION_DATE_COLUMN_NAME);
+    public static final DbTable NEWS_TABLE = DB_SCHEMA.addTable(NEWS_TABLE_NAME);
+    public static final DbColumn NEWS_ID_COLUMN = NEWS_TABLE.addColumn(NEWS_ID_COLUMN_NAME);
+    public static final DbColumn NEWS_TITLE_COLUMN = NEWS_TABLE.addColumn(NEWS_TITLE_COLUMN_NAME);
+    public static final DbColumn NEWS_SHORT_TEXT_COLUMN = NEWS_TABLE.addColumn(NEWS_SHORT_TEXT_COLUMN_NAME);
+    public static final DbColumn NEWS_FULL_TEXT_COLUMN = NEWS_TABLE.addColumn(NEWS_FULL_TEXT_COLUMN_NAME);
+    public static final DbColumn NEWS_CREATION_DATE_COLUMN = NEWS_TABLE.addColumn(NEWS_CREATION_DATE_COLUMN_NAME);
+    public static final DbColumn NEWS_MODIFICATION_DATE_COLUMN = NEWS_TABLE.addColumn(NEWS_MODIFICATION_DATE_COLUMN_NAME);
 
-    public static final DbTable authorsTable = dbSchema.addTable(AUTHORS_TABLE_NAME);
-    public static final DbColumn authorsIdColumn = authorsTable.addColumn(AUTHORS_ID_COLUMN_NAME);
-    public static final DbColumn authorsNameColumn = authorsTable.addColumn(AUTHORS_NAME_COLUMN_NAME);
-    public static final DbColumn authorsSurnameColumn = authorsTable.addColumn(AUTHORS_SURNAME_COLUMN_NAME);
+    public static final DbTable AUTHORS_TABLE = DB_SCHEMA.addTable(AUTHORS_TABLE_NAME);
+    public static final DbColumn AUTHORS_ID_COLUMN = AUTHORS_TABLE.addColumn(AUTHORS_ID_COLUMN_NAME);
+    public static final DbColumn AUTHORS_NAME_COLUMN = AUTHORS_TABLE.addColumn(AUTHORS_NAME_COLUMN_NAME);
+    public static final DbColumn AUTHORS_SURNAME_COLUMN = AUTHORS_TABLE.addColumn(AUTHORS_SURNAME_COLUMN_NAME);
 
-    public static final DbTable tagsTable = dbSchema.addTable(TAGS_TABLE_NAME);
-    public static final DbColumn tagsIdColumn = tagsTable.addColumn(TAGS_ID_COLUMN_NAME);
-    public static final DbColumn tagsNameColumn = tagsTable.addColumn(TAGS_NAME_COLUMN_NAME);
+    public static final DbTable TAGS_TABLE = DB_SCHEMA.addTable(TAGS_TABLE_NAME);
+    public static final DbColumn TAGS_ID_COLUMN = TAGS_TABLE.addColumn(TAGS_ID_COLUMN_NAME);
+    public static final DbColumn TAGS_NAME_COLUMN = TAGS_TABLE.addColumn(TAGS_NAME_COLUMN_NAME);
 
-    public static final DbTable newsTagsTable = dbSchema.addTable(NEWS_TAGS_TABLE_NAME);
-    public static final DbColumn newsTagsNewsIdColumn = newsTagsTable.addColumn(NEWS_TAGS_NEWS_ID_COLUMN_NAME);
-    public static final DbColumn newsTagsTagsIdColumn = newsTagsTable.addColumn(NEWS_TAGS_TAG_ID_COLUMN_NAME);
+    public static final DbTable NEWS_TAGS_TABLE = DB_SCHEMA.addTable(NEWS_TAGS_TABLE_NAME);
+    public static final DbColumn NEWS_TAGS_NEWS_ID_COLUMN = NEWS_TAGS_TABLE.addColumn(NEWS_TAGS_NEWS_ID_COLUMN_NAME);
+    public static final DbColumn NEWS_TAGS_TAGS_ID_COLUMN = NEWS_TAGS_TABLE.addColumn(NEWS_TAGS_TAG_ID_COLUMN_NAME);
 
-    public static final DbTable newsAuthorsTable = dbSchema.addTable(NEWS_AUTHORS_TABLE_NAME);
-    public static final DbColumn newsAuthorsNewsIdColumn = newsAuthorsTable.addColumn(NEWS_AUTHORS_NEWS_ID_COLUMN_NAME);
-    public static final DbColumn newsAuthorsAuthorsIdColumn = newsAuthorsTable.addColumn(NEWS_AUTHORS_AUTHOR_ID_COLUMN_NAME);
+    public static final DbTable NEWS_AUTHORS_TABLE = DB_SCHEMA.addTable(NEWS_AUTHORS_TABLE_NAME);
+    public static final DbColumn NEWS_AUTHORS_NEWS_ID_COLUMN = NEWS_AUTHORS_TABLE.addColumn(NEWS_AUTHORS_NEWS_ID_COLUMN_NAME);
+    public static final DbColumn NEWS_AUTHORS_AUTHORS_ID_COLUMN = NEWS_AUTHORS_TABLE.addColumn(NEWS_AUTHORS_AUTHOR_ID_COLUMN_NAME);
 
-    public static final DbTable usersTable = dbSchema.addTable(USERS_TABLE_NAME);
-    public static final DbColumn usersIdColumn = usersTable.addColumn(USERS_ID_COLUMN_NAME);
-    public static final DbColumn usersNameColumn = usersTable.addColumn(USERS_NAME_COLUMN_NAME);
-    public static final DbColumn usersSurnameColumn = usersTable.addColumn(USERS_SURNAME_COLUMN_NAME);
-    public static final DbColumn usersLoginColumn = usersTable.addColumn(USERS_LOGIN_COLUMN_NAME);
-    public static final DbColumn usersPasswordColumn = usersTable.addColumn(USERS_PASSWORD_COLUMN_NAME);
+    public static final DbTable USERS_TABLE = DB_SCHEMA.addTable(USERS_TABLE_NAME);
+    public static final DbColumn USERS_ID_COLUMN = USERS_TABLE.addColumn(USERS_ID_COLUMN_NAME);
+    public static final DbColumn USERS_NAME_COLUMN = USERS_TABLE.addColumn(USERS_NAME_COLUMN_NAME);
+    public static final DbColumn USERS_SURNAME_COLUMN = USERS_TABLE.addColumn(USERS_SURNAME_COLUMN_NAME);
+    public static final DbColumn USERS_LOGIN_COLUMN = USERS_TABLE.addColumn(USERS_LOGIN_COLUMN_NAME);
+    public static final DbColumn USERS_PASSWORD_COLUMN = USERS_TABLE.addColumn(USERS_PASSWORD_COLUMN_NAME);
 
-    public static final DbTable rolesTable = dbSchema.addTable(ROLES_TABLE_NAME);
-    public static final DbColumn rolesUserIdColumn = usersTable.addColumn(ROLES_USER_ID_COLUMN_NAME);
-    public static final DbColumn rolesRoleNameColumn = usersTable.addColumn(ROLES_ROLE_NAME_COLUMN_NAME);
+    public static final DbTable ROLES_TABLE = DB_SCHEMA.addTable(ROLES_TABLE_NAME);
+    public static final DbColumn ROLES_USER_ID_COLUMN = USERS_TABLE.addColumn(ROLES_USER_ID_COLUMN_NAME);
+    public static final DbColumn ROLES_ROLE_NAME_COLUMN = USERS_TABLE.addColumn(ROLES_ROLE_NAME_COLUMN_NAME);
 
-    public static final DbJoin newsAuthorsNewsJoin = dbSpec.addJoin(null, NEWS_AUTHORS_TABLE_NAME, null, NEWS_TABLE_NAME, new String[]{NEWS_AUTHORS_NEWS_ID_COLUMN_NAME}, new String[]{NEWS_ID_COLUMN_NAME});
-    public static final DbJoin newsAuthorsAuthorsJoin = dbSpec.addJoin(null, NEWS_AUTHORS_TABLE_NAME, null, AUTHORS_TABLE_NAME, new String[]{NEWS_AUTHORS_AUTHOR_ID_COLUMN_NAME}, new String[]{AUTHORS_ID_COLUMN_NAME});
-    public static final DbJoin newsTagsNewsJoin = dbSpec.addJoin(null, NEWS_TABLE_NAME, null, NEWS_TAGS_TABLE_NAME, new String[]{NEWS_ID_COLUMN_NAME}, new String[]{NEWS_TAGS_NEWS_ID_COLUMN_NAME});
-    public static final DbJoin newsTagsTagsJoin = dbSpec.addJoin(null, NEWS_TAGS_TABLE_NAME, null, TAGS_TABLE_NAME, new String[]{NEWS_TAGS_TAG_ID_COLUMN_NAME}, new String[]{TAGS_ID_COLUMN_NAME});
+    public static final DbJoin NEWS_AUTHORS_NEWS_JOIN = DB_SPEC.addJoin(null, NEWS_AUTHORS_TABLE_NAME,
+            null, NEWS_TABLE_NAME,
+            new String[]{NEWS_AUTHORS_NEWS_ID_COLUMN_NAME}, new String[]{NEWS_ID_COLUMN_NAME}
+    );
+    public static final DbJoin NEWS_AUTHORS_AUTHORS_JOIN = DB_SPEC.addJoin(null, NEWS_AUTHORS_TABLE_NAME,
+            null, AUTHORS_TABLE_NAME,
+            new String[]{NEWS_AUTHORS_AUTHOR_ID_COLUMN_NAME}, new String[]{AUTHORS_ID_COLUMN_NAME}
+    );
+    public static final DbJoin NEWS_TAGS_NEWS_JOIN = DB_SPEC.addJoin(null, NEWS_TABLE_NAME,
+            null, NEWS_TAGS_TABLE_NAME,
+            new String[]{NEWS_ID_COLUMN_NAME}, new String[]{NEWS_TAGS_NEWS_ID_COLUMN_NAME}
+    );
+    public static final DbJoin NEWS_TAGS_TAGS_JOIN = DB_SPEC.addJoin(null, NEWS_TAGS_TABLE_NAME,
+            null, TAGS_TABLE_NAME,
+            new String[]{NEWS_TAGS_TAG_ID_COLUMN_NAME}, new String[]{TAGS_ID_COLUMN_NAME}
+    );
 }

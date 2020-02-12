@@ -16,8 +16,8 @@ public class FindAuthorsByNameSpecification implements Specification {
     @Override
     public String query() {
         SelectQuery selectQuery = new SelectQuery();
-        selectQuery.addAllTableColumns(authorsTable);
-        selectQuery.addCondition(BinaryCondition.equalTo(authorsNameColumn, authorName));
+        selectQuery.addAllTableColumns(AUTHORS_TABLE);
+        selectQuery.addCondition(BinaryCondition.equalTo(AUTHORS_NAME_COLUMN, authorName));
         return selectQuery.validate().toString();
     }
 }

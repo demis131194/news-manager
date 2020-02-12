@@ -18,9 +18,9 @@ public class FindTagsByNewsIdSpecification implements Specification {
     @Override
     public String query() {
         SelectQuery selectQuery = new SelectQuery();
-        selectQuery.addAllTableColumns(tagsTable);
-        selectQuery.addJoins(SelectQuery.JoinType.LEFT_OUTER, newsTagsTagsJoin);
-        selectQuery.addCondition(BinaryCondition.equalTo(newsTagsNewsIdColumn, newsId));
+        selectQuery.addAllTableColumns(TAGS_TABLE);
+        selectQuery.addJoins(SelectQuery.JoinType.LEFT_OUTER, NEWS_TAGS_TAGS_JOIN);
+        selectQuery.addCondition(BinaryCondition.equalTo(NEWS_TAGS_NEWS_ID_COLUMN, newsId));
         return selectQuery.validate().toString();
     }
 

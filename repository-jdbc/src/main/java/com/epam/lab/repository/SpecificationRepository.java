@@ -50,17 +50,17 @@ public interface SpecificationRepository<T> {
     List<T> findAll();
 
     /**
-     * Count all int.
-     *
-     * @return the int
-     */
-    int countAll();
-
-    /**
      * Find by specification list.
      *
      * @param specification the specification
      * @return the list
      */
     List<T> findBySpecification(Specification specification);
+
+    /**
+     * Count all int.
+     *
+     * @return the int
+     */
+    int countAll();
 }

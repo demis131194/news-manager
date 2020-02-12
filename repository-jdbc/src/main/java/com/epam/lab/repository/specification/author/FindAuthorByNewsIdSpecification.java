@@ -18,9 +18,9 @@ public class FindAuthorByNewsIdSpecification implements Specification {
     @Override
     public String query() {
         SelectQuery selectQuery = new SelectQuery();
-        selectQuery.addAllTableColumns(authorsTable);
-        selectQuery.addJoins(SelectQuery.JoinType.LEFT_OUTER, newsAuthorsAuthorsJoin);
-        selectQuery.addCondition(BinaryCondition.equalTo(newsAuthorsNewsIdColumn, newsId));
+        selectQuery.addAllTableColumns(AUTHORS_TABLE);
+        selectQuery.addJoins(SelectQuery.JoinType.LEFT_OUTER, NEWS_AUTHORS_AUTHORS_JOIN);
+        selectQuery.addCondition(BinaryCondition.equalTo(NEWS_AUTHORS_NEWS_ID_COLUMN, newsId));
         return selectQuery.validate().toString();
     }
 
