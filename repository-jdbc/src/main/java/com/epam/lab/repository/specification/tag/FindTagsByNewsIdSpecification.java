@@ -9,7 +9,6 @@ import java.util.Objects;
 import static com.epam.lab.repository.DbInfo.*;
 
 public class FindTagsByNewsIdSpecification implements Specification {
-
     private long newsId;
 
     public FindTagsByNewsIdSpecification(long newsId) {

@@ -89,7 +89,6 @@ public class ServiceTestConfig {
         Specification specification_5 =  new FindTagsByNewsIdSpecification(UPDATE_TEST_DTO_NEWS_5.getId());
         Mockito.when(mockTagRepo.findBySpecification(specification_5)).thenReturn(Arrays.asList(EXPECTED_TAG_2, EXPECTED_TAG_3));
 
-
         Mockito.when(mockTagRepo.countAll()).thenReturn(EXPECTED_COUNT_ALL_TAGS);
         Mockito.when(mockTagRepo.findAll()).thenReturn(Arrays.asList(EXPECTED_TAG_1, EXPECTED_TAG_2, EXPECTED_TAG_3));
     }
@@ -101,7 +100,9 @@ public class ServiceTestConfig {
         Mockito.when(mockAuthorRepo.findById(EXPECTED_AUTHOR_1.getId())).thenReturn(EXPECTED_AUTHOR_1);
         Mockito.when(mockAuthorRepo.findById(EXPECTED_AUTHOR_2.getId())).thenReturn(EXPECTED_AUTHOR_2);
         Mockito.when(mockAuthorRepo.findById(EXPECTED_AUTHOR_3.getId())).thenReturn(EXPECTED_AUTHOR_3);
-        Mockito.when(mockAuthorRepo.findById(CREATE_TEST_DTO_AUTHOR_4.getId())).thenReturn(new Author(CREATE_TEST_DTO_AUTHOR_4.getId(), CREATE_TEST_DTO_AUTHOR_4.getName(), CREATE_TEST_DTO_AUTHOR_4.getSurname()));
+        Mockito.when(mockAuthorRepo.findById(CREATE_TEST_DTO_AUTHOR_4.getId())).thenReturn(
+                new Author(CREATE_TEST_DTO_AUTHOR_4.getId(), CREATE_TEST_DTO_AUTHOR_4.getName(), CREATE_TEST_DTO_AUTHOR_4.getSurname())
+        );
         Mockito.when(mockAuthorRepo.findById(UPDATE_TEST_DTO_AUTHOR_5.getId())).thenReturn(UPDATE_TEST_AUTHOR_5);
         Mockito.when(mockAuthorRepo.findAll()).thenReturn(Arrays.asList(EXPECTED_AUTHOR_1, EXPECTED_AUTHOR_2, EXPECTED_AUTHOR_3));
         Mockito.when(mockAuthorRepo.countAll()).thenReturn(EXPECTED_COUNT_ALL_AUTHORS);
@@ -134,8 +135,9 @@ public class ServiceTestConfig {
         Mockito.when(mockNewsRepo.findById(EXPECTED_DTO_NEWS_1.getId())).thenReturn(EXPECTED_NEWS_1);
         Mockito.when(mockNewsRepo.findById(EXPECTED_DTO_NEWS_2.getId())).thenReturn(EXPECTED_NEWS_2);
         Mockito.when(mockNewsRepo.findById(EXPECTED_DTO_NEWS_3.getId())).thenReturn(EXPECTED_NEWS_3);
-        Mockito.when(mockNewsRepo.findById(CREATE_TEST_DTO_NEWS_4.getId())).thenReturn(
-                new News(CREATE_TEST_DTO_NEWS_4.getId(), CREATE_TEST_DTO_NEWS_4.getTitle(), CREATE_TEST_DTO_NEWS_4.getShortText(), CREATE_TEST_DTO_NEWS_4.getFullText())
+        Mockito.when(mockNewsRepo.findById(CREATE_TEST_DTO_NEWS_4.getId())).thenReturn(new News(
+                CREATE_TEST_DTO_NEWS_4.getId(), CREATE_TEST_DTO_NEWS_4.getTitle(),
+                CREATE_TEST_DTO_NEWS_4.getShortText(), CREATE_TEST_DTO_NEWS_4.getFullText())
         );
         Mockito.when(mockNewsRepo.findById(UPDATE_TEST_DTO_NEWS_5.getId())).thenReturn(UPDATE_TEST_NEWS_5);
         Mockito.when(mockNewsRepo.findAll()).thenReturn(Arrays.asList(EXPECTED_NEWS_1, EXPECTED_NEWS_2, EXPECTED_NEWS_3));
