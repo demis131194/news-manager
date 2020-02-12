@@ -1,10 +1,7 @@
 package com.epam.lab.repository.specification.news;
 
 import com.epam.lab.repository.specification.Specification;
-import com.healthmarketscience.sqlbuilder.BinaryCondition;
-import com.healthmarketscience.sqlbuilder.ComboCondition;
-import com.healthmarketscience.sqlbuilder.FunctionCall;
-import com.healthmarketscience.sqlbuilder.SelectQuery;
+import com.healthmarketscience.sqlbuilder.*;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -44,9 +41,9 @@ public class FindNewsBySearchCriteriaSpecification implements Specification {
         if (tagsId != null) {
             int countSearchTags = tagsId.size();
             if (countSearchTags > 0) {
-                ComboCondition comboOrCondition = ComboCondition.or();
-                tagsId.forEach(tagId -> comboOrCondition.addCondition(BinaryCondition.equalTo(tagsIdColumn, tagId)));
-                selectQuery.addCondition(comboOrCondition);
+                InCondition inCondition = new InCondition(tagsIdColumn);
+                tagsId.forEach(inCondition::addObject);
+                selectQuery.addCondition(inCondition);
                 selectQuery.addHaving(BinaryCondition.equalTo(FunctionCall.count().addColumnParams(newsIdColumn), countSearchTags));
             }
         }
