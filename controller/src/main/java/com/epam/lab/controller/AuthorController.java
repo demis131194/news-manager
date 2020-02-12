@@ -31,17 +31,17 @@ public class AuthorController {
         return authorService.countAll();
     }
 
-    @PostMapping(value = "/post")
+    @PostMapping
     public @ResponseBody AuthorTo postAuthor(@RequestBody @Valid AuthorTo authorTo) {
         return authorService.create(authorTo);
     }
 
-    @PutMapping(value = "/put")
+    @PutMapping
     public @ResponseBody AuthorTo putAuthor(@RequestBody @Valid AuthorTo authorTo) {
         return authorService.update(authorTo);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/{id}")
     public boolean deleteAuthor(@PathVariable("id") @Positive long id) {
         return authorService.delete(id);
     }

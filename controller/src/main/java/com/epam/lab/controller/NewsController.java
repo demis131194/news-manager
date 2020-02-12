@@ -37,17 +37,17 @@ public class NewsController {
         return newsService.countAll();
     }
 
-    @PostMapping(value = "/post")
+    @PostMapping
     public @ResponseBody NewsTo postNews(@RequestBody @Valid NewsTo newsTo) {
         return newsService.create(newsTo);
     }
 
-    @PutMapping(value = "/put")
+    @PutMapping
     public @ResponseBody NewsTo putTag(@RequestBody @Valid NewsTo newsTo) {
         return newsService.update(newsTo);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/{id}")
     public boolean deleteNews(@PathVariable("id") @Positive long id) {
         return newsService.delete(id);
     }

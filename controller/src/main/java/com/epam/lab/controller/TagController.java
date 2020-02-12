@@ -31,17 +31,17 @@ public class TagController {
         return tagService.countAll();
     }
 
-    @PostMapping(value = "/post")
+    @PostMapping
     public @ResponseBody TagTo postTag(@RequestBody @Valid TagTo tagTo) {
         return tagService.create(tagTo);
     }
 
-    @PutMapping(value = "/put")
+    @PutMapping
     public @ResponseBody TagTo putTag(@RequestBody @Valid TagTo tagTo) {
         return tagService.update(tagTo);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/{id}")
     public boolean deleteTag(@PathVariable("id") @Positive long id) {
         return tagService.delete(id);
     }

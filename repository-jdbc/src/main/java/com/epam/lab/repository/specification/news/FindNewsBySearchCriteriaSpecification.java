@@ -34,18 +34,9 @@ public class FindNewsBySearchCriteriaSpecification implements Specification {
         return selectQuery.validate().toString();
     }
 
-    private void addNewsCreationDateSort(SelectQuery selectQuery, boolean sort) {
-        if (sort) {
-            selectQuery.addOrderings(newsCreationDateColumn);
-        }
-    }
-
-    private void addAuthorSort(SelectQuery selectQuery, boolean sort) {
-        if (sort) {
-            FunctionCall authorSurnameOrdering = FunctionCall.min().addColumnParams(authorsSurnameColumn);
-            FunctionCall authorNameOrdering = FunctionCall.min().addColumnParams(authorsNameColumn);
-            FunctionCall authorIdOrdering = FunctionCall.min().addColumnParams(authorsIdColumn);
-            selectQuery.addCustomOrderings(authorSurnameOrdering, authorNameOrdering , authorIdOrdering);
+    private void addAuthorConditionIfExist(SelectQuery selectQuery, Long authorId) {
+        if (authorId != null) {
+            selectQuery.addCondition(BinaryCondition.equalTo(authorsIdColumn, authorId));
         }
     }
 
@@ -61,9 +52,18 @@ public class FindNewsBySearchCriteriaSpecification implements Specification {
         }
     }
 
-    private void addAuthorConditionIfExist(SelectQuery selectQuery, Long authorId) {
-        if (authorId != null) {
-            selectQuery.addCondition(BinaryCondition.equalTo(authorsIdColumn, authorId));
+    private void addAuthorSort(SelectQuery selectQuery, boolean sort) {
+        if (sort) {
+            FunctionCall authorSurnameOrdering = FunctionCall.min().addColumnParams(authorsSurnameColumn);
+            FunctionCall authorNameOrdering = FunctionCall.min().addColumnParams(authorsNameColumn);
+            FunctionCall authorIdOrdering = FunctionCall.min().addColumnParams(authorsIdColumn);
+            selectQuery.addCustomOrderings(authorSurnameOrdering, authorNameOrdering , authorIdOrdering);
+        }
+    }
+
+    private void addNewsCreationDateSort(SelectQuery selectQuery, boolean sort) {
+        if (sort) {
+            selectQuery.addOrderings(newsCreationDateColumn);
         }
     }
 
