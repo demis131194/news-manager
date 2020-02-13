@@ -26,7 +26,7 @@ public class NewsMapper {
     }
 
     public NewsTo toDto(News news, AuthorTo author, List<TagTo> tags) {
-        if (news == null || tags == null) {
+        if (news == null) {
             return null;
         }
         NewsTo newsTo = modelMapper.map(news, NewsTo.class);

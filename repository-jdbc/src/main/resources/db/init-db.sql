@@ -158,7 +158,7 @@ ALTER TABLE public.roles
 CREATE FUNCTION news_update_modification_date () RETURNS trigger AS '
     BEGIN
         IF
-                    OLD.title!=NEW.title OR OLD.short_text!=NEW.short_text OR OLD.full_text!=NEW.full_text THEN
+            OLD.title!=NEW.title OR OLD.short_text!=NEW.short_text OR OLD.full_text!=NEW.full_text THEN
             UPDATE news SET modification_date = now() WHERE id = NEW.id;
         END IF;
         return NEW;
