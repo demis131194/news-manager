@@ -2,7 +2,7 @@ package com.epam.lab.service;
 
 import com.epam.lab.configuration.ServiceTestConfig;
 import com.epam.lab.dto.NewsTo;
-import com.epam.lab.service.impl.NewsServiceImpl;
+import com.epam.lab.exeption.ServiceException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.epam.lab.configuration.TestObjects.*;
+import static com.epam.lab.TestObjects.*;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -34,7 +34,7 @@ public class NewsServiceTest {
         assertEquals(CREATE_TEST_DTO_NEWS_4, actual);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void createFailHasIdTest() {
         NewsTo create = new NewsTo(INIT_TEST_ID, CREATE_TEST_DTO_NEWS_4.getTitle(),
                 CREATE_TEST_DTO_NEWS_4.getShortText(), CREATE_TEST_DTO_NEWS_4.getFullText(),
@@ -56,7 +56,7 @@ public class NewsServiceTest {
         assertEquals(UPDATE_TEST_DTO_NEWS_5, actual);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void updateFailTest() {
         NewsTo newsTo = new NewsTo(INIT_TEST_ID - 1, UPDATE_TEST_DTO_NEWS_5.getTitle(),
                 UPDATE_TEST_DTO_NEWS_5.getShortText(), UPDATE_TEST_DTO_NEWS_5.getFullText(),

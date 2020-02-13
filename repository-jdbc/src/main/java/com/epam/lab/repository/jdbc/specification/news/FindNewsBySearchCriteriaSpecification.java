@@ -1,7 +1,10 @@
-package com.epam.lab.repository.specification.news;
+package com.epam.lab.repository.jdbc.specification.news;
 
-import com.epam.lab.repository.specification.Specification;
-import com.healthmarketscience.sqlbuilder.*;
+import com.epam.lab.repository.jdbc.specification.Specification;
+import com.healthmarketscience.sqlbuilder.BinaryCondition;
+import com.healthmarketscience.sqlbuilder.FunctionCall;
+import com.healthmarketscience.sqlbuilder.InCondition;
+import com.healthmarketscience.sqlbuilder.SelectQuery;
 
 import java.util.Collection;
 import java.util.Objects;

@@ -1,13 +1,14 @@
 package com.epam.lab.service.impl;
 
 import com.epam.lab.dto.AuthorTo;
+import com.epam.lab.exeption.ServiceException;
 import com.epam.lab.model.Author;
 import com.epam.lab.repository.AuthorRepository;
-import com.epam.lab.repository.specification.Specification;
-import com.epam.lab.repository.specification.author.FindAuthorByNewsIdSpecification;
+import com.epam.lab.repository.jdbc.AuthorRepositoryImpl;
+import com.epam.lab.repository.jdbc.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.author.FindAuthorByNewsIdSpecification;
 import com.epam.lab.service.AuthorService;
 import com.epam.lab.service.impl.mapper.AuthorMapper;
-import com.epam.lab.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class AuthorServiceImpl implements AuthorService {
      * @param mapper           the mapper
      */
     @Autowired
-    public AuthorServiceImpl(AuthorRepository authorRepository, AuthorMapper mapper) {
+    public AuthorServiceImpl(AuthorRepositoryImpl authorRepository, AuthorMapper mapper) {
         this.authorRepository = authorRepository;
         this.mapper = mapper;
     }
@@ -43,45 +44,41 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional
     public AuthorTo create(AuthorTo authorTo) {
-        if (Validator.validate(authorTo) && authorTo.getId() == null) {
+        if (authorTo.getId() == null) {
             Author entity = mapper.toEntity(authorTo);
             long authorId = authorRepository.create(entity);
             return findById(authorId);
         }
-        logger.warn("AuthorService, validation fail : " + authorTo.toString());
-        return null;
+        throw new ServiceException("Create author, need id == null!");
     }
 
     @Override
     @Transactional
     public AuthorTo update(AuthorTo authorTo) {
-        if (Validator.validate(authorTo) && authorTo.getId() != null) {
+        if (authorTo.getId() != null) {
             Author entity = mapper.toEntity(authorTo);
             boolean isUpdate = authorRepository.update(entity);
             return isUpdate ? findById(authorTo.getId()) : null;
         }
-        logger.warn("AuthorService, validation fail : " + authorTo.toString());
-        return null;
+        throw new ServiceException("Update author, need id != null!");
     }
 
     @Override
     @Transactional
     public boolean delete(long id) {
-        if (Validator.validateId(id)) {
+        if (id > 0) {
             return authorRepository.delete(id);
         }
-        logger.warn("AuthorService, validation fail id: " + id);
-        return false;
+        throw new ServiceException("Delete author, need id > 0!");
     }
 
     @Override
     public AuthorTo findById(long id) {
-        if (Validator.validateId(id)) {
+        if (id > 0) {
             Author author = authorRepository.findById(id);
             return mapper.toDto(author);
         }
-        logger.warn("AuthorService, validation fail id: " + id);
-        return null;
+        throw new ServiceException("Find author, need id > 0!");
     }
 
     @Override
@@ -105,12 +102,11 @@ public class AuthorServiceImpl implements AuthorService {
      */
     @Override
     public AuthorTo findByNewsId(long newsId) {
-        if (Validator.validateId(newsId)) {
+        if (newsId > 0) {
             Specification specification = new FindAuthorByNewsIdSpecification(newsId);
             List<Author> author = authorRepository.findBySpecification(specification);
             return !author.isEmpty() ? mapper.toDto(author.get(0)) : null;
         }
-        logger.warn("AuthorService, validation fail newsId: " + newsId);
-        return null;
+        throw new ServiceException("Find author by news id, need id > 0!");
     }
 }

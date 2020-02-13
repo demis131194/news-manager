@@ -1,10 +1,11 @@
-package com.epam.lab.repository.specification.author;
+package com.epam.lab.repository.jdbc.specification.author;
 
-import com.epam.lab.repository.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.Specification;
 import com.healthmarketscience.sqlbuilder.BinaryCondition;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
 
-import static com.epam.lab.repository.DbInfo.*;
+import static com.epam.lab.repository.DbInfo.AUTHORS_SURNAME_COLUMN;
+import static com.epam.lab.repository.DbInfo.AUTHORS_TABLE;
 
 public class FindAuthorsBySurnameSpecification implements Specification {
     private String authorSurname;

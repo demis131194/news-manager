@@ -1,4 +1,4 @@
-package com.epam.lab.repository.mapper;
+package com.epam.lab.repository.jdbc.mapper;
 
 import com.epam.lab.model.Tag;
 import com.epam.lab.repository.DbInfo;

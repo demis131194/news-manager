@@ -2,10 +2,11 @@ package com.epam.lab.repository;
 
 import com.epam.lab.configuration.TestRepositoryConfig;
 import com.epam.lab.model.Author;
-import com.epam.lab.repository.specification.Specification;
-import com.epam.lab.repository.specification.author.FindAuthorByNewsIdSpecification;
-import com.epam.lab.repository.specification.author.FindAuthorsByNameSpecification;
-import com.epam.lab.repository.specification.author.FindAuthorsBySurnameSpecification;
+import com.epam.lab.repository.jdbc.AuthorRepositoryImpl;
+import com.epam.lab.repository.jdbc.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.author.FindAuthorByNewsIdSpecification;
+import com.epam.lab.repository.jdbc.specification.author.FindAuthorsByNameSpecification;
+import com.epam.lab.repository.jdbc.specification.author.FindAuthorsBySurnameSpecification;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static com.epam.lab.repository.DbTestObjects.*;
+import static org.junit.Assert.*;
 
 
 @RunWith(SpringRunner.class)
@@ -28,7 +29,7 @@ import static com.epam.lab.repository.DbTestObjects.*;
 public class AuthorRepositoryTest {
 
     @Autowired
-    private AuthorRepository authorRepository;
+    private AuthorRepositoryImpl authorRepository;
 
     @Test
     public void createTest() {

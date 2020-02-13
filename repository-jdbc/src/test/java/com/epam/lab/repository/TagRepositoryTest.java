@@ -2,9 +2,10 @@ package com.epam.lab.repository;
 
 import com.epam.lab.configuration.TestRepositoryConfig;
 import com.epam.lab.model.Tag;
-import com.epam.lab.repository.specification.Specification;
-import com.epam.lab.repository.specification.tag.FindTagByNameSpecification;
-import com.epam.lab.repository.specification.tag.FindTagsByNewsIdSpecification;
+import com.epam.lab.repository.jdbc.TagRepositoryImpl;
+import com.epam.lab.repository.jdbc.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.tag.FindTagByNameSpecification;
+import com.epam.lab.repository.jdbc.specification.tag.FindTagsByNewsIdSpecification;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,10 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import static org.junit.Assert.*;
 import static com.epam.lab.repository.DbTestObjects.*;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestRepositoryConfig.class})
@@ -27,7 +26,7 @@ import static com.epam.lab.repository.DbTestObjects.*;
 public class TagRepositoryTest {
 
     @Autowired
-    private TagRepository tagRepository;
+    private TagRepositoryImpl tagRepository;
 
     @Test
     public void createTest() {

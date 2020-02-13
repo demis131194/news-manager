@@ -1,6 +1,6 @@
-package com.epam.lab.repository.specification.tag;
+package com.epam.lab.repository.jdbc.specification.author;
 
-import com.epam.lab.repository.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.Specification;
 import com.healthmarketscience.sqlbuilder.BinaryCondition;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
 
@@ -8,19 +8,19 @@ import java.util.Objects;
 
 import static com.epam.lab.repository.DbInfo.*;
 
-public class FindTagsByNewsIdSpecification implements Specification {
+public class FindAuthorByNewsIdSpecification implements Specification {
     private long newsId;
 
-    public FindTagsByNewsIdSpecification(long newsId) {
+    public FindAuthorByNewsIdSpecification(long newsId) {
         this.newsId = newsId;
     }
 
     @Override
     public String query() {
         SelectQuery selectQuery = new SelectQuery();
-        selectQuery.addAllTableColumns(TAGS_TABLE);
-        selectQuery.addJoins(SelectQuery.JoinType.LEFT_OUTER, NEWS_TAGS_TAGS_JOIN);
-        selectQuery.addCondition(BinaryCondition.equalTo(NEWS_TAGS_NEWS_ID_COLUMN, newsId));
+        selectQuery.addAllTableColumns(AUTHORS_TABLE);
+        selectQuery.addJoins(SelectQuery.JoinType.LEFT_OUTER, NEWS_AUTHORS_AUTHORS_JOIN);
+        selectQuery.addCondition(BinaryCondition.equalTo(NEWS_AUTHORS_NEWS_ID_COLUMN, newsId));
         return selectQuery.validate().toString();
     }
 
@@ -28,7 +28,7 @@ public class FindTagsByNewsIdSpecification implements Specification {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FindTagsByNewsIdSpecification that = (FindTagsByNewsIdSpecification) o;
+        FindAuthorByNewsIdSpecification that = (FindAuthorByNewsIdSpecification) o;
         return newsId == that.newsId;
     }
 

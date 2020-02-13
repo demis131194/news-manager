@@ -2,6 +2,7 @@ package com.epam.lab.repository;
 
 import com.epam.lab.configuration.TestRepositoryConfig;
 import com.epam.lab.model.News;
+import com.epam.lab.repository.jdbc.NewsRepositoryImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import static org.junit.Assert.*;
 public class NewsRepositoryTest {
 
     @Autowired
-    private NewsRepository newsRepository;
+    private NewsRepositoryImpl newsRepository;
 
     @Test
     public void createTest() {

@@ -1,4 +1,4 @@
-package com.epam.lab.repository.mapper;
+package com.epam.lab.repository.jdbc.mapper;
 
 import com.epam.lab.model.News;
 import com.epam.lab.repository.DbInfo;

@@ -1,17 +1,16 @@
 package com.epam.lab.configuration;
 
-import com.epam.lab.dto.NewsTo;
 import com.epam.lab.model.Author;
 import com.epam.lab.model.News;
 import com.epam.lab.model.Tag;
-import com.epam.lab.repository.AuthorRepository;
-import com.epam.lab.repository.NewsRepository;
-import com.epam.lab.repository.TagRepository;
-import com.epam.lab.repository.specification.Specification;
-import com.epam.lab.repository.specification.author.FindAuthorByNewsIdSpecification;
-import com.epam.lab.repository.specification.news.FindNewsBySearchCriteriaSpecification;
-import com.epam.lab.repository.specification.tag.FindTagByNameSpecification;
-import com.epam.lab.repository.specification.tag.FindTagsByNewsIdSpecification;
+import com.epam.lab.repository.jdbc.AuthorRepositoryImpl;
+import com.epam.lab.repository.jdbc.NewsRepositoryImpl;
+import com.epam.lab.repository.jdbc.TagRepositoryImpl;
+import com.epam.lab.repository.jdbc.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.author.FindAuthorByNewsIdSpecification;
+import com.epam.lab.repository.jdbc.specification.news.FindNewsBySearchCriteriaSpecification;
+import com.epam.lab.repository.jdbc.specification.tag.FindTagByNameSpecification;
+import com.epam.lab.repository.jdbc.specification.tag.FindTagsByNewsIdSpecification;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -22,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static com.epam.lab.configuration.TestObjects.*;
+import static com.epam.lab.TestObjects.*;
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 @Configuration
@@ -41,27 +40,27 @@ public class ServiceTestConfig {
     }
 
     @Bean
-    public TagRepository tagRepository() {
-        TagRepository mockTagRepo = Mockito.mock(TagRepository.class);
+    public TagRepositoryImpl tagRepository() {
+        TagRepositoryImpl mockTagRepo = Mockito.mock(TagRepositoryImpl.class);
         configTagMockRepo(mockTagRepo);
         return mockTagRepo;
     }
 
     @Bean
-    public AuthorRepository authorRepository() {
-        AuthorRepository mockAuthorRepo = Mockito.mock(AuthorRepository.class);
+    public AuthorRepositoryImpl authorRepository() {
+        AuthorRepositoryImpl mockAuthorRepo = Mockito.mock(AuthorRepositoryImpl.class);
         configAuthorMockRepo(mockAuthorRepo);
         return mockAuthorRepo;
     }
 
     @Bean
-    public NewsRepository newsRepository() {
-        NewsRepository mockNewsRepository = Mockito.mock(NewsRepository.class);
+    public NewsRepositoryImpl newsRepository() {
+        NewsRepositoryImpl mockNewsRepository = Mockito.mock(NewsRepositoryImpl.class);
         configNewsMockRepo(mockNewsRepository);
         return mockNewsRepository;
     }
 
-    private void configTagMockRepo(TagRepository mockTagRepo) {
+    private void configTagMockRepo(TagRepositoryImpl mockTagRepo) {
         Mockito.when(mockTagRepo.findById(EXPECTED_TAG_1.getId())).thenReturn(EXPECTED_TAG_1);
         Mockito.when(mockTagRepo.findById(EXPECTED_TAG_2.getId())).thenReturn(EXPECTED_TAG_2);
         Mockito.when(mockTagRepo.findById(EXPECTED_TAG_2.getId())).thenReturn(EXPECTED_TAG_3);
@@ -93,7 +92,7 @@ public class ServiceTestConfig {
         Mockito.when(mockTagRepo.findAll()).thenReturn(Arrays.asList(EXPECTED_TAG_1, EXPECTED_TAG_2, EXPECTED_TAG_3));
     }
 
-    private void configAuthorMockRepo(AuthorRepository mockAuthorRepo) {
+    private void configAuthorMockRepo(AuthorRepositoryImpl mockAuthorRepo) {
         Mockito.when(mockAuthorRepo.create(CREATE_TEST_AUTHOR_4)).thenReturn(CREATE_TEST_DTO_AUTHOR_4.getId());
         Mockito.when(mockAuthorRepo.update(UPDATE_TEST_AUTHOR_5)).thenReturn(true);
         Mockito.when(mockAuthorRepo.delete(INIT_TEST_ID)).thenReturn(true);
@@ -124,7 +123,7 @@ public class ServiceTestConfig {
 
     }
 
-    private void configNewsMockRepo(NewsRepository mockNewsRepo) {
+    private void configNewsMockRepo(NewsRepositoryImpl mockNewsRepo) {
         Mockito.when(mockNewsRepo.create(CREATE_TEST_NEWS_4)).thenReturn(CREATE_TEST_DTO_NEWS_4.getId());
         Mockito.when(mockNewsRepo.createNewsAuthorBound(Mockito.anyLong(), Mockito.anyLong())).thenReturn(true);
         Mockito.when(mockNewsRepo.updateNewsAuthorBound(Mockito.anyLong(), Mockito.anyLong())).thenReturn(true);

@@ -2,6 +2,7 @@ package com.epam.lab.service;
 
 import com.epam.lab.configuration.ServiceTestConfig;
 import com.epam.lab.dto.AuthorTo;
+import com.epam.lab.exeption.ServiceException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.epam.lab.configuration.TestObjects.*;
+import static com.epam.lab.TestObjects.*;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -28,7 +29,7 @@ public class AuthorServiceTest {
         assertEquals(CREATE_TEST_DTO_AUTHOR_4, actual);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void createFailHasIdTest() {
         AuthorTo authorTo = new AuthorTo(INIT_TEST_ID, CREATE_TEST_DTO_AUTHOR_4.getName(), CREATE_TEST_DTO_AUTHOR_4.getSurname());
         AuthorTo actual = authorService.create(authorTo);
@@ -42,7 +43,7 @@ public class AuthorServiceTest {
         assertEquals(UPDATE_TEST_DTO_AUTHOR_5, expected);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void updateFailNullIdTest() {
         AuthorTo authorTo = new AuthorTo(null, UPDATE_TEST_DTO_AUTHOR_5.getName(), UPDATE_TEST_DTO_AUTHOR_5.getSurname());
         AuthorTo expected = authorService.update(authorTo);
@@ -55,7 +56,7 @@ public class AuthorServiceTest {
         assertTrue(isDelete);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void deleteFailWrongIdTest() {
         boolean isDelete = authorService.delete(INIT_TEST_ID - 1);
         assertFalse(isDelete);
@@ -67,7 +68,7 @@ public class AuthorServiceTest {
         assertEquals(EXPECTED_DTO_AUTHOR_1, actual);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void findByIdFailWrongIdTest() {
         AuthorTo actual = authorService.findById(INIT_TEST_ID - 1);
         assertNull(actual);
@@ -92,7 +93,7 @@ public class AuthorServiceTest {
         assertEquals(EXPECTED_DTO_AUTHOR_1, actual);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void findByNewsIdFailTest() {
         AuthorTo actual = authorService.findByNewsId(INIT_TEST_ID - 1);
         assertNull(actual);

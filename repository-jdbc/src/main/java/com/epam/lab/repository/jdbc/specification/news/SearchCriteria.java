@@ -1,4 +1,4 @@
-package com.epam.lab.repository.specification.news;
+package com.epam.lab.repository.jdbc.specification.news;
 
 import java.util.*;
 

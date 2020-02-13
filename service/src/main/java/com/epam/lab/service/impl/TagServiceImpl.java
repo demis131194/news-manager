@@ -1,21 +1,21 @@
 package com.epam.lab.service.impl;
 
 import com.epam.lab.dto.TagTo;
+import com.epam.lab.exeption.ServiceException;
 import com.epam.lab.model.Tag;
 import com.epam.lab.repository.TagRepository;
-import com.epam.lab.repository.specification.Specification;
-import com.epam.lab.repository.specification.tag.FindTagByNameSpecification;
-import com.epam.lab.repository.specification.tag.FindTagsByNewsIdSpecification;
+import com.epam.lab.repository.jdbc.TagRepositoryImpl;
+import com.epam.lab.repository.jdbc.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.tag.FindTagByNameSpecification;
+import com.epam.lab.repository.jdbc.specification.tag.FindTagsByNewsIdSpecification;
 import com.epam.lab.service.TagService;
 import com.epam.lab.service.impl.mapper.TagMapper;
-import com.epam.lab.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +37,7 @@ public class TagServiceImpl implements TagService {
      * @param mapper        the mapper
      */
     @Autowired
-    public TagServiceImpl(TagRepository tagRepository, TagMapper mapper) {
+    public TagServiceImpl(TagRepositoryImpl tagRepository, TagMapper mapper) {
         this.tagRepository = tagRepository;
         this.mapper = mapper;
     }
@@ -45,45 +45,41 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public TagTo create(TagTo tagTo) {
-        if (Validator.validate(tagTo) && tagTo.getId() == null) {
+        if (tagTo.getId() == null) {
             Tag entity = mapper.toEntity(tagTo);
             long tagId = tagRepository.create(entity);
             return findById(tagId);
         }
-        logger.warn("TagService, validation fail : " + tagTo.toString());
-        return null;
+        throw new ServiceException("Create tag, need id == null!");
     }
 
     @Override
     @Transactional
     public TagTo update(TagTo tagTo) {
-        if (Validator.validate(tagTo) && tagTo.getId() != null) {
+        if (tagTo.getId() != null) {
             Tag entity = mapper.toEntity(tagTo);
             boolean isUpdate = tagRepository.update(entity);
             return isUpdate ? findById(tagTo.getId()) : null;
         }
-        logger.warn("TagService, validation fail : " + tagTo.toString());
-        return null;
+        throw new ServiceException("Update tag, need id != null!");
     }
 
     @Override
     @Transactional
     public boolean delete(long id) {
-        if (Validator.validateId(id)) {
+        if (id > 0) {
             return tagRepository.delete(id);
         }
-        logger.warn("TagService, validation fail id: " + id);
-        return false;
+        throw new ServiceException("Delete tag, need id > 0!");
     }
 
     @Override
     public TagTo findById(long id) {
-        if (Validator.validateId(id)) {
+        if (id > 0) {
             Tag tag = tagRepository.findById(id);
             return mapper.toDto(tag);
         }
-        logger.warn("TagService, validation fail id: " + id);
-        return null;
+        throw new ServiceException("Find tag by id, need id > 0!");
     }
 
     @Override
@@ -107,15 +103,14 @@ public class TagServiceImpl implements TagService {
      */
     @Override
     public List<TagTo> findTagsByNewsId(long newsId) {
-        if (Validator.validateId(newsId)) {
+        if (newsId > 0) {
             Specification specification = new FindTagsByNewsIdSpecification(newsId);
             List<Tag> tagsByNewsId = tagRepository.findBySpecification(specification);
             return tagsByNewsId.stream()
                     .map(tag -> mapper.toDto(tag))
                     .collect(Collectors.toList());
         }
-        logger.warn("TagService, validation fail newsId: " + newsId);
-        return Collections.emptyList();
+        throw new ServiceException("Find tag by news id, need id > 0!");
     }
 
     /**
@@ -126,12 +121,8 @@ public class TagServiceImpl implements TagService {
      */
     @Override
     public TagTo findTagByName(String tagName) {
-        if (Validator.validateTagName(tagName)) {
-            Specification specification = new FindTagByNameSpecification(tagName);
-            List<Tag> result = tagRepository.findBySpecification(specification);
-            return !result.isEmpty() ? mapper.toDto(result.get(0)) : null;
-        }
-        logger.warn("TagService, validation fail tagName: " + tagName);
-        return null;
+        Specification specification = new FindTagByNameSpecification(tagName);
+        List<Tag> result = tagRepository.findBySpecification(specification);
+        return !result.isEmpty() ? mapper.toDto(result.get(0)) : null;
     }
 }

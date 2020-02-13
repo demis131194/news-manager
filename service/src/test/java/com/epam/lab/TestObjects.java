@@ -1,4 +1,4 @@
-package com.epam.lab.configuration;
+package com.epam.lab;
 
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.dto.NewsTo;
@@ -6,7 +6,7 @@ import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.Author;
 import com.epam.lab.model.News;
 import com.epam.lab.model.Tag;
-import com.epam.lab.repository.specification.news.SearchCriteria;
+import com.epam.lab.repository.jdbc.specification.news.SearchCriteria;
 
 import java.util.Arrays;
 import java.util.Collections;

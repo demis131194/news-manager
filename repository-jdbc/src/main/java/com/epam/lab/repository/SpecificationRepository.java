@@ -1,6 +1,6 @@
 package com.epam.lab.repository;
 
-import com.epam.lab.repository.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.Specification;
 
 import java.util.List;
 

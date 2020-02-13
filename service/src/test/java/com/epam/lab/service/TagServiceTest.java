@@ -2,7 +2,7 @@ package com.epam.lab.service;
 
 import com.epam.lab.configuration.ServiceTestConfig;
 import com.epam.lab.dto.TagTo;
-import com.epam.lab.service.impl.TagServiceImpl;
+import com.epam.lab.exeption.ServiceException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.epam.lab.configuration.TestObjects.*;
+import static com.epam.lab.TestObjects.*;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -29,7 +29,7 @@ public class TagServiceTest {
         assertEquals(CREATE_DTO_TAG_4, actual);
     }
 
-    @Test
+    @Test(expected = ServiceException.class)
     public void createFailWrongIdTest() {
         TagTo testTagTo = new TagTo(INIT_TEST_ID, CREATE_DTO_TAG_4.getName());
         TagTo actual = tagService.create(testTagTo);

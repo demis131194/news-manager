@@ -1,6 +1,6 @@
-package com.epam.lab.repository.specification.tag;
+package com.epam.lab.repository.jdbc.specification.tag;
 
-import com.epam.lab.repository.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.Specification;
 import com.healthmarketscience.sqlbuilder.BinaryCondition;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
 
