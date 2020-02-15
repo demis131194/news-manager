@@ -8,7 +8,7 @@ import com.healthmarketscience.sqlbuilder.SelectQuery;
 
 import java.util.Collection;
 
-import static com.epam.lab.repository.DbInfo.*;
+import static com.epam.lab.repository.DbConstants.*;
 
 public class FindNewsBySearchCriteriaSpecification implements Specification {
 

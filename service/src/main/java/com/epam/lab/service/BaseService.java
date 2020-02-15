@@ -52,5 +52,5 @@ public interface BaseService<T> {
      *
      * @return the int
      */
-    int countAll();
+    long countAll();
 }

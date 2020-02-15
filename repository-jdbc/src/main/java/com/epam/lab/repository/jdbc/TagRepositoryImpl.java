@@ -81,8 +81,8 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
-    public int countAll() {
-        int result = jdbcTemplate.queryForObject(COUNT_ALL_QUERY, Integer.class);
+    public long countAll() {
+        long result = jdbcTemplate.queryForObject(COUNT_ALL_QUERY, Long.class);
         logger.debug("Count all tags result : {}", result);
         return result;
     }

@@ -116,7 +116,7 @@ public class TagRepositoryTest {
 
     @Test
     public void countAllTest() {
-        int actual = tagRepository.countAll();
+        long actual = tagRepository.countAll();
         assertEquals(EXPECTED_COUNT_ALL_TAGS, actual);
     }
 

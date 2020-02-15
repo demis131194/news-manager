@@ -5,8 +5,8 @@ import com.healthmarketscience.sqlbuilder.BinaryCondition;
 import com.healthmarketscience.sqlbuilder.Condition;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
 
-import static com.epam.lab.repository.DbInfo.TAGS_ID_COLUMN;
-import static com.epam.lab.repository.DbInfo.TAGS_TABLE;
+import static com.epam.lab.repository.DbConstants.TAGS_ID_COLUMN;
+import static com.epam.lab.repository.DbConstants.TAGS_TABLE;
 
 public class FindTagByIdSpecification implements Specification {
     private static final SelectQuery SELECT_QUERY;

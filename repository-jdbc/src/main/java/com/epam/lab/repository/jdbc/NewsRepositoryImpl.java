@@ -83,8 +83,8 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public int countAll() {
-        int result = jdbcTemplate.queryForObject(COUNT_ALL_NEWS_QUERY, Integer.class);
+    public long countAll() {
+        long result = jdbcTemplate.queryForObject(COUNT_ALL_NEWS_QUERY, Long.class);
         logger.info("Count all news result : {}", result);
         return result;
     }

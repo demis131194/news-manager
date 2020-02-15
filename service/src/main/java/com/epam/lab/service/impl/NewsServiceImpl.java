@@ -15,8 +15,6 @@ import com.epam.lab.service.AuthorService;
 import com.epam.lab.service.NewsService;
 import com.epam.lab.service.TagService;
 import com.epam.lab.service.impl.mapper.NewsMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +28,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 public class NewsServiceImpl implements NewsService {
-    private static final Logger logger = LogManager.getLogger(AuthorServiceImpl.class);
 
     private static final FindAllNewsSpecification FIND_ALL_NEWS_SPECIFICATION = new FindAllNewsSpecification();
 
@@ -73,12 +70,12 @@ public class NewsServiceImpl implements NewsService {
                 newsTo.getTags().forEach(tagTo -> newsRepository.createNewsTagBound(newsTo.getId(), tagTo.getId()));
                 return findById(newsTo.getId());
             }
+            throw new ServiceException("Can't update news, news id = " + newsTo.getId());
         }
         throw new ServiceException("Update news, news id shouldn't be null!");
     }
 
     @Override
-    @Transactional
     public boolean delete(long newsId) {
         if (newsId > 0) {
             return newsRepository.delete(newsId);
@@ -88,7 +85,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional
-    public NewsTo findById(long newsId) {                           // FIXME: 15.02.2020 Exception???
+    public NewsTo findById(long newsId) {
         if (newsId > 0) {
             Specification specification = new FindNewsByIdSpecification(newsId);
             List<News> news = newsRepository.findBySpecification(specification);
@@ -106,15 +103,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public List<NewsTo> findAll() {
-        List<News> all = newsRepository.findBySpecification(FIND_ALL_NEWS_SPECIFICATION);
-        return all.stream()
-                .map(news -> findById(news.getId()))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public int countAll() {
-        return newsRepository.countAll();
+        return findAllNewsToBySpecification(FIND_ALL_NEWS_SPECIFICATION);
     }
 
     /**
@@ -125,16 +114,19 @@ public class NewsServiceImpl implements NewsService {
      */
     @Transactional
     @Override
-    public List<NewsTo> findAll(SearchCriteria searchCriteria) {
+    public List<NewsTo> findAllBySearchCriteria(SearchCriteria searchCriteria) {
         Specification specification = new FindNewsBySearchCriteriaSpecification(searchCriteria);
-        List<News> allNews = newsRepository.findBySpecification(specification);
-        return allNews.stream()
-                .map(news -> {
-                    AuthorTo author = authorService.findByNewsId(news.getId());
-                    List<TagTo> tags = tagService.findTagsByNewsId(news.getId());
-                    return mapper.toDto(news, author, tags);
-                })
-                .collect(Collectors.toList());
+        return findAllNewsToBySpecification(specification);
+    }
+
+    @Override
+    public long countAll() {
+        return newsRepository.countAll();
+    }
+
+    private List<NewsTo> findAllNewsToBySpecification(Specification findAllNewsSpecification) {
+        List<News> all = newsRepository.findBySpecification(findAllNewsSpecification);
+        return convertToNewsTo(all);
     }
 
     private void createAuthorIfAbsent(NewsTo newsTo) {
@@ -152,5 +144,15 @@ public class NewsServiceImpl implements NewsService {
                 tagTo.setId(tagId);
             }
         });
+    }
+
+    private List<NewsTo> convertToNewsTo(List<News> all) {
+        return all.stream()
+                .map(news -> {
+                    AuthorTo author = authorService.findByNewsId(news.getId());
+                    List<TagTo> tags = tagService.findTagsByNewsId(news.getId());
+                    return mapper.toDto(news, author, tags);
+                })
+                .collect(Collectors.toList());
     }
 }

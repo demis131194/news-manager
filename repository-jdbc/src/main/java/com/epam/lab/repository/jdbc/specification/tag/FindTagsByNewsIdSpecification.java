@@ -4,7 +4,7 @@ import com.epam.lab.repository.jdbc.specification.Specification;
 import com.healthmarketscience.sqlbuilder.BinaryCondition;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
 
-import static com.epam.lab.repository.DbInfo.*;
+import static com.epam.lab.repository.DbConstants.*;
 
 public class FindTagsByNewsIdSpecification implements Specification {
     private long newsId;

@@ -1,7 +1,7 @@
 package com.epam.lab.repository.jdbc.mapper;
 
 import com.epam.lab.model.Author;
-import com.epam.lab.repository.DbInfo;
+import com.epam.lab.repository.DbConstants;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +10,9 @@ import java.sql.SQLException;
 
 @Component
 public class AuthorRowMapper implements RowMapper<Author> {
-    public static final String ID_COLUMN = DbInfo.AUTHORS_ID_COLUMN_NAME;
-    public static final String NAME_COLUMN = DbInfo.AUTHORS_NAME_COLUMN_NAME;
-    public static final String SURNAME_COLUMN = DbInfo.AUTHORS_SURNAME_COLUMN_NAME;
+    public static final String ID_COLUMN = DbConstants.AUTHORS_ID_COLUMN_NAME;
+    public static final String NAME_COLUMN = DbConstants.AUTHORS_NAME_COLUMN_NAME;
+    public static final String SURNAME_COLUMN = DbConstants.AUTHORS_SURNAME_COLUMN_NAME;
 
     @Override
     public Author mapRow(ResultSet rs, int rowNum) throws SQLException {

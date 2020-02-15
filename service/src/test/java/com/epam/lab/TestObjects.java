@@ -20,7 +20,7 @@ public class TestObjects {
     public static final Tag EXPECTED_TAG_3 = new Tag(INIT_TEST_ID + 2, "FANNY");
     public static final Tag CREATE_TEST_TAG_4 = new Tag( null,"CREATE TEST");
     public static final Tag UPDATE_TEST_TAG_5 = new Tag(INIT_TEST_ID + 4, "UPDATE TEST");
-    public static final int EXPECTED_COUNT_ALL_TAGS = 3;
+    public static final long EXPECTED_COUNT_ALL_TAGS = 3L;
 
     public static final TagTo EXPECTED_DTO_TAG_1 = new TagTo(EXPECTED_TAG_1.getId(), EXPECTED_TAG_1.getName());
     public static final TagTo EXPECTED_DTO_TAG_2 = new TagTo(EXPECTED_TAG_2.getId(), EXPECTED_TAG_2.getName());
@@ -33,7 +33,7 @@ public class TestObjects {
     public static final Author EXPECTED_AUTHOR_3 = new Author(INIT_TEST_ID + 2, "SOVA", "SOVA");
     public static final Author CREATE_TEST_AUTHOR_4 = new Author(null, "Create name", "Create surname");
     public static final Author UPDATE_TEST_AUTHOR_5 = new Author(INIT_TEST_ID + 4, "Update TEST", "Update Test");
-    public static final int EXPECTED_COUNT_ALL_AUTHORS = 3;
+    public static final long EXPECTED_COUNT_ALL_AUTHORS = 3L;
 
     public static final AuthorTo EXPECTED_DTO_AUTHOR_1 = new AuthorTo(EXPECTED_AUTHOR_1.getId(), EXPECTED_AUTHOR_1.getName(), EXPECTED_AUTHOR_1.getSurname());
     public static final AuthorTo EXPECTED_DTO_AUTHOR_2 = new AuthorTo(EXPECTED_AUTHOR_2.getId(), EXPECTED_AUTHOR_2.getName(), EXPECTED_AUTHOR_2.getSurname());
@@ -46,7 +46,7 @@ public class TestObjects {
     public static final News EXPECTED_NEWS_3 = new News(INIT_TEST_ID + 2, "News title 3", "Short text 3", "Full text 3");
     public static final News CREATE_TEST_NEWS_4 = new News(null, "Create", "create", "create test");
     public static final News UPDATE_TEST_NEWS_5 = new News(INIT_TEST_ID + 4, "Update title", "Update TEST", "Update Test");
-    public static final int EXPECTED_COUNT_ALL_NEWS = 3;
+    public static final long EXPECTED_COUNT_ALL_NEWS = 3L;
 
     public static final NewsTo EXPECTED_DTO_NEWS_1 = new NewsTo(EXPECTED_NEWS_1.getId(), EXPECTED_NEWS_1.getTitle(), EXPECTED_NEWS_1.getShortText(), EXPECTED_NEWS_1.getFullText(),
             EXPECTED_DTO_AUTHOR_1,

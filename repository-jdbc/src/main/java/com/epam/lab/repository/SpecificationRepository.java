@@ -47,5 +47,5 @@ public interface SpecificationRepository<T> {
      *
      * @return the int
      */
-    int countAll();
+    long countAll();
 }

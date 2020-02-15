@@ -29,11 +29,11 @@ public class NewsController {
                                                  @RequestParam(name = "authorId", required = false) Long authorId) {
 
         SearchCriteria searchCriteria = new SearchCriteria(authorId, tagsId, sortAuthor, sortDate);
-        return newsService.findAll(searchCriteria);
+        return newsService.findAllBySearchCriteria(searchCriteria);
     }
 
     @GetMapping(value = "/count")
-    public @ResponseBody Integer getCountNews() {
+    public @ResponseBody Long getCountNews() {
         return newsService.countAll();
     }
 

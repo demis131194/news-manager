@@ -5,8 +5,8 @@ import com.healthmarketscience.sqlbuilder.BinaryCondition;
 import com.healthmarketscience.sqlbuilder.Condition;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
 
-import static com.epam.lab.repository.DbInfo.NEWS_ID_COLUMN;
-import static com.epam.lab.repository.DbInfo.NEWS_TABLE;
+import static com.epam.lab.repository.DbConstants.NEWS_ID_COLUMN;
+import static com.epam.lab.repository.DbConstants.NEWS_TABLE;
 
 public class FindNewsByIdSpecification implements Specification {
     private static final SelectQuery SELECT_QUERY;

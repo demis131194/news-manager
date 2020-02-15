@@ -106,7 +106,7 @@ public class AuthorRepositoryTest {
 
     @Test
     public void countAllTest() {
-        int actual = authorRepository.countAll();
+        long actual = authorRepository.countAll();
         assertEquals(EXPECTED_COUNT_ALL_AUTHORS,actual);
     }
 

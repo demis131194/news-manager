@@ -82,8 +82,8 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    public int countAll() {
-        int result = jdbcTemplate.queryForObject(COUNT_ALL_QUERY, Integer.class);
+    public long countAll() {
+        long result = jdbcTemplate.queryForObject(COUNT_ALL_QUERY, Long.class);
         logger.info("Count all authors result : {}", result);                   
         return result;
     }

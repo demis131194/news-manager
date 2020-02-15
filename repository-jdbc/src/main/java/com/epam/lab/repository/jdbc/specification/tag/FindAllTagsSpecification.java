@@ -3,7 +3,7 @@ package com.epam.lab.repository.jdbc.specification.tag;
 import com.epam.lab.repository.jdbc.specification.Specification;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
 
-import static com.epam.lab.repository.DbInfo.TAGS_TABLE;
+import static com.epam.lab.repository.DbConstants.TAGS_TABLE;
 
 public class FindAllTagsSpecification implements Specification {
     private static final SelectQuery SELECT_QUERY;

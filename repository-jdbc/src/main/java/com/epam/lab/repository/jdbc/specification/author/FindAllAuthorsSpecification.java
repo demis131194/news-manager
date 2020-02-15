@@ -3,7 +3,7 @@ package com.epam.lab.repository.jdbc.specification.author;
 import com.epam.lab.repository.jdbc.specification.Specification;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
 
-import static com.epam.lab.repository.DbInfo.AUTHORS_TABLE;
+import static com.epam.lab.repository.DbConstants.AUTHORS_TABLE;
 
 public class FindAllAuthorsSpecification implements Specification {
     private static final SelectQuery SELECT_QUERY;
