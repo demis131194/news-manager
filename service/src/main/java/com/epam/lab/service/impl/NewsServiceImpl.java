@@ -57,7 +57,7 @@ public class NewsServiceImpl implements NewsService {
             newsTo.getTags().forEach(tagTo -> newsRepository.createNewsTagBound(newsId, tagTo.getId()));
             return findById(newsId);
         }
-        throw new ServiceException("Create news, need id == null!");
+        throw new ServiceException("Create news, news id should be null!");
     }
 
     @Override
@@ -74,7 +74,7 @@ public class NewsServiceImpl implements NewsService {
                 return findById(newsTo.getId());
             }
         }
-        throw new ServiceException("Update news, need id != null!");
+        throw new ServiceException("Update news, news id shouldn't be null!");
     }
 
     @Override
@@ -83,7 +83,7 @@ public class NewsServiceImpl implements NewsService {
         if (newsId > 0) {
             return newsRepository.delete(newsId);
         }
-        throw new ServiceException("Delete news, need id > 0!");
+        throw new ServiceException("Delete news, id should be > 0!");
     }
 
     @Override
@@ -93,14 +93,14 @@ public class NewsServiceImpl implements NewsService {
             Specification specification = new FindNewsByIdSpecification(newsId);
             List<News> news = newsRepository.findBySpecification(specification);
             if (news.isEmpty()) {
-                throw new ServiceException("Not fund news whits id = " + newsId);
+                throw new ServiceException("Not fund news with id = " + newsId);
             }
             News newsEntity = news.get(0);
             AuthorTo authorTo = authorService.findByNewsId(newsId);
             List<TagTo> tags = tagService.findTagsByNewsId(newsId);
             return mapper.toDto(newsEntity, authorTo, tags);
         }
-        throw new ServiceException("Find news by id, need id > 0!");
+        throw new ServiceException("Find news by id, news id should be > 0!");
     }
 
     @Override

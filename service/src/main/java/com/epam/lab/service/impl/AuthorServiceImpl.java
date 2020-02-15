@@ -53,7 +53,7 @@ public class AuthorServiceImpl implements AuthorService {
             long authorId = authorRepository.create(entity);
             return findById(authorId);
         }
-        throw new ServiceException("Create author, need id == null!");
+        throw new ServiceException("Create author, id should be null!");
     }
 
     @Override
@@ -64,7 +64,7 @@ public class AuthorServiceImpl implements AuthorService {
             boolean isUpdate = authorRepository.update(entity);
             return isUpdate ? findById(authorTo.getId()) : null;
         }
-        throw new ServiceException("Update author, need id != null!");
+        throw new ServiceException("Update author, id shouldn't be null!");
     }
 
     @Override
@@ -73,7 +73,7 @@ public class AuthorServiceImpl implements AuthorService {
         if (id > 0) {
             return authorRepository.delete(id);
         }
-        throw new ServiceException("Delete author, need id > 0!");
+        throw new ServiceException("Delete author, id should be > 0!");
     }
 
     @Override
@@ -82,11 +82,11 @@ public class AuthorServiceImpl implements AuthorService {
             Specification specification = new FindAuthorByIdSpecification(authorId);
             List<Author> result = authorRepository.findBySpecification(specification);
             if (result.isEmpty()) {
-                throw new ServiceException("Author not found by authorId = " + authorId);
+                throw new ServiceException("Author not found by author id = " + authorId);
             }
             return mapper.toDto(result.get(0));
         }
-        throw new ServiceException("Find author, authorId should be > 0!");
+        throw new ServiceException("Find author, author id should be > 0!");
     }
 
     @Override
@@ -115,6 +115,6 @@ public class AuthorServiceImpl implements AuthorService {
             List<Author> author = authorRepository.findBySpecification(specification);
             return !author.isEmpty() ? mapper.toDto(author.get(0)) : null;
         }
-        throw new ServiceException("Find author by news id, need id > 0!");
+        throw new ServiceException("Find author by news id, news id should be > 0!");
     }
 }

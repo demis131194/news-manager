@@ -54,7 +54,7 @@ public class TagServiceImpl implements TagService {
             long tagId = tagRepository.create(entity);
             return findById(tagId);
         }
-        throw new ServiceException("Create tag, need id == null!");
+        throw new ServiceException("Create tag, new tags id should be null!");
     }
 
     @Override
@@ -65,7 +65,7 @@ public class TagServiceImpl implements TagService {
             boolean isUpdate = tagRepository.update(entity);
             return isUpdate ? findById(tagTo.getId()) : null;
         }
-        throw new ServiceException("Update tag, need id != null!");
+        throw new ServiceException("Update tag, tags id shouldn't be null!");
     }
 
     @Override
@@ -74,7 +74,7 @@ public class TagServiceImpl implements TagService {
         if (id > 0) {
             return tagRepository.delete(id);
         }
-        throw new ServiceException("Delete tag, need id > 0!");
+        throw new ServiceException("Delete tag, rag id should be > 0!");
     }
 
     @Override
@@ -83,12 +83,12 @@ public class TagServiceImpl implements TagService {
             Specification specification = new FindTagByIdSpecification(tagId);
             List<Tag> tags = tagRepository.findBySpecification(specification);
             if (tags.isEmpty()) {
-                throw new ServiceException("Tag not found, tagId = " + tagId);
+                throw new ServiceException("Tag not found, tag id = " + tagId);
             }
             return mapper.toDto(tags.get(0));
 
         }
-        throw new ServiceException("Find tag by tagId, need tagId should be > 0!");
+        throw new ServiceException("Tag not found, tag id should be > 0!");
     }
 
     @Override
@@ -119,7 +119,7 @@ public class TagServiceImpl implements TagService {
                     .map(tag -> mapper.toDto(tag))
                     .collect(Collectors.toList());
         }
-        throw new ServiceException("Find tag by news id, need id > 0!");
+        throw new ServiceException("Find tag by news id, news id should be > 0!");
     }
 
     /**
