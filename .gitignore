@@ -9,3 +9,5 @@
 /service/target/
 /controller/target/
 /controller/src/main/java/com/epam/lab/Main.java
+/service/src/test/java/com/epam/lab/Main.java
+/service/src/test/java/com/epam/lab/TestMockq.java

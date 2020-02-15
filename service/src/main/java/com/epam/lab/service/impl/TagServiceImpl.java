@@ -78,16 +78,17 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public TagTo findById(long id) {
-        if (id > 0) {
-            Specification specification = new FindTagByIdSpecification(id);
+    public TagTo findById(long tagId) {
+        if (tagId > 0) {
+            Specification specification = new FindTagByIdSpecification(tagId);
             List<Tag> tags = tagRepository.findBySpecification(specification);
-            if (tags.size() > 0) {
-                return mapper.toDto(tags.get(0));
+            if (tags.isEmpty()) {
+                throw new ServiceException("Tag not found, tagId = " + tagId);
             }
-            throw new RuntimeException();               // FIXME: 15.02.2020 !!!
+            return mapper.toDto(tags.get(0));
+
         }
-        throw new ServiceException("Find tag by id, need id > 0!");
+        throw new ServiceException("Find tag by tagId, need tagId should be > 0!");
     }
 
     @Override

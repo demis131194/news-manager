@@ -82,12 +82,11 @@ public class AuthorServiceImpl implements AuthorService {
             Specification specification = new FindAuthorByIdSpecification(authorId);
             List<Author> result = authorRepository.findBySpecification(specification);
             if (result.isEmpty()) {
-                throw new ServiceException("Author not found by authorId + " + authorId);   // FIXME: 15.02.2020 Exception
+                throw new ServiceException("Author not found by authorId = " + authorId);
             }
-            Author author = result.get(0);
-            return mapper.toDto(author);
+            return mapper.toDto(result.get(0));
         }
-        throw new ServiceException("Find author, need authorId > 0!");
+        throw new ServiceException("Find author, authorId should be > 0!");
     }
 
     @Override

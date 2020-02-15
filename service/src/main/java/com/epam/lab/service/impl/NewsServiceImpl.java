@@ -92,10 +92,10 @@ public class NewsServiceImpl implements NewsService {
         if (newsId > 0) {
             Specification specification = new FindNewsByIdSpecification(newsId);
             List<News> news = newsRepository.findBySpecification(specification);
-            News newsEntity = news.isEmpty() ? null : news.get(0);
-            if (newsEntity == null) {
+            if (news.isEmpty()) {
                 throw new ServiceException("Not fund news whits id = " + newsId);
             }
+            News newsEntity = news.get(0);
             AuthorTo authorTo = authorService.findByNewsId(newsId);
             List<TagTo> tags = tagService.findTagsByNewsId(newsId);
             return mapper.toDto(newsEntity, authorTo, tags);
