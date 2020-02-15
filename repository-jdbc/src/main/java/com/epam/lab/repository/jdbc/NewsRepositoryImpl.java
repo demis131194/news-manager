@@ -7,7 +7,6 @@ import com.epam.lab.repository.jdbc.specification.Specification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -27,8 +26,6 @@ public class NewsRepositoryImpl implements NewsRepository {
     private static final String INSERT_QUERY = "INSERT INTO news (title, short_text, full_text) VALUES (?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE news SET title = ?, short_text = ?, full_text = ? WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM news WHERE id = ?";
-    private static final String FIND_BY_ID_QUERY = "SELECT id, title, short_text, full_text, creation_date, modification_date FROM news WHERE id = ?";
-    private static final String FIND_ALL_QUERY = "SELECT id, title, short_text, full_text, creation_date, modification_date FROM news";
     private static final String CREATE_NEWS_TAG_BOUND_QUERY = "INSERT INTO news_tags (news_id, tag_id) VALUES (?, ?)";
     private static final String DELETE_NEWS_TAG_BOUND_QUERY = "DELETE FROM news_tags WHERE news_id = ? AND tag_id = ?";
     private static final String DELETE_ALL_NEWS_TAG_BOUNDS_QUERY = "DELETE FROM news_tags WHERE news_id = ?";
@@ -76,25 +73,6 @@ public class NewsRepositoryImpl implements NewsRepository {
         int result = jdbcTemplate.update(DELETE_QUERY, id);
         logger.info("Delete news result : {}", result);
         return result == 1;
-    }
-
-    @Override
-    public News findById(long id) {
-        News result;
-        try {
-            result = jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, new Object[]{id}, rowMapper);
-        } catch (DataAccessException e) {
-            result = null;
-        }
-        logger.info("Find news result : {}", result);
-        return result;
-    }
-
-    @Override
-    public List<News> findAll() {
-        List<News> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
-        logger.info("Find all news result : {}", result);
-        return result;
     }
 
     @Override

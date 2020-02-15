@@ -4,6 +4,8 @@ import com.epam.lab.configuration.TestRepositoryConfig;
 import com.epam.lab.model.Tag;
 import com.epam.lab.repository.jdbc.TagRepositoryImpl;
 import com.epam.lab.repository.jdbc.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.tag.FindAllTagsSpecification;
+import com.epam.lab.repository.jdbc.specification.tag.FindTagByIdSpecification;
 import com.epam.lab.repository.jdbc.specification.tag.FindTagByNameSpecification;
 import com.epam.lab.repository.jdbc.specification.tag.FindTagsByNewsIdSpecification;
 import org.junit.Test;
@@ -50,8 +52,9 @@ public class TagRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        long id = INIT_TEST_ID;
-        Tag actual = tagRepository.findById(id);
+        Specification specification = new FindTagByIdSpecification(INIT_TEST_ID);
+        List<Tag> result = tagRepository.findBySpecification(specification);
+        Tag actual = result.isEmpty() ? null : result.get(0);
         assertEquals(EXPECTED_TAG_1, actual);
     }
 
@@ -61,7 +64,8 @@ public class TagRepositoryTest {
                 EXPECTED_TAG_1, EXPECTED_TAG_2, EXPECTED_TAG_3, EXPECTED_TAG_4,
                 EXPECTED_TAG_5, EXPECTED_TAG_6, EXPECTED_TAG_7, EXPECTED_TAG_8
         );
-        List<Tag> actual = tagRepository.findAll();
+        Specification specification = new FindAllTagsSpecification();
+        List<Tag> actual = tagRepository.findBySpecification(specification);
         assertEquals(expected, actual);
     }
 
@@ -92,7 +96,9 @@ public class TagRepositoryTest {
 
     @Test
     public void findByIdFailWrongIdTest() {
-        Tag actual = tagRepository.findById(INIT_TEST_ID - 1);
+        Specification specification = new FindTagByIdSpecification(INIT_TEST_ID - 1);
+        List<Tag> result = tagRepository.findBySpecification(specification);
+        Tag actual = result.isEmpty() ? null : result.get(0);
         assertNull(actual);
     }
 

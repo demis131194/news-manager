@@ -7,7 +7,6 @@ import com.healthmarketscience.sqlbuilder.InCondition;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
 
 import java.util.Collection;
-import java.util.Objects;
 
 import static com.epam.lab.repository.DbInfo.*;
 
@@ -17,6 +16,10 @@ public class FindNewsBySearchCriteriaSpecification implements Specification {
 
     public FindNewsBySearchCriteriaSpecification(SearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
+    }
+
+    public SearchCriteria getSearchCriteria() {
+        return searchCriteria;
     }
 
     @Override
@@ -63,18 +66,5 @@ public class FindNewsBySearchCriteriaSpecification implements Specification {
         if (sort) {
             selectQuery.addOrderings(NEWS_CREATION_DATE_COLUMN);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FindNewsBySearchCriteriaSpecification that = (FindNewsBySearchCriteriaSpecification) o;
-        return Objects.equals(searchCriteria, that.searchCriteria);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(searchCriteria);
     }
 }

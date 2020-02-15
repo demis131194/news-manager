@@ -7,6 +7,8 @@ import com.epam.lab.exeption.ServiceException;
 import com.epam.lab.model.News;
 import com.epam.lab.repository.NewsRepository;
 import com.epam.lab.repository.jdbc.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.news.FindAllNewsSpecification;
+import com.epam.lab.repository.jdbc.specification.news.FindNewsByIdSpecification;
 import com.epam.lab.repository.jdbc.specification.news.FindNewsBySearchCriteriaSpecification;
 import com.epam.lab.repository.jdbc.specification.news.SearchCriteria;
 import com.epam.lab.service.AuthorService;
@@ -29,6 +31,8 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class NewsServiceImpl implements NewsService {
     private static final Logger logger = LogManager.getLogger(AuthorServiceImpl.class);
+
+    private static final FindAllNewsSpecification FIND_ALL_NEWS_SPECIFICATION = new FindAllNewsSpecification();
 
     @Autowired
     private NewsRepository newsRepository;
@@ -84,9 +88,14 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional
-    public NewsTo findById(long newsId) {
+    public NewsTo findById(long newsId) {                           // FIXME: 15.02.2020 Exception???
         if (newsId > 0) {
-            News newsEntity = newsRepository.findById(newsId);
+            Specification specification = new FindNewsByIdSpecification(newsId);
+            List<News> news = newsRepository.findBySpecification(specification);
+            News newsEntity = news.isEmpty() ? null : news.get(0);
+            if (newsEntity == null) {
+                throw new ServiceException("Not fund news whits id = " + newsId);
+            }
             AuthorTo authorTo = authorService.findByNewsId(newsId);
             List<TagTo> tags = tagService.findTagsByNewsId(newsId);
             return mapper.toDto(newsEntity, authorTo, tags);
@@ -97,7 +106,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public List<NewsTo> findAll() {
-        List<News> all = newsRepository.findAll();
+        List<News> all = newsRepository.findBySpecification(FIND_ALL_NEWS_SPECIFICATION);
         return all.stream()
                 .map(news -> findById(news.getId()))
                 .collect(Collectors.toList());

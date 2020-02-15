@@ -14,6 +14,10 @@ public class FindAuthorsBySurnameSpecification implements Specification {
         this.authorSurname = authorSurname;
     }
 
+    public String getAuthorSurname() {
+        return authorSurname;
+    }
+
     @Override
     public String query() {
         SelectQuery selectQuery = new SelectQuery();

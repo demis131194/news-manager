@@ -6,6 +6,8 @@ import com.epam.lab.model.Author;
 import com.epam.lab.repository.AuthorRepository;
 import com.epam.lab.repository.jdbc.AuthorRepositoryImpl;
 import com.epam.lab.repository.jdbc.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.author.FindAllAuthorsSpecification;
+import com.epam.lab.repository.jdbc.specification.author.FindAuthorByIdSpecification;
 import com.epam.lab.repository.jdbc.specification.author.FindAuthorByNewsIdSpecification;
 import com.epam.lab.service.AuthorService;
 import com.epam.lab.service.impl.mapper.AuthorMapper;
@@ -25,6 +27,8 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class AuthorServiceImpl implements AuthorService {
     private static final Logger logger = LogManager.getLogger(AuthorServiceImpl.class);
+
+    private static final FindAllAuthorsSpecification FIND_ALL_AUTHORS_SPECIFICATION = new FindAllAuthorsSpecification();
 
     private AuthorRepository authorRepository;
     private AuthorMapper mapper;
@@ -73,17 +77,22 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public AuthorTo findById(long id) {
-        if (id > 0) {
-            Author author = authorRepository.findById(id);
+    public AuthorTo findById(long authorId) {
+        if (authorId > 0) {
+            Specification specification = new FindAuthorByIdSpecification(authorId);
+            List<Author> result = authorRepository.findBySpecification(specification);
+            if (result.isEmpty()) {
+                throw new ServiceException("Author not found by authorId + " + authorId);   // FIXME: 15.02.2020 Exception
+            }
+            Author author = result.get(0);
             return mapper.toDto(author);
         }
-        throw new ServiceException("Find author, need id > 0!");
+        throw new ServiceException("Find author, need authorId > 0!");
     }
 
     @Override
     public List<AuthorTo> findAll() {
-        List<Author> allAuthors = authorRepository.findAll();
+        List<Author> allAuthors = authorRepository.findBySpecification(FIND_ALL_AUTHORS_SPECIFICATION);
         return allAuthors.stream()
                 .map(author -> mapper.toDto(author))
                 .collect(Collectors.toList());

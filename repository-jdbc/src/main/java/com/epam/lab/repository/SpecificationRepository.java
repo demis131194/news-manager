@@ -35,21 +35,6 @@ public interface SpecificationRepository<T> {
     boolean delete(long id);
 
     /**
-     * Find by id t.
-     *
-     * @param id the id
-     * @return the t
-     */
-    T findById(long id);
-
-    /**
-     * Find all list.
-     *
-     * @return the list
-     */
-    List<T> findAll();
-
-    /**
      * Find by specification list.
      *
      * @param specification the specification

@@ -6,9 +6,15 @@ import com.epam.lab.model.Tag;
 import com.epam.lab.repository.jdbc.AuthorRepositoryImpl;
 import com.epam.lab.repository.jdbc.NewsRepositoryImpl;
 import com.epam.lab.repository.jdbc.TagRepositoryImpl;
-import com.epam.lab.repository.jdbc.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.author.FindAllAuthorsSpecification;
+import com.epam.lab.repository.jdbc.specification.author.FindAuthorByIdSpecification;
 import com.epam.lab.repository.jdbc.specification.author.FindAuthorByNewsIdSpecification;
+import com.epam.lab.repository.jdbc.specification.news.FindAllNewsSpecification;
+import com.epam.lab.repository.jdbc.specification.news.FindNewsByIdSpecification;
 import com.epam.lab.repository.jdbc.specification.news.FindNewsBySearchCriteriaSpecification;
+import com.epam.lab.repository.jdbc.specification.news.SearchCriteria;
+import com.epam.lab.repository.jdbc.specification.tag.FindAllTagsSpecification;
+import com.epam.lab.repository.jdbc.specification.tag.FindTagByIdSpecification;
 import com.epam.lab.repository.jdbc.specification.tag.FindTagByNameSpecification;
 import com.epam.lab.repository.jdbc.specification.tag.FindTagsByNewsIdSpecification;
 import org.mockito.Mockito;
@@ -61,69 +67,36 @@ public class ServiceTestConfig {
     }
 
     private void configTagMockRepo(TagRepositoryImpl mockTagRepo) {
-        Mockito.when(mockTagRepo.findById(EXPECTED_TAG_1.getId())).thenReturn(EXPECTED_TAG_1);
-        Mockito.when(mockTagRepo.findById(EXPECTED_TAG_2.getId())).thenReturn(EXPECTED_TAG_2);
-        Mockito.when(mockTagRepo.findById(EXPECTED_TAG_2.getId())).thenReturn(EXPECTED_TAG_3);
+        configTagFindByIdSpecification(mockTagRepo);
+        configTagFindByNameSpecification(mockTagRepo);
+        configFindByNewsIdSpecification(mockTagRepo);
+
         Mockito.when(mockTagRepo.create(CREATE_TEST_TAG_4)).thenReturn(CREATE_DTO_TAG_4.getId());
-        Mockito.when(mockTagRepo.findById(CREATE_DTO_TAG_4.getId())).thenReturn(new Tag(CREATE_DTO_TAG_4.getId(), CREATE_TEST_TAG_4.getName()));
         Mockito.when(mockTagRepo.update(UPDATE_TEST_TAG_5)).thenReturn(true);
-        Mockito.when(mockTagRepo.findById(UPDATE_TEST_TAG_5.getId())).thenReturn(UPDATE_TEST_TAG_5);
         Mockito.when(mockTagRepo.delete(Mockito.anyLong())).thenReturn(true);
-
-        Specification specification = new FindTagByNameSpecification(EXPECTED_DTO_TAG_1.getName());
-        Mockito.when(mockTagRepo.findBySpecification(specification)).thenReturn(Collections.singletonList(EXPECTED_TAG_1));
-
-        Specification specification_1 =  new FindTagsByNewsIdSpecification(EXPECTED_DTO_NEWS_1.getId());
-        Mockito.when(mockTagRepo.findBySpecification(specification_1)).thenReturn(Arrays.asList(EXPECTED_TAG_1, EXPECTED_TAG_2));
-
-        Specification specification_2 =  new FindTagsByNewsIdSpecification(EXPECTED_DTO_NEWS_2.getId());
-        Mockito.when(mockTagRepo.findBySpecification(specification_2)).thenReturn(Arrays.asList(EXPECTED_TAG_1, EXPECTED_TAG_3));
-
-        Specification specification_3 =  new FindTagsByNewsIdSpecification(EXPECTED_DTO_NEWS_3.getId());
-        Mockito.when(mockTagRepo.findBySpecification(specification_3)).thenReturn(Collections.singletonList(EXPECTED_TAG_3));
-
-        Specification specification_4 =  new FindTagsByNewsIdSpecification(CREATE_TEST_DTO_NEWS_4.getId());
-        Mockito.when(mockTagRepo.findBySpecification(specification_4)).thenReturn(Collections.singletonList(EXPECTED_TAG_3));
-
-        Specification specification_5 =  new FindTagsByNewsIdSpecification(UPDATE_TEST_DTO_NEWS_5.getId());
-        Mockito.when(mockTagRepo.findBySpecification(specification_5)).thenReturn(Arrays.asList(EXPECTED_TAG_2, EXPECTED_TAG_3));
-
         Mockito.when(mockTagRepo.countAll()).thenReturn(EXPECTED_COUNT_ALL_TAGS);
-        Mockito.when(mockTagRepo.findAll()).thenReturn(Arrays.asList(EXPECTED_TAG_1, EXPECTED_TAG_2, EXPECTED_TAG_3));
+        Mockito.when(mockTagRepo.findBySpecification(Mockito.any(FindAllTagsSpecification.class)))
+                .thenReturn(Arrays.asList(EXPECTED_TAG_1, EXPECTED_TAG_2, EXPECTED_TAG_3));
     }
 
     private void configAuthorMockRepo(AuthorRepositoryImpl mockAuthorRepo) {
+        configAuthorFindByIdSpecification(mockAuthorRepo);
+        configAuthorFindByNewsIdSpecification(mockAuthorRepo);
+
         Mockito.when(mockAuthorRepo.create(CREATE_TEST_AUTHOR_4)).thenReturn(CREATE_TEST_DTO_AUTHOR_4.getId());
         Mockito.when(mockAuthorRepo.update(UPDATE_TEST_AUTHOR_5)).thenReturn(true);
         Mockito.when(mockAuthorRepo.delete(INIT_TEST_ID)).thenReturn(true);
-        Mockito.when(mockAuthorRepo.findById(EXPECTED_AUTHOR_1.getId())).thenReturn(EXPECTED_AUTHOR_1);
-        Mockito.when(mockAuthorRepo.findById(EXPECTED_AUTHOR_2.getId())).thenReturn(EXPECTED_AUTHOR_2);
-        Mockito.when(mockAuthorRepo.findById(EXPECTED_AUTHOR_3.getId())).thenReturn(EXPECTED_AUTHOR_3);
-        Mockito.when(mockAuthorRepo.findById(CREATE_TEST_DTO_AUTHOR_4.getId())).thenReturn(
-                new Author(CREATE_TEST_DTO_AUTHOR_4.getId(), CREATE_TEST_DTO_AUTHOR_4.getName(), CREATE_TEST_DTO_AUTHOR_4.getSurname())
-        );
-        Mockito.when(mockAuthorRepo.findById(UPDATE_TEST_DTO_AUTHOR_5.getId())).thenReturn(UPDATE_TEST_AUTHOR_5);
-        Mockito.when(mockAuthorRepo.findAll()).thenReturn(Arrays.asList(EXPECTED_AUTHOR_1, EXPECTED_AUTHOR_2, EXPECTED_AUTHOR_3));
+        Mockito.when(mockAuthorRepo.findBySpecification(Mockito.any(FindAllAuthorsSpecification.class)))
+                .thenReturn(Arrays.asList(EXPECTED_AUTHOR_1, EXPECTED_AUTHOR_2, EXPECTED_AUTHOR_3));
         Mockito.when(mockAuthorRepo.countAll()).thenReturn(EXPECTED_COUNT_ALL_AUTHORS);
 
-        Specification specification_1 = new FindAuthorByNewsIdSpecification(EXPECTED_NEWS_1.getId());
-        Mockito.when(mockAuthorRepo.findBySpecification(specification_1)).thenReturn(Collections.singletonList(EXPECTED_AUTHOR_1));
-
-        Specification specification_2 = new FindAuthorByNewsIdSpecification(EXPECTED_NEWS_2.getId());
-        Mockito.when(mockAuthorRepo.findBySpecification(specification_2)).thenReturn(Collections.singletonList(EXPECTED_AUTHOR_2));
-
-        Specification specification_3 = new FindAuthorByNewsIdSpecification(EXPECTED_NEWS_3.getId());
-        Mockito.when(mockAuthorRepo.findBySpecification(specification_3)).thenReturn(Collections.singletonList(EXPECTED_AUTHOR_3));
-
-        Specification specification_4 = new FindAuthorByNewsIdSpecification(CREATE_TEST_DTO_NEWS_4.getId());
-        Mockito.when(mockAuthorRepo.findBySpecification(specification_4)).thenReturn(Collections.singletonList(EXPECTED_AUTHOR_3));
-
-        Specification specification_5 = new FindAuthorByNewsIdSpecification(UPDATE_TEST_DTO_NEWS_5.getId());
-        Mockito.when(mockAuthorRepo.findBySpecification(specification_5)).thenReturn(Collections.singletonList(EXPECTED_AUTHOR_3));
 
     }
 
     private void configNewsMockRepo(NewsRepositoryImpl mockNewsRepo) {
+        configNewsFindByIdSpecification(mockNewsRepo);
+        configNewsFindBySearchSpecification(mockNewsRepo);
+
         Mockito.when(mockNewsRepo.create(CREATE_TEST_NEWS_4)).thenReturn(CREATE_TEST_DTO_NEWS_4.getId());
         Mockito.when(mockNewsRepo.createNewsAuthorBound(Mockito.anyLong(), Mockito.anyLong())).thenReturn(true);
         Mockito.when(mockNewsRepo.updateNewsAuthorBound(Mockito.anyLong(), Mockito.anyLong())).thenReturn(true);
@@ -131,18 +104,139 @@ public class ServiceTestConfig {
         Mockito.when(mockNewsRepo.deleteAllNewsTagBounds(Mockito.anyLong())).thenReturn(true);
         Mockito.when(mockNewsRepo.update(UPDATE_TEST_NEWS_5)).thenReturn(true);
         Mockito.when(mockNewsRepo.delete(EXPECTED_DTO_NEWS_1.getId())).thenReturn(true);
-        Mockito.when(mockNewsRepo.findById(EXPECTED_DTO_NEWS_1.getId())).thenReturn(EXPECTED_NEWS_1);
-        Mockito.when(mockNewsRepo.findById(EXPECTED_DTO_NEWS_2.getId())).thenReturn(EXPECTED_NEWS_2);
-        Mockito.when(mockNewsRepo.findById(EXPECTED_DTO_NEWS_3.getId())).thenReturn(EXPECTED_NEWS_3);
-        Mockito.when(mockNewsRepo.findById(CREATE_TEST_DTO_NEWS_4.getId())).thenReturn(new News(
-                CREATE_TEST_DTO_NEWS_4.getId(), CREATE_TEST_DTO_NEWS_4.getTitle(),
-                CREATE_TEST_DTO_NEWS_4.getShortText(), CREATE_TEST_DTO_NEWS_4.getFullText())
-        );
-        Mockito.when(mockNewsRepo.findById(UPDATE_TEST_DTO_NEWS_5.getId())).thenReturn(UPDATE_TEST_NEWS_5);
-        Mockito.when(mockNewsRepo.findAll()).thenReturn(Arrays.asList(EXPECTED_NEWS_1, EXPECTED_NEWS_2, EXPECTED_NEWS_3));
+        Mockito.when(mockNewsRepo.findBySpecification(Mockito.any(FindAllNewsSpecification.class)))
+                .thenReturn(Arrays.asList(EXPECTED_NEWS_1, EXPECTED_NEWS_2, EXPECTED_NEWS_3));
         Mockito.when(mockNewsRepo.countAll()).thenReturn(EXPECTED_COUNT_ALL_NEWS);
 
-        Specification specification = new FindNewsBySearchCriteriaSpecification(SEARCH_CRITERIA_1);
-        Mockito.when(mockNewsRepo.findBySpecification(specification)).thenReturn(Collections.singletonList(EXPECTED_NEWS_1));
+    }
+
+
+    private void configTagFindByIdSpecification(TagRepositoryImpl mockTagRepo) {
+        Mockito.when(mockTagRepo.findBySpecification(Mockito.any(FindTagByIdSpecification.class))).thenAnswer(invocation -> {
+            FindTagByIdSpecification argument = invocation.getArgument(0);
+            long tagSpecId = argument.getTagId();
+
+            if (tagSpecId == EXPECTED_TAG_1.getId()) {
+                return Collections.singletonList(EXPECTED_TAG_1);
+            } else if (tagSpecId == EXPECTED_TAG_2.getId()) {
+                return Collections.singletonList(EXPECTED_TAG_2);
+            } else if (tagSpecId == EXPECTED_TAG_3.getId()) {
+                return Collections.singletonList(EXPECTED_TAG_3);
+            } else if (tagSpecId == CREATE_DTO_TAG_4.getId()) {
+                return Collections.singletonList(new Tag(CREATE_DTO_TAG_4.getId(), CREATE_TEST_TAG_4.getName()));
+            } else if (tagSpecId == UPDATE_TEST_TAG_5.getId()) {
+                return Collections.singletonList(UPDATE_TEST_TAG_5);
+            }
+            return Collections.emptyList();
+        });
+    }
+
+    private void configTagFindByNameSpecification(TagRepositoryImpl mockTagRepo) {
+        Mockito.when(mockTagRepo.findBySpecification(Mockito.any(FindTagByNameSpecification.class))).thenAnswer( invocation -> {
+            FindTagByNameSpecification argument = invocation.getArgument(0);
+            String specTagName = argument.getTagName();
+
+            if (EXPECTED_DTO_TAG_1.getName().equals(specTagName)) {
+                return Collections.singletonList(EXPECTED_TAG_1);
+            }
+            return Collections.emptyList();
+        });
+    }
+
+    private void configAuthorFindByIdSpecification(AuthorRepositoryImpl mockAuthorRepo) {
+        Mockito.when(mockAuthorRepo.findBySpecification(Mockito.any(FindAuthorByIdSpecification.class))).thenAnswer(invocation -> {
+            FindAuthorByIdSpecification argument = invocation.getArgument(0);
+            long authorId = argument.getAuthorId();
+            Author createdAuthor = new Author(CREATE_TEST_DTO_AUTHOR_4.getId(),
+                    CREATE_TEST_DTO_AUTHOR_4.getName(), CREATE_TEST_DTO_AUTHOR_4.getSurname());
+
+            if (authorId == EXPECTED_AUTHOR_1.getId()) {
+                return Collections.singletonList(EXPECTED_AUTHOR_1);
+            } else if (authorId == EXPECTED_AUTHOR_2.getId()) {
+                return Collections.singletonList(EXPECTED_AUTHOR_2);
+            } else if (authorId == EXPECTED_AUTHOR_3.getId()) {
+                return Collections.singletonList(EXPECTED_AUTHOR_3);
+            } else if (authorId == CREATE_TEST_DTO_AUTHOR_4.getId()) {
+                return Collections.singletonList(createdAuthor);
+            } else if (authorId == UPDATE_TEST_DTO_AUTHOR_5.getId()) {
+                return Collections.singletonList(UPDATE_TEST_AUTHOR_5);
+            }
+            return Collections.emptyList();
+        });
+    }
+
+    private void configAuthorFindByNewsIdSpecification(AuthorRepositoryImpl mockAuthorRepo) {
+        Mockito.when(mockAuthorRepo.findBySpecification(Mockito.any(FindAuthorByNewsIdSpecification.class))).thenAnswer(invocation -> {
+            FindAuthorByNewsIdSpecification argument = invocation.getArgument(0);
+            long newsId = argument.getNewsId();
+
+            if (newsId == EXPECTED_NEWS_1.getId()) {
+                return Collections.singletonList(EXPECTED_AUTHOR_1);
+            } else if (newsId == EXPECTED_NEWS_2.getId()) {
+                return Collections.singletonList(EXPECTED_AUTHOR_2);
+            } else if (newsId == EXPECTED_NEWS_3.getId()) {
+                return Collections.singletonList(EXPECTED_AUTHOR_3);
+            } else if (newsId == CREATE_TEST_DTO_NEWS_4.getId()) {
+                return Collections.singletonList(EXPECTED_AUTHOR_3);
+            } else if (newsId == UPDATE_TEST_DTO_NEWS_5.getId()) {
+                return Collections.singletonList(EXPECTED_AUTHOR_3);
+            }
+            return Collections.emptyList();
+        });
+    }
+
+    private void configNewsFindByIdSpecification(NewsRepositoryImpl mockNewsRepo) {
+        Mockito.when(mockNewsRepo.findBySpecification(Mockito.any(FindNewsByIdSpecification.class))).thenAnswer(invocation -> {
+            FindNewsByIdSpecification argument = invocation.getArgument(0);
+            long newsId = argument.getNewsId();
+            News createdNews = new News(
+                    CREATE_TEST_DTO_NEWS_4.getId(), CREATE_TEST_DTO_NEWS_4.getTitle(),
+                    CREATE_TEST_DTO_NEWS_4.getShortText(), CREATE_TEST_DTO_NEWS_4.getFullText());
+
+            if (newsId == EXPECTED_DTO_NEWS_1.getId()) {
+                return Collections.singletonList(EXPECTED_NEWS_1);
+            } else if (newsId == EXPECTED_DTO_NEWS_2.getId()) {
+                return Collections.singletonList(EXPECTED_NEWS_2);
+            } else if (newsId == EXPECTED_DTO_NEWS_3.getId()) {
+                return Collections.singletonList(EXPECTED_NEWS_3);
+            } else if (newsId == CREATE_TEST_DTO_NEWS_4.getId()) {
+                return Collections.singletonList(createdNews);
+            } else if (newsId == UPDATE_TEST_DTO_NEWS_5.getId()) {
+                return Collections.singletonList(UPDATE_TEST_NEWS_5);
+            }
+            return Collections.emptyList();
+        });
+    }
+
+    private void configNewsFindBySearchSpecification(NewsRepositoryImpl mockNewsRepo) {
+        Mockito.when(mockNewsRepo.findBySpecification(Mockito.any(FindNewsBySearchCriteriaSpecification.class))).thenAnswer(invocation -> {
+            FindNewsBySearchCriteriaSpecification argument = invocation.getArgument(0);
+            SearchCriteria specSearchCriteria = argument.getSearchCriteria();
+
+            if (SEARCH_CRITERIA_1.equals(specSearchCriteria)) {
+                return Collections.singletonList(EXPECTED_NEWS_1);
+            }
+            return Collections.emptyList();
+        });
+    }
+
+    private void configFindByNewsIdSpecification(TagRepositoryImpl mockTagRepo) {
+        Mockito.when(mockTagRepo.findBySpecification(Mockito.any(FindTagsByNewsIdSpecification.class))).thenAnswer(invocation -> {
+            FindTagsByNewsIdSpecification argument = invocation.getArgument(0);
+            long newsId = argument.getNewsId();
+
+            if (newsId == EXPECTED_DTO_NEWS_1.getId()) {
+                return Arrays.asList(EXPECTED_TAG_1, EXPECTED_TAG_2);
+            } else if (newsId == EXPECTED_DTO_NEWS_2.getId()) {
+                return Arrays.asList(EXPECTED_TAG_1, EXPECTED_TAG_3);
+            } else if (newsId == EXPECTED_DTO_NEWS_3.getId()) {
+                return Collections.singletonList(EXPECTED_TAG_3);
+            } else if (newsId == CREATE_TEST_DTO_NEWS_4.getId()) {
+                return Collections.singletonList(EXPECTED_TAG_3);
+            } else if (newsId == UPDATE_TEST_DTO_NEWS_5.getId()) {
+                return Arrays.asList(EXPECTED_TAG_2, EXPECTED_TAG_3);
+            }
+            return Collections.emptyList();
+        });
     }
 }

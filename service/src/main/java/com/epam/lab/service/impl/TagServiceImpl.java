@@ -6,6 +6,8 @@ import com.epam.lab.model.Tag;
 import com.epam.lab.repository.TagRepository;
 import com.epam.lab.repository.jdbc.TagRepositoryImpl;
 import com.epam.lab.repository.jdbc.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.tag.FindAllTagsSpecification;
+import com.epam.lab.repository.jdbc.specification.tag.FindTagByIdSpecification;
 import com.epam.lab.repository.jdbc.specification.tag.FindTagByNameSpecification;
 import com.epam.lab.repository.jdbc.specification.tag.FindTagsByNewsIdSpecification;
 import com.epam.lab.service.TagService;
@@ -29,6 +31,8 @@ public class TagServiceImpl implements TagService {
 
     private TagRepository tagRepository;
     private TagMapper mapper;
+
+    private static final FindAllTagsSpecification FIND_ALL_TAGS_SPECIFICATION = new FindAllTagsSpecification();
 
     /**
      * Instantiates a new Tag service.
@@ -76,15 +80,19 @@ public class TagServiceImpl implements TagService {
     @Override
     public TagTo findById(long id) {
         if (id > 0) {
-            Tag tag = tagRepository.findById(id);
-            return mapper.toDto(tag);
+            Specification specification = new FindTagByIdSpecification(id);
+            List<Tag> tags = tagRepository.findBySpecification(specification);
+            if (tags.size() > 0) {
+                return mapper.toDto(tags.get(0));
+            }
+            throw new RuntimeException();               // FIXME: 15.02.2020 !!!
         }
         throw new ServiceException("Find tag by id, need id > 0!");
     }
 
     @Override
     public List<TagTo> findAll() {
-        List<Tag> allTags = tagRepository.findAll();
+        List<Tag> allTags = tagRepository.findBySpecification(FIND_ALL_TAGS_SPECIFICATION);
         return allTags.stream()
                 .map(tag -> mapper.toDto(tag))
                 .collect(Collectors.toList());
