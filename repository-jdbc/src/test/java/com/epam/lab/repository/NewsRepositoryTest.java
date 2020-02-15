@@ -164,11 +164,6 @@ public class NewsRepositoryTest {
 
     @Test(expected = DataIntegrityViolationException.class)
     public void updateNewsAuthorBoundFailWrongAuthorIdTest() {
-        boolean isUpdate = newsRepository.updateNewsAuthorBound(EXPECTED_NEWS_1.getId(), INIT_TEST_ID - 1);
+        newsRepository.updateNewsAuthorBound(EXPECTED_NEWS_1.getId(), INIT_TEST_ID - 1);
     }
-
-
-
-
-
 }

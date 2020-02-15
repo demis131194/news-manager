@@ -145,7 +145,4 @@ public class AuthorRepositoryTest {
         List<Author> actual = authorRepository.findBySpecification(specification);
         assertTrue(actual.isEmpty());
     }
-
-
-
 }

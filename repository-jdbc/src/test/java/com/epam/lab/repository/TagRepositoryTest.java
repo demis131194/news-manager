@@ -72,7 +72,7 @@ public class TagRepositoryTest {
     @Test(expected = DataIntegrityViolationException.class)
     public void createFailNullFieldTest() {
         Tag testTag = new Tag(null);
-        long generatedKey = tagRepository.create(testTag);
+        tagRepository.create(testTag);
     }
 
     @Test
@@ -133,5 +133,4 @@ public class TagRepositoryTest {
         List<Tag> tags = tagRepository.findBySpecification(specification);
         assertTrue(tags.isEmpty());
     }
-
 }
