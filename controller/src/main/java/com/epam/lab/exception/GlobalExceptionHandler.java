@@ -1,4 +1,4 @@
-package com.epam.lab.controller;
+package com.epam.lab.exception;
 
 import com.epam.lab.exeption.ServiceException;
 import org.apache.logging.log4j.LogManager;
