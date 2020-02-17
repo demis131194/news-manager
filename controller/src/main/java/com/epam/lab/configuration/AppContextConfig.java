@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.epam.lab.controller")
+@ComponentScan(basePackages = {"com.epam.lab.controller", "com.epam.lab.exception"})
 @Import(AppServiceConfig.class)
 public class AppContextConfig {
 }

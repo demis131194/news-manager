@@ -12,11 +12,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<RespondExceptionMessage> handleDataAccessException(DataAccessException e) {
-        return new ResponseEntity<>(new RespondExceptionMessage(e.getLocalizedMessage()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new RespondExceptionMessage(e.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ServiceException.class)
     public ResponseEntity<RespondExceptionMessage> handleServiceException(ServiceException e) {
-        return new ResponseEntity<>(new RespondExceptionMessage(e.getLocalizedMessage()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new RespondExceptionMessage(e.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
     }
 }
