@@ -1,30 +1,22 @@
 package com.epam.lab.exception;
 
 import com.epam.lab.exeption.ServiceException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    private static final Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
 
-    @ResponseStatus(value= HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DataAccessException.class)
-    public @ResponseBody String handleDataAccessException(DataAccessException e) {
-        logger.error(e);
-        return "DataAccessException : " + e.getLocalizedMessage();
+    public ResponseEntity<RespondExceptionMessage> handleDataAccessException(DataAccessException e) {
+        return new ResponseEntity<>(new RespondExceptionMessage(e.getLocalizedMessage()), HttpStatus.NOT_FOUND);
     }
 
-    @ResponseStatus(value= HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ServiceException.class)
-    public @ResponseBody String handleServiceException(ServiceException e) {
-        logger.warn(e);
-        return "ServiceException : " + e.getLocalizedMessage();
+    public ResponseEntity<RespondExceptionMessage> handleServiceException(ServiceException e) {
+        return new ResponseEntity<>(new RespondExceptionMessage(e.getLocalizedMessage()), HttpStatus.NOT_FOUND);
     }
 }

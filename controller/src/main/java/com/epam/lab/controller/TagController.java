@@ -45,5 +45,4 @@ public class TagController {
     public boolean deleteTag(@PathVariable("id") @Positive long id) {
         return tagService.delete(id);
     }
-
 }
