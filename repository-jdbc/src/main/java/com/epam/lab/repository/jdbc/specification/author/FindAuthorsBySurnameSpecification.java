@@ -4,14 +4,18 @@ import com.epam.lab.repository.jdbc.specification.Specification;
 import com.healthmarketscience.sqlbuilder.BinaryCondition;
 import com.healthmarketscience.sqlbuilder.SelectQuery;
 
-import static com.epam.lab.repository.DbInfo.AUTHORS_SURNAME_COLUMN;
-import static com.epam.lab.repository.DbInfo.AUTHORS_TABLE;
+import static com.epam.lab.repository.DbConstants.AUTHORS_SURNAME_COLUMN;
+import static com.epam.lab.repository.DbConstants.AUTHORS_TABLE;
 
 public class FindAuthorsBySurnameSpecification implements Specification {
     private String authorSurname;
 
     public FindAuthorsBySurnameSpecification(String authorSurname) {
         this.authorSurname = authorSurname;
+    }
+
+    public String getAuthorSurname() {
+        return authorSurname;
     }
 
     @Override

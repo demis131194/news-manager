@@ -88,13 +88,13 @@ public class NewsServiceTest {
 
     @Test
     public void countAllTest() {
-        int actual = newsService.countAll();
+        long actual = newsService.countAll();
         assertEquals(EXPECTED_COUNT_ALL_NEWS, actual);
     }
 
     @Test
     public void findAllBySearchCriteriaTest() {
-        List<NewsTo> actual = newsService.findAll(SEARCH_CRITERIA_1);
+        List<NewsTo> actual = newsService.findAllBySearchCriteria(SEARCH_CRITERIA_1);
         List<NewsTo> expected = Collections.singletonList(EXPECTED_DTO_NEWS_1);
         assertEquals(expected, actual);
     }

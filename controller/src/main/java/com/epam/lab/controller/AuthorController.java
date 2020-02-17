@@ -27,7 +27,7 @@ public class AuthorController {
     }
 
     @GetMapping(value = "/count")
-    public @ResponseBody Integer getCountAuthors() {
+    public @ResponseBody Long getCountAuthors() {
         return authorService.countAll();
     }
 

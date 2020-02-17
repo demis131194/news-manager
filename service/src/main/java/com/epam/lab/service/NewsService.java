@@ -6,5 +6,5 @@ import com.epam.lab.repository.jdbc.specification.news.SearchCriteria;
 import java.util.List;
 
 public interface NewsService extends BaseService<NewsTo> {
-    List<NewsTo> findAll(SearchCriteria searchCriteria);
+    List<NewsTo> findAllBySearchCriteria(SearchCriteria searchCriteria);
 }

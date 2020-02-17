@@ -6,12 +6,12 @@ import com.epam.lab.model.Tag;
 import com.epam.lab.repository.TagRepository;
 import com.epam.lab.repository.jdbc.TagRepositoryImpl;
 import com.epam.lab.repository.jdbc.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.tag.FindAllTagsSpecification;
+import com.epam.lab.repository.jdbc.specification.tag.FindTagByIdSpecification;
 import com.epam.lab.repository.jdbc.specification.tag.FindTagByNameSpecification;
 import com.epam.lab.repository.jdbc.specification.tag.FindTagsByNewsIdSpecification;
 import com.epam.lab.service.TagService;
 import com.epam.lab.service.impl.mapper.TagMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +25,11 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 public class TagServiceImpl implements TagService {
-    private static final Logger logger = LogManager.getLogger(AuthorServiceImpl.class);
 
     private TagRepository tagRepository;
     private TagMapper mapper;
+
+    private static final FindAllTagsSpecification FIND_ALL_TAGS_SPECIFICATION = new FindAllTagsSpecification();
 
     /**
      * Instantiates a new Tag service.
@@ -50,7 +51,7 @@ public class TagServiceImpl implements TagService {
             long tagId = tagRepository.create(entity);
             return findById(tagId);
         }
-        throw new ServiceException("Create tag, need id == null!");
+        throw new ServiceException("Create tag, new tags id should be null!");
     }
 
     @Override
@@ -59,39 +60,44 @@ public class TagServiceImpl implements TagService {
         if (tagTo.getId() != null) {
             Tag entity = mapper.toEntity(tagTo);
             boolean isUpdate = tagRepository.update(entity);
-            return isUpdate ? findById(tagTo.getId()) : null;
+            if (isUpdate) {
+                return findById(tagTo.getId());
+            }
+            throw new ServiceException("Can't update tag, tags id = " + tagTo.getId());
         }
-        throw new ServiceException("Update tag, need id != null!");
+        throw new ServiceException("Update tag, tags id shouldn't be null!");
     }
 
     @Override
-    @Transactional
     public boolean delete(long id) {
         if (id > 0) {
             return tagRepository.delete(id);
         }
-        throw new ServiceException("Delete tag, need id > 0!");
+        throw new ServiceException("Delete tag, rag id should be > 0!");
     }
 
     @Override
-    public TagTo findById(long id) {
-        if (id > 0) {
-            Tag tag = tagRepository.findById(id);
-            return mapper.toDto(tag);
+    public TagTo findById(long tagId) {
+        if (tagId > 0) {
+            Specification specification = new FindTagByIdSpecification(tagId);
+            List<Tag> tags = tagRepository.findBySpecification(specification);
+            if (tags.isEmpty()) {
+                throw new ServiceException("Tag not found, tag id = " + tagId);
+            }
+            return mapper.toDto(tags.get(0));
+
         }
-        throw new ServiceException("Find tag by id, need id > 0!");
+        throw new ServiceException("Tag not found, tag id should be > 0!");
     }
 
     @Override
     public List<TagTo> findAll() {
-        List<Tag> allTags = tagRepository.findAll();
-        return allTags.stream()
-                .map(tag -> mapper.toDto(tag))
-                .collect(Collectors.toList());
+        List<Tag> allTags = tagRepository.findBySpecification(FIND_ALL_TAGS_SPECIFICATION);
+        return convertToTagTo(allTags);
     }
 
     @Override
-    public int countAll() {
+    public long countAll() {
         return tagRepository.countAll();
     }
 
@@ -106,11 +112,9 @@ public class TagServiceImpl implements TagService {
         if (newsId > 0) {
             Specification specification = new FindTagsByNewsIdSpecification(newsId);
             List<Tag> tagsByNewsId = tagRepository.findBySpecification(specification);
-            return tagsByNewsId.stream()
-                    .map(tag -> mapper.toDto(tag))
-                    .collect(Collectors.toList());
+            return convertToTagTo(tagsByNewsId);
         }
-        throw new ServiceException("Find tag by news id, need id > 0!");
+        throw new ServiceException("Find tag by news id, news id should be > 0!");
     }
 
     /**
@@ -124,5 +128,11 @@ public class TagServiceImpl implements TagService {
         Specification specification = new FindTagByNameSpecification(tagName);
         List<Tag> result = tagRepository.findBySpecification(specification);
         return !result.isEmpty() ? mapper.toDto(result.get(0)) : null;
+    }
+
+    private List<TagTo> convertToTagTo(List<Tag> tagsByNewsId) {
+        return tagsByNewsId.stream()
+                .map(tag -> mapper.toDto(tag))
+                .collect(Collectors.toList());
     }
 }

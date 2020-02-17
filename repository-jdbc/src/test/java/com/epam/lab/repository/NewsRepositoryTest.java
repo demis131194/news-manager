@@ -3,6 +3,8 @@ package com.epam.lab.repository;
 import com.epam.lab.configuration.TestRepositoryConfig;
 import com.epam.lab.model.News;
 import com.epam.lab.repository.jdbc.NewsRepositoryImpl;
+import com.epam.lab.repository.jdbc.specification.news.FindAllNewsSpecification;
+import com.epam.lab.repository.jdbc.specification.news.FindNewsByIdSpecification;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.epam.lab.repository.DbTestObjects.*;
@@ -48,8 +51,8 @@ public class NewsRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        News actual = newsRepository.findById(INIT_TEST_ID);
-        assertEquals(EXPECTED_NEWS_1, actual);
+        List<News> actual = newsRepository.findBySpecification(new FindNewsByIdSpecification(INIT_TEST_ID));
+        assertEquals(Collections.singletonList(EXPECTED_NEWS_1), actual);
     }
 
     @Test
@@ -59,7 +62,7 @@ public class NewsRepositoryTest {
                 EXPECTED_NEWS_5, EXPECTED_NEWS_6, EXPECTED_NEWS_7, EXPECTED_NEWS_8,
                 EXPECTED_NEWS_9, EXPECTED_NEWS_10, EXPECTED_NEWS_11
         );
-        List<News> actual = newsRepository.findAll();
+        List<News> actual = newsRepository.findBySpecification(new FindAllNewsSpecification());
         assertEquals(expected, actual);
     }
 
@@ -90,8 +93,8 @@ public class NewsRepositoryTest {
 
     @Test
     public void findByIdFailWrongIdTest() {
-        News actual = newsRepository.findById(INIT_TEST_ID - 1);
-        assertNull(actual);
+        List<News> actual = newsRepository.findBySpecification(new FindNewsByIdSpecification(INIT_TEST_ID - 1));
+        assertTrue(actual.isEmpty());
     }
 
     @Test
@@ -161,11 +164,6 @@ public class NewsRepositoryTest {
 
     @Test(expected = DataIntegrityViolationException.class)
     public void updateNewsAuthorBoundFailWrongAuthorIdTest() {
-        boolean isUpdate = newsRepository.updateNewsAuthorBound(EXPECTED_NEWS_1.getId(), INIT_TEST_ID - 1);
+        newsRepository.updateNewsAuthorBound(EXPECTED_NEWS_1.getId(), INIT_TEST_ID - 1);
     }
-
-
-
-
-
 }

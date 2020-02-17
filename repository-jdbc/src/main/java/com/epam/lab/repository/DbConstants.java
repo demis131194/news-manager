@@ -5,7 +5,7 @@ import com.healthmarketscience.sqlbuilder.dbspec.basic.*;
 /**
  * The type Db info.
  */
-public class DbInfo {
+public class DbConstants {
     public static final String NEWS_TABLE_NAME = "news";
     public static final String AUTHORS_TABLE_NAME = "authors";
     public static final String TAGS_TABLE_NAME = "tags";
@@ -36,7 +36,6 @@ public class DbInfo {
     public static final String USERS_PASSWORD_COLUMN_NAME = "password";
     public static final String ROLES_USER_ID_COLUMN_NAME = "user_id";
     public static final String ROLES_ROLE_NAME_COLUMN_NAME = "role_name";
-
 
     public static final DbSpec DB_SPEC = new DbSpec();
     public static final DbSchema DB_SCHEMA = DB_SPEC.addDefaultSchema();

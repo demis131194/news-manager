@@ -83,7 +83,7 @@ public class AuthorServiceTest {
 
     @Test
     public void countAllTest() {
-        int actual = authorService.countAll();
+        long actual = authorService.countAll();
         assertEquals(actual, EXPECTED_COUNT_ALL_AUTHORS);
     }
 

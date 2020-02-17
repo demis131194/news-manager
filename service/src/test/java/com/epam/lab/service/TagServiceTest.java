@@ -73,7 +73,7 @@ public class TagServiceTest {
 
     @Test
     public void countAllTest() {
-        int actual = tagService.countAll();
+        long actual = tagService.countAll();
         assertEquals(EXPECTED_COUNT_ALL_TAGS, actual);
     }
 

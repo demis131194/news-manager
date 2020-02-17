@@ -7,7 +7,6 @@ import com.epam.lab.repository.jdbc.specification.Specification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -27,8 +26,6 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     private static final String INSERT_QUERY = "INSERT INTO authors (name, surname) VALUES (?, ?)";
     private static final String UPDATE_QUERY = "UPDATE authors SET name = ?, surname = ? WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM authors WHERE id = ?";
-    private static final String FIND_BY_ID_QUERY = "SELECT id, name, surname FROM authors WHERE id = ?";
-    private static final String FIND_ALL_QUERY = "SELECT id, name, surname FROM authors";
     private static final String COUNT_ALL_QUERY = "SELECT COUNT(id) FROM authors";
 
     private JdbcTemplate jdbcTemplate;
@@ -78,25 +75,6 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    public Author findById(long id) {
-        Author result;
-        try {
-            result = jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, new Object[]{id}, rowMapper);
-        } catch (EmptyResultDataAccessException e) {
-            result = null;
-        }
-        logger.info("Find author result : {}", result);                   
-        return result;
-    }
-
-    @Override
-    public List<Author> findAll() {
-        List<Author> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
-        logger.info("Find all authors result : {}", result);                   
-        return result;
-    }
-
-    @Override
     public List<Author> findBySpecification(Specification specification) {
         List<Author> result = jdbcTemplate.query(specification.query(), rowMapper);
         logger.info("Find authors by {}, result : {}", specification.getClass().getSimpleName(), result);
@@ -104,8 +82,8 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    public int countAll() {
-        int result = jdbcTemplate.queryForObject(COUNT_ALL_QUERY, Integer.class);
+    public long countAll() {
+        long result = jdbcTemplate.queryForObject(COUNT_ALL_QUERY, Long.class);
         logger.info("Count all authors result : {}", result);                   
         return result;
     }

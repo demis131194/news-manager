@@ -6,11 +6,11 @@ import com.epam.lab.model.Author;
 import com.epam.lab.repository.AuthorRepository;
 import com.epam.lab.repository.jdbc.AuthorRepositoryImpl;
 import com.epam.lab.repository.jdbc.specification.Specification;
+import com.epam.lab.repository.jdbc.specification.author.FindAllAuthorsSpecification;
+import com.epam.lab.repository.jdbc.specification.author.FindAuthorByIdSpecification;
 import com.epam.lab.repository.jdbc.specification.author.FindAuthorByNewsIdSpecification;
 import com.epam.lab.service.AuthorService;
 import com.epam.lab.service.impl.mapper.AuthorMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 public class AuthorServiceImpl implements AuthorService {
-    private static final Logger logger = LogManager.getLogger(AuthorServiceImpl.class);
+
+    private static final FindAllAuthorsSpecification FIND_ALL_AUTHORS_SPECIFICATION = new FindAllAuthorsSpecification();
 
     private AuthorRepository authorRepository;
     private AuthorMapper mapper;
@@ -49,7 +50,7 @@ public class AuthorServiceImpl implements AuthorService {
             long authorId = authorRepository.create(entity);
             return findById(authorId);
         }
-        throw new ServiceException("Create author, need id == null!");
+        throw new ServiceException("Create author, id should be null!");
     }
 
     @Override
@@ -58,39 +59,43 @@ public class AuthorServiceImpl implements AuthorService {
         if (authorTo.getId() != null) {
             Author entity = mapper.toEntity(authorTo);
             boolean isUpdate = authorRepository.update(entity);
-            return isUpdate ? findById(authorTo.getId()) : null;
+            if (isUpdate) {
+                return findById(authorTo.getId());
+            }
+            throw new ServiceException("Cant update author, author id = " + authorTo.getId());
         }
-        throw new ServiceException("Update author, need id != null!");
+        throw new ServiceException("Update author, id shouldn't be null!");
     }
 
     @Override
-    @Transactional
     public boolean delete(long id) {
         if (id > 0) {
             return authorRepository.delete(id);
         }
-        throw new ServiceException("Delete author, need id > 0!");
+        throw new ServiceException("Delete author, id should be > 0!");
     }
 
     @Override
-    public AuthorTo findById(long id) {
-        if (id > 0) {
-            Author author = authorRepository.findById(id);
-            return mapper.toDto(author);
+    public AuthorTo findById(long authorId) {
+        if (authorId > 0) {
+            Specification specification = new FindAuthorByIdSpecification(authorId);
+            List<Author> result = authorRepository.findBySpecification(specification);
+            if (result.isEmpty()) {
+                throw new ServiceException("Author not found by author id = " + authorId);
+            }
+            return mapper.toDto(result.get(0));
         }
-        throw new ServiceException("Find author, need id > 0!");
+        throw new ServiceException("Find author, author id should be > 0!");
     }
 
     @Override
     public List<AuthorTo> findAll() {
-        List<Author> allAuthors = authorRepository.findAll();
-        return allAuthors.stream()
-                .map(author -> mapper.toDto(author))
-                .collect(Collectors.toList());
+        List<Author> allAuthors = authorRepository.findBySpecification(FIND_ALL_AUTHORS_SPECIFICATION);
+        return convertToAuthorTo(allAuthors);
     }
 
     @Override
-    public int countAll() {
+    public long countAll() {
         return authorRepository.countAll();
     }
 
@@ -105,8 +110,17 @@ public class AuthorServiceImpl implements AuthorService {
         if (newsId > 0) {
             Specification specification = new FindAuthorByNewsIdSpecification(newsId);
             List<Author> author = authorRepository.findBySpecification(specification);
-            return !author.isEmpty() ? mapper.toDto(author.get(0)) : null;
+            if (author.isEmpty()) {
+                throw new ServiceException("Not found author by news id, news id = " + newsId);
+            }
+            return mapper.toDto(author.get(0));
         }
-        throw new ServiceException("Find author by news id, need id > 0!");
+        throw new ServiceException("Find author by news id, news id should be > 0!");
+    }
+
+    private List<AuthorTo> convertToAuthorTo(List<Author> allAuthors) {
+        return allAuthors.stream()
+                .map(author -> mapper.toDto(author))
+                .collect(Collectors.toList());
     }
 }

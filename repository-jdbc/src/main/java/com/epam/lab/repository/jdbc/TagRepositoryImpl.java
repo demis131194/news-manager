@@ -7,7 +7,6 @@ import com.epam.lab.repository.jdbc.specification.Specification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -27,8 +26,6 @@ public class TagRepositoryImpl implements TagRepository {
     private static final String INSERT_QUERY = "INSERT INTO tags (name) VALUES (?)";
     private static final String UPDATE_QUERY = "UPDATE tags SET name = ? WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM tags WHERE id = ?";
-    private static final String FIND_BY_ID_QUERY = "SELECT id, name FROM tags WHERE id = ?";
-    private static final String FIND_ALL_QUERY = "SELECT id, name FROM tags";
     private static final String COUNT_ALL_QUERY = "SELECT COUNT(id) FROM tags";
 
     private JdbcTemplate jdbcTemplate;
@@ -77,25 +74,6 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
-    public Tag findById(long id) {
-        Tag result;
-        try {
-            result = jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, new Object[]{id}, rowMapper);
-        } catch (EmptyResultDataAccessException e) {
-            result = null;
-        }
-        logger.debug("Find tag result : {}", result);
-        return result;
-    }
-
-    @Override
-    public List<Tag> findAll() {
-        List<Tag> result = jdbcTemplate.query(FIND_ALL_QUERY, rowMapper);
-        logger.debug("Find all tags result : {}", result);
-        return result;
-    }
-
-    @Override
     public List<Tag> findBySpecification(Specification specification) {
         List<Tag> result = jdbcTemplate.query(specification.query(), rowMapper);
         logger.debug("Find tags by {}, result : {}", specification.getClass().getSimpleName(), result);
@@ -103,8 +81,8 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
-    public int countAll() {
-        int result = jdbcTemplate.queryForObject(COUNT_ALL_QUERY, Integer.class);
+    public long countAll() {
+        long result = jdbcTemplate.queryForObject(COUNT_ALL_QUERY, Long.class);
         logger.debug("Count all tags result : {}", result);
         return result;
     }

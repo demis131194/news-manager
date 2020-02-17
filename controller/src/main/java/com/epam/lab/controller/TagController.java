@@ -27,7 +27,7 @@ public class TagController {
     }
 
     @GetMapping(value = "/count")
-    public @ResponseBody Integer getCountTags() {
+    public @ResponseBody Long getCountTags() {
         return tagService.countAll();
     }
 

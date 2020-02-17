@@ -4,9 +4,7 @@ import com.epam.lab.configuration.TestRepositoryConfig;
 import com.epam.lab.model.Author;
 import com.epam.lab.repository.jdbc.AuthorRepositoryImpl;
 import com.epam.lab.repository.jdbc.specification.Specification;
-import com.epam.lab.repository.jdbc.specification.author.FindAuthorByNewsIdSpecification;
-import com.epam.lab.repository.jdbc.specification.author.FindAuthorsByNameSpecification;
-import com.epam.lab.repository.jdbc.specification.author.FindAuthorsBySurnameSpecification;
+import com.epam.lab.repository.jdbc.specification.author.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +51,9 @@ public class AuthorRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        Author actual = authorRepository.findById(INIT_TEST_ID);
-        assertEquals(EXPECTED_AUTHOR_1, actual);
+        Specification specification = new FindAuthorByIdSpecification(INIT_TEST_ID);
+        List<Author> actual = authorRepository.findBySpecification(specification);
+        assertEquals(Collections.singletonList(EXPECTED_AUTHOR_1), actual);
     }
 
     @Test
@@ -63,7 +62,7 @@ public class AuthorRepositoryTest {
                 EXPECTED_AUTHOR_1, EXPECTED_AUTHOR_2, EXPECTED_AUTHOR_3, EXPECTED_AUTHOR_4,
                 EXPECTED_AUTHOR_5, EXPECTED_AUTHOR_6, EXPECTED_AUTHOR_7, EXPECTED_AUTHOR_8
         );
-        List<Author> actual = authorRepository.findAll();
+        List<Author> actual = authorRepository.findBySpecification(new FindAllAuthorsSpecification());
         assertEquals(expected, actual);
     }
 
@@ -94,8 +93,8 @@ public class AuthorRepositoryTest {
 
     @Test
     public void findByIdFailWrongIdTest() {
-        Author actual = authorRepository.findById(INIT_TEST_ID - 1);
-        assertNull(actual);
+        List<Author> actual = authorRepository.findBySpecification(new FindAuthorByIdSpecification(INIT_TEST_ID - 1));
+        assertTrue(actual.isEmpty());
     }
 
     @Test
@@ -107,7 +106,7 @@ public class AuthorRepositoryTest {
 
     @Test
     public void countAllTest() {
-        int actual = authorRepository.countAll();
+        long actual = authorRepository.countAll();
         assertEquals(EXPECTED_COUNT_ALL_AUTHORS,actual);
     }
 
@@ -146,7 +145,4 @@ public class AuthorRepositoryTest {
         List<Author> actual = authorRepository.findBySpecification(specification);
         assertTrue(actual.isEmpty());
     }
-
-
-
 }
