@@ -7,9 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="controller" />
+        <module name="repository-jpaOLD" />
+        <module name="repository-jpa" />
         <module name="repository-jdbc" />
         <module name="service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="repository-jpaOLD" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
