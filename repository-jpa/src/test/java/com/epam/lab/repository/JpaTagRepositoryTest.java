@@ -37,20 +37,16 @@ public class JpaTagRepositoryTest {
         Tag actual = entityManager.createQuery("SELECT t from Tag t WHERE t.id=:id", Tag.class)
                 .setParameter("id", expected.getId())
                 .getSingleResult();
-        System.out.println(expected);
-        System.out.println(actual);
         assertEquals(expected, actual);
     }
 
     @Test
     public void saveUpdateTest() {
-        Tag expected = new Tag(EXPECTED_COUNT_ALL_TAGS + 1L,"Update Tag");
+        Tag expected = new Tag(EXPECTED_TAG_1.getId(),"Update Tag");
         tagRepository.save(expected);
         Tag actual = entityManager.createQuery("SELECT t from Tag t WHERE t.id=:id", Tag.class)
                 .setParameter("id", expected.getId())
                 .getSingleResult();
-        System.out.println(expected);
-        System.out.println(actual);
         assertEquals(expected, actual);
     }
 
@@ -67,18 +63,18 @@ public class JpaTagRepositoryTest {
     }
 
     @Test
-    public void findAllTagsBySpecificationTest() {
-        List<Tag> expected = Arrays.asList(EXPECTED_TAG_1, EXPECTED_TAG_2, EXPECTED_TAG_3, EXPECTED_TAG_4,
-                EXPECTED_TAG_5, EXPECTED_TAG_6, EXPECTED_TAG_7, EXPECTED_TAG_8);
-        List<Tag> actual = tagRepository.findAll();
-        assertEquals(expected, actual);
-    }
-
-    @Test
     public void findTagByIdSpecificationTest() {
         JpaSpecification<Tag> specification = new FindTagByIdJpaSpecification(EXPECTED_TAG_1.getId());
         Tag actual = tagRepository.findBySpecification(specification);
         assertEquals(EXPECTED_TAG_1, actual);
+    }
+
+    @Test
+    public void findAllTagsTest() {
+        List<Tag> expected = Arrays.asList(EXPECTED_TAG_1, EXPECTED_TAG_2, EXPECTED_TAG_3, EXPECTED_TAG_4,
+                EXPECTED_TAG_5, EXPECTED_TAG_6, EXPECTED_TAG_7, EXPECTED_TAG_8);
+        List<Tag> actual = tagRepository.findAll();
+        assertEquals(expected, actual);
     }
 
     @Test

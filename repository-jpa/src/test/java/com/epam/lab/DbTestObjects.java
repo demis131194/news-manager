@@ -1,5 +1,6 @@
 package com.epam.lab;
 
+import com.epam.lab.model.Author;
 import com.epam.lab.model.Tag;
 
 public class DbTestObjects {
@@ -16,15 +17,15 @@ public class DbTestObjects {
     public static final Tag EXPECTED_TAG_8 = new Tag(INIT_TEST_ID + 7, "Cats");
     public static final int EXPECTED_COUNT_ALL_TAGS = 8;
 
-//    public static final Author EXPECTED_AUTHOR_1 = new Author(INIT_TEST_ID, "Dima", "Ford");
-//    public static final Author EXPECTED_AUTHOR_2 = new Author(INIT_TEST_ID + 1, "Vasya", "Pupkin");
-//    public static final Author EXPECTED_AUTHOR_3 = new Author(INIT_TEST_ID + 2, "Sova", "Sovna");
-//    public static final Author EXPECTED_AUTHOR_4 = new Author(INIT_TEST_ID + 3, "Artem", "Hlebny");
-//    public static final Author EXPECTED_AUTHOR_5 = new Author(INIT_TEST_ID + 4, "Vasya", "Asin");
-//    public static final Author EXPECTED_AUTHOR_6 = new Author(INIT_TEST_ID + 5, "Nikita", "Semenov");
-//    public static final Author EXPECTED_AUTHOR_7 = new Author(INIT_TEST_ID + 6, "Dima", "Ford");
-//    public static final Author EXPECTED_AUTHOR_8 = new Author(INIT_TEST_ID + 7, "Dima", "Jackson");
-//    public static final int EXPECTED_COUNT_ALL_AUTHORS = 8;
+    public static final Author EXPECTED_AUTHOR_1 = new Author(INIT_TEST_ID, "Dima", "Ford");
+    public static final Author EXPECTED_AUTHOR_2 = new Author(INIT_TEST_ID + 1, "Vasya", "Pupkin");
+    public static final Author EXPECTED_AUTHOR_3 = new Author(INIT_TEST_ID + 2, "Sova", "Sovna");
+    public static final Author EXPECTED_AUTHOR_4 = new Author(INIT_TEST_ID + 3, "Artem", "Ford");
+    public static final Author EXPECTED_AUTHOR_5 = new Author(INIT_TEST_ID + 4, "Vasya", "Asin");
+    public static final Author EXPECTED_AUTHOR_6 = new Author(INIT_TEST_ID + 5, "Nikita", "Semenov");
+    public static final Author EXPECTED_AUTHOR_7 = new Author(INIT_TEST_ID + 6, "Dima", "Ford");
+    public static final Author EXPECTED_AUTHOR_8 = new Author(INIT_TEST_ID + 7, "Dima", "Jackson");
+    public static final int EXPECTED_COUNT_ALL_AUTHORS = 8;
 //
 //    public static final News EXPECTED_NEWS_1 = new News(INIT_TEST_ID, "Robokop", "Short text 1", "Full text 1");
 //    public static final News EXPECTED_NEWS_2 = new News(INIT_TEST_ID + 1, "WoRk", "Short text 2", "Full text 2");

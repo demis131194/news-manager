@@ -184,7 +184,7 @@ EXECUTE PROCEDURE author_delete_related_news();
 INSERT INTO authors(name, surname) VALUES ('Dima', 'Ford'),
     ('Vasya', 'Pupkin'),
     ('Sova', 'Sovna'),
-    ('Artem', 'Hlebny'),
+    ('Artem', 'Ford'),
     ('Vasya', 'Asin'),
     ('Nikita', 'Semenov'),
     ('Dima', 'Ford'),
