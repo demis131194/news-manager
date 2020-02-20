@@ -13,3 +13,4 @@
 /service/src/test/java/com/epam/lab/TestMockq.java
 /repository-jpa/src/main/java/com/epam/lab/MainJpa.java
 /repository-jpa/src/main/java/com/epam/lab/MainJpa.java
+/repository-jpa/src/test/java/com/epam/lab/MainTestJpa.java
