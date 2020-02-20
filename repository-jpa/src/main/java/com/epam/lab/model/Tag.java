@@ -4,12 +4,11 @@ import com.epam.lab.repository.DbConstants;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tags")
+@Table(name = DbConstants.TAGS_TABLE_NAME)
 @Access(AccessType.FIELD)
 @NamedQueries({
         @NamedQuery(name = Tag.COUNT_ALL, query = "SELECT COUNT(*) FROM Tag t"),
@@ -30,12 +29,12 @@ public class Tag extends BaseEntity {
     public Tag() {
     }
 
-    public Tag(@NotEmpty @Size(max = 30) String name) {
+    public Tag(Long id, String name) {
+        super(id);
         this.name = name;
     }
 
-    public Tag(Long id, @NotEmpty @Size(min = 1, max = 30) String name) {
-        super(id);
+    public Tag(String name) {
         this.name = name;
     }
 
