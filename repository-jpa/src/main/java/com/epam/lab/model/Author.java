@@ -10,7 +10,16 @@ import static com.epam.lab.repository.DbConstants.*;
 @Entity
 @Table(name = AUTHORS_TABLE_NAME)
 @Access(AccessType.FIELD)
+@NamedQueries({
+        @NamedQuery(name = Author.DELETE, query = "DELETE FROM Author a WHERE a.id=:id"),
+        @NamedQuery(name = Author.FIND_ALL, query = "SELECT a FROM Author a"),
+        @NamedQuery(name = Author.COUNT_ALL, query = "SELECT COUNT(a) FROM Author a")
+})
 public class Author extends BaseEntity {
+
+    public static final String DELETE = "Author.delete";
+    public static final String FIND_ALL = "Author.findAll";
+    public static final String COUNT_ALL = "Author.countAll";
 
     @NotBlank
     @Size(max = 30)

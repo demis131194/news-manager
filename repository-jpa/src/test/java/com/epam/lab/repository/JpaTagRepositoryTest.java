@@ -2,7 +2,7 @@ package com.epam.lab.repository;
 
 import com.epam.lab.configuration.AppJpaTestConfiguration;
 import com.epam.lab.model.Tag;
-import com.epam.lab.repository.jpa.specification.JpaTagSpecification;
+import com.epam.lab.repository.jpa.specification.JpaSpecification;
 import com.epam.lab.repository.jpa.specification.tag.FindTagByIdJpaSpecification;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,7 +76,7 @@ public class JpaTagRepositoryTest {
 
     @Test
     public void findTagByIdSpecificationTest() {
-        JpaTagSpecification specification = new FindTagByIdJpaSpecification(EXPECTED_TAG_1.getId());
+        JpaSpecification<Tag> specification = new FindTagByIdJpaSpecification(EXPECTED_TAG_1.getId());
         Tag actual = tagRepository.findBySpecification(specification);
         assertEquals(EXPECTED_TAG_1, actual);
     }

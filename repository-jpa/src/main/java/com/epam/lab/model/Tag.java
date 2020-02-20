@@ -11,7 +11,7 @@ import java.util.Objects;
 @Table(name = DbConstants.TAGS_TABLE_NAME)
 @Access(AccessType.FIELD)
 @NamedQueries({
-        @NamedQuery(name = Tag.COUNT_ALL, query = "SELECT COUNT(*) FROM Tag t"),
+        @NamedQuery(name = Tag.COUNT_ALL, query = "SELECT COUNT(t) FROM Tag t"),
         @NamedQuery(name = Tag.DELETE, query = "DELETE FROM Tag t WHERE t.id=:id"),
         @NamedQuery(name = Tag.FIND_ALL, query = "SELECT t FROM Tag t")                     // FIXME: 2/19/2020 Refactor??
 })

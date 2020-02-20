@@ -1,8 +1,8 @@
 package com.epam.lab.repository.jpa;
 
-import com.epam.lab.model.Tag;
+import com.epam.lab.model.Author;
+import com.epam.lab.repository.AuthorRepository;
 import com.epam.lab.repository.DbConstants;
-import com.epam.lab.repository.TagRepository;
 import com.epam.lab.repository.jpa.specification.JpaSpecification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,47 +13,47 @@ import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
-public class JpaTagRepository implements TagRepository {
+public class JpaAuthorRepository implements AuthorRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     @Transactional
-    public Tag save(Tag tag) {
-        if (tag.isNew()) {
-            entityManager.persist(tag);
+    public Author save(Author author) {
+        if (author.isNew()) {
+            entityManager.persist(author);
         } else {
-            entityManager.merge(tag);
+            entityManager.merge(author);
         }
-        return tag;
+        return author;
     }
 
     @Override
     @Transactional
     public boolean delete(long id) {
-        return entityManager.createNamedQuery(Tag.DELETE)
+        return entityManager.createNamedQuery(Author.DELETE)
                 .setParameter(DbConstants.ID_COLUMN_NAME, id)
                 .executeUpdate() != 0;
     }
 
     @Override
-    public Tag findBySpecification(JpaSpecification<Tag> specification) {
+    public Author findBySpecification(JpaSpecification<Author> specification) {
         return specification.query(entityManager).getSingleResult();
     }
 
     @Override
-    public List<Tag> findAllBySpecification(JpaSpecification<Tag> specification) {
+    public List<Author> findAllBySpecification(JpaSpecification<Author> specification) {
         return specification.query(entityManager).getResultList();
     }
 
     @Override
-    public List<Tag> findAll() {
-        return entityManager.createNamedQuery(Tag.FIND_ALL, Tag.class).getResultList();
+    public List<Author> findAll() {
+        return entityManager.createNamedQuery(Author.FIND_ALL, Author.class).getResultList();
     }
 
     @Override
     public long countAll() {
-        return entityManager.createNamedQuery(Tag.COUNT_ALL, Long.class).getSingleResult();
+        return entityManager.createNamedQuery(Author.COUNT_ALL, Long.class).getSingleResult();
     }
 }

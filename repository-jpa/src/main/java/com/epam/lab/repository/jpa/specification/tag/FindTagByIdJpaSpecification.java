@@ -2,13 +2,13 @@ package com.epam.lab.repository.jpa.specification.tag;
 
 import com.epam.lab.model.Tag;
 import com.epam.lab.repository.DbConstants;
-import com.epam.lab.repository.jpa.specification.JpaTagSpecification;
+import com.epam.lab.repository.jpa.specification.JpaSpecification;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 
-public class FindTagByIdJpaSpecification implements JpaTagSpecification {
+public class FindTagByIdJpaSpecification implements JpaSpecification<Tag> {
     private long tagId;
 
     public FindTagByIdJpaSpecification(long tagId) {
