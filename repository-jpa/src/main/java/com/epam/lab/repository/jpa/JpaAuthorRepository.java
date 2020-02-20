@@ -38,8 +38,8 @@ public class JpaAuthorRepository implements AuthorRepository {
     }
 
     @Override
-    public Author findBySpecification(JpaSpecification<Author> specification) {
-        return specification.query(entityManager).getSingleResult();
+    public Author findById(long id) {
+        return entityManager.find(Author.class, id);
     }
 
     @Override

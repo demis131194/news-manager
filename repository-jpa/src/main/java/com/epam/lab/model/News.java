@@ -3,8 +3,10 @@ package com.epam.lab.model;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -17,7 +19,7 @@ import static com.epam.lab.repository.DbConstants.*;
 @NamedQueries({
         @NamedQuery(name = News.DELETE, query = "DELETE FROM News n WHERE n.id=:id"),
         @NamedQuery(name = News.FIND_ALL, query = "SELECT n FROM News n"),
-        @NamedQuery(name = News.COUNT_ALL, query = "SELECT COUNT(n) FROM News")
+        @NamedQuery(name = News.COUNT_ALL, query = "SELECT COUNT(n) FROM News n")
 })
 public class News extends BaseEntity {
 
@@ -40,10 +42,10 @@ public class News extends BaseEntity {
     @Column(name = NEWS_FULL_TEXT_COLUMN_NAME, nullable = false)
     private String fullText;
 
-    @Column(name = NEWS_CREATION_DATE_COLUMN_NAME, nullable = false)
+    @Column(name = NEWS_CREATION_DATE_COLUMN_NAME, insertable = false, updatable = false)
     private LocalDateTime creationDate;
 
-    @Column(name = NEWS_MODIFICATION_DATE_COLUMN_NAME, nullable = false)
+    @Column(name = NEWS_MODIFICATION_DATE_COLUMN_NAME, insertable = false, updatable = false)
     private LocalDateTime modificationDate;
 
     @Valid
@@ -72,16 +74,16 @@ public class News extends BaseEntity {
     public News() {
     }
 
-    public News(Long id, String title, String shortText, String fullText, Author author, Set<Tag> tags) {
+    public News(Long id, String title, String shortText, String fullText, Author author, @NotNull Collection<Tag> tags) {
         super(id);
         this.title = title;
         this.shortText = shortText;
         this.fullText = fullText;
         this.author = author;
-        this.tags = tags;
+        this.tags.addAll(tags);
     }
 
-    public News(String title, String shortText, String fullText, Author author, Set<Tag> tags) {
+    public News(String title, String shortText, String fullText, Author author, @NotNull Collection<Tag> tags) {
         this(null, title, shortText, fullText, author, tags);
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 public interface BaseSpecificationRepository<T> {
     T save(T obj);
     boolean delete(long id);
-    T findBySpecification(JpaSpecification<T> specification);
+    T findById(long id);
     List<T> findAllBySpecification(JpaSpecification<T> specification);
     List<T> findAll();
     long countAll();

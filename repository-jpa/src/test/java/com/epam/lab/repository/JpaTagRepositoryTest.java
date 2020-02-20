@@ -2,8 +2,6 @@ package com.epam.lab.repository;
 
 import com.epam.lab.configuration.AppJpaTestConfiguration;
 import com.epam.lab.model.Tag;
-import com.epam.lab.repository.jpa.specification.JpaSpecification;
-import com.epam.lab.repository.jpa.specification.tag.FindTagByIdJpaSpecification;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +32,7 @@ public class JpaTagRepositoryTest {
     public void saveCreateTest() {
         Tag created = new Tag("Create Tag");
         Tag expected = tagRepository.save(created);
-        Tag actual = entityManager.createQuery("SELECT t from Tag t WHERE t.id=:id", Tag.class)
-                .setParameter("id", expected.getId())
-                .getSingleResult();
+        Tag actual = entityManager.find(Tag.class, expected.getId());
         assertEquals(expected, actual);
     }
 
@@ -44,9 +40,7 @@ public class JpaTagRepositoryTest {
     public void saveUpdateTest() {
         Tag expected = new Tag(EXPECTED_TAG_1.getId(),"Update Tag");
         tagRepository.save(expected);
-        Tag actual = entityManager.createQuery("SELECT t from Tag t WHERE t.id=:id", Tag.class)
-                .setParameter("id", expected.getId())
-                .getSingleResult();
+        Tag actual = entityManager.find(Tag.class, expected.getId());
         assertEquals(expected, actual);
     }
 
@@ -63,9 +57,8 @@ public class JpaTagRepositoryTest {
     }
 
     @Test
-    public void findTagByIdSpecificationTest() {
-        JpaSpecification<Tag> specification = new FindTagByIdJpaSpecification(EXPECTED_TAG_1.getId());
-        Tag actual = tagRepository.findBySpecification(specification);
+    public void findTagByIdTest() {
+        Tag actual = tagRepository.findById(EXPECTED_TAG_1.getId());
         assertEquals(EXPECTED_TAG_1, actual);
     }
 

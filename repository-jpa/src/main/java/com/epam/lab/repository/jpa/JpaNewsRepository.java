@@ -38,8 +38,8 @@ public class JpaNewsRepository implements NewsRepository {
     }
 
     @Override
-    public News findBySpecification(JpaSpecification<News> specification) {
-        return specification.query(entityManager).getSingleResult();
+    public News findById(long id) {
+        return entityManager.find(News.class, id);
     }
 
     @Override

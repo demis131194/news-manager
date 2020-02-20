@@ -3,7 +3,6 @@ package com.epam.lab.repository;
 import com.epam.lab.configuration.AppJpaTestConfiguration;
 import com.epam.lab.model.Author;
 import com.epam.lab.repository.jpa.specification.JpaSpecification;
-import com.epam.lab.repository.jpa.specification.author.FindAuthorByIdJpaSpecification;
 import com.epam.lab.repository.jpa.specification.author.FindAuthorsByNameJpaSpecification;
 import com.epam.lab.repository.jpa.specification.author.FindAuthorsBySurnameJpaSpecification;
 import org.junit.Test;
@@ -27,8 +26,6 @@ import static org.junit.Assert.assertTrue;
 @Sql(scripts = "classpath:db/test-init-db.sql")
 public class JpaAuthorRepositoryTest {
 
-    private static final String FIND_BY_ID_QUERY = "SELECT a from Author a WHERE a.id=:id";
-
     @Autowired
     private AuthorRepository authorRepository;
 
@@ -39,9 +36,7 @@ public class JpaAuthorRepositoryTest {
     public void saveCreateTest() {
         Author created = new Author("Create author name", "Create author surname");
         Author expected = authorRepository.save(created);
-        Author actual = entityManager.createQuery(FIND_BY_ID_QUERY, Author.class)
-                .setParameter(DbConstants.ID_COLUMN_NAME, expected.getId())
-                .getSingleResult();
+        Author actual = entityManager.find(Author.class, expected.getId());
         assertEquals(expected, actual);
     }
 
@@ -49,9 +44,7 @@ public class JpaAuthorRepositoryTest {
     public void saveUpdateTest() {
         Author expected = new Author(EXPECTED_AUTHOR_1.getId(),"Update author name", "Update author surname");
         authorRepository.save(expected);
-        Author actual = entityManager.createQuery(FIND_BY_ID_QUERY, Author.class)
-                .setParameter(DbConstants.ID_COLUMN_NAME, expected.getId())
-                .getSingleResult();
+        Author actual = entityManager.find(Author.class, expected.getId());
         assertEquals(expected, actual);
     }
 
@@ -62,9 +55,8 @@ public class JpaAuthorRepositoryTest {
     }
 
     @Test
-    public void findAuthorByIdSpecificationTest() {
-        JpaSpecification<Author> specification = new FindAuthorByIdJpaSpecification(EXPECTED_AUTHOR_1.getId());
-        Author actual = authorRepository.findBySpecification(specification);
+    public void findAuthorByIdTest() {
+        Author actual = authorRepository.findById(EXPECTED_AUTHOR_1.getId());
         assertEquals(EXPECTED_AUTHOR_1, actual);
     }
 

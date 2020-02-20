@@ -38,8 +38,8 @@ public class JpaTagRepository implements TagRepository {
     }
 
     @Override
-    public Tag findBySpecification(JpaSpecification<Tag> specification) {
-        return specification.query(entityManager).getSingleResult();
+    public Tag findById(long id) {
+        return entityManager.find(Tag.class, id);
     }
 
     @Override
