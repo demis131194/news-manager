@@ -1,7 +1,7 @@
 package com.epam.lab.repository;
 
 
-import com.epam.lab.repository.jpa.specification.JpaSpecification;
+import com.epam.lab.repository.jpa.specification.JpaTagSpecification;
 
 import java.util.List;
 
@@ -11,34 +11,10 @@ import java.util.List;
  * @param <T> the type parameter
  */
 public interface BaseSpecificationRepository<T> {
-    /**
-     * Create long.
-     *
-     * @param obj the obj
-     * @return the long
-     */
     T save(T obj);
-
-    /**
-     * Delete boolean.
-     *
-     * @param id the id
-     * @return the boolean
-     */
     boolean delete(long id);
-
-    /**
-     * Find by specification list.
-     *
-     * @param specification the specification
-     * @return the list
-     */
-    List<T> findBySpecification(JpaSpecification<T> specification);
-
-    /**
-     * Count all int.
-     *
-     * @return the int
-     */
+    T findBySpecification(JpaTagSpecification specification);
+    List<T> findAllBySpecification(JpaTagSpecification specification);
+    List<T> findAll();
     long countAll();
 }

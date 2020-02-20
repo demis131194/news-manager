@@ -1,8 +1,8 @@
 package com.epam.lab.repository.jpa.specification;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 public interface JpaSpecification<T> {
-    Query query(EntityManager entityManager);
+    TypedQuery<T> query(EntityManager entityManager);
 }

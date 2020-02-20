@@ -3,8 +3,7 @@ package com.epam.lab.repository.jpa;
 import com.epam.lab.model.Tag;
 import com.epam.lab.repository.DbConstants;
 import com.epam.lab.repository.TagRepository;
-import com.epam.lab.repository.jpa.specification.JpaSpecification;
-import com.epam.lab.repository.jpa.specification.tag.FindAllTagsJpaSpecification;
+import com.epam.lab.repository.jpa.specification.JpaTagSpecification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +14,6 @@ import java.util.List;
 @Repository
 @Transactional(readOnly = true)
 public class JpaTagRepository implements TagRepository {
-
-    private static final FindAllTagsJpaSpecification findAll = new FindAllTagsJpaSpecification();
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -41,9 +38,18 @@ public class JpaTagRepository implements TagRepository {
     }
 
     @Override
-    public List<Tag> findBySpecification(JpaSpecification<Tag> specification) {
-        return specification.query(entityManager).getResultList();
+    public Tag findBySpecification(JpaTagSpecification specification) {
+        return specification.query(entityManager).getSingleResult();
+    }
 
+    @Override
+    public List<Tag> findAllBySpecification(JpaTagSpecification specification) {
+        return specification.query(entityManager).getResultList();
+    }
+
+    @Override
+    public List<Tag> findAll() {
+        return entityManager.createNamedQuery(Tag.FIND_ALL, Tag.class).getResultList();
     }
 
     @Override

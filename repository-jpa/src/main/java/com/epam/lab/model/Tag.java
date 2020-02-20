@@ -3,6 +3,7 @@ package com.epam.lab.model;
 import com.epam.lab.repository.DbConstants;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Objects;
@@ -21,15 +22,15 @@ public class Tag extends BaseEntity {
     public static final String DELETE = "User.delete";
     public static final String FIND_ALL = "User.findAll";
 
-    @NotEmpty
-    @Size(min = 1, max = 30)
+    @NotBlank
+    @Size(max = 30)
     @Column(name = DbConstants.TAGS_NAME_COLUMN_NAME, nullable = false, unique = true)
     private String name;
 
     public Tag() {
     }
 
-    public Tag(@NotEmpty @Size(min = 1, max = 30) String name) {
+    public Tag(@NotEmpty @Size(max = 30) String name) {
         this.name = name;
     }
 
