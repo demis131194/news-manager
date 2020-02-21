@@ -168,7 +168,8 @@ public class News extends BaseEntity implements Serializable {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("News{");
-        sb.append("title='").append(title).append('\'');
+        sb.append("id='").append(this.getId()).append('\'');
+        sb.append(", title='").append(title).append('\'');
         sb.append(", shortText='").append(shortText).append('\'');
         sb.append(", fullText='").append(fullText).append('\'');
         sb.append(", creationDate=").append(creationDate);

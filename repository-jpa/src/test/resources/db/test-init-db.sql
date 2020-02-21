@@ -199,7 +199,7 @@ INSERT INTO tags(name) VALUES ('History'),
     ('Dogs'),
     ('Cats');
 
-INSERT INTO news(title, short_text, full_text, creation_date) VALUES ('Robokop', 'Short text 1', 'Full text 1', '2020-01-01 00:49:39'),
+INSERT INTO news(title, short_text, full_text, creation_date) VALUES ('Robokop', 'Short text 1', 'Full text 1', '2020-01-27 02:50:39'),
     ('WoRk', 'Short text 2', 'Full text 2', '2020-01-04 00:50:39'),
     ('work', 'Short text 3', 'Full text 3', '2020-01-02 00:50:39'),
     ('News', 'Short text 4', 'Full text 4', '2020-01-10 00:50:39'),
@@ -209,7 +209,7 @@ INSERT INTO news(title, short_text, full_text, creation_date) VALUES ('Robokop',
     ('Warning', 'Short text 8', 'Full text 8', '2020-01-15 01:50:39'),
     ('JAVA core', 'Short text 9', 'Full text 9', '2020-01-21 02:50:39'),
     ('Spring', 'Short text 10', 'Full text 10', '2020-01-23 02:50:39'),
-    ('Postgresql', 'Short text 11', 'Full text 11', '2020-01-27 02:50:39');
+    ('Postgresql', 'Short text 11', 'Full text 11', '2020-01-01 00:49:39');
 
 INSERT INTO news_tags(news_id, tag_id) VALUES
     (1, 2), (1, 3), (1, 6),

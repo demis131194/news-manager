@@ -82,7 +82,8 @@ public class Author extends BaseEntity implements Serializable {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Author{");
-        sb.append("name='").append(name).append('\'');
+        sb.append("id='").append(this.getId()).append('\'');
+        sb.append(", name='").append(name).append('\'');
         sb.append(", surname='").append(surname).append('\'');
         sb.append('}');
         return sb.toString();

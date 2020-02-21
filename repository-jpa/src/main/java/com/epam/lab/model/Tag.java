@@ -65,7 +65,8 @@ public class Tag extends BaseEntity implements Serializable {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Tag{");
-        sb.append("name='").append(name).append('\'');
+        sb.append("id='").append(this.getId()).append('\'');
+        sb.append(", name='").append(name).append('\'');
         sb.append('}');
         return sb.toString();
     }

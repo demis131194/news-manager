@@ -13,7 +13,6 @@
         <module>service</module>
         <module>repository-jdbc</module>
         <module>repository-jpa</module>
-        <module>repository-jpa</module>
     </modules>
 
     <properties>
