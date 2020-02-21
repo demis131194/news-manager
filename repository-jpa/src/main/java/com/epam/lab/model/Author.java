@@ -3,6 +3,7 @@ package com.epam.lab.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Objects;
 
 import static com.epam.lab.repository.DbConstants.*;
@@ -15,7 +16,9 @@ import static com.epam.lab.repository.DbConstants.*;
         @NamedQuery(name = Author.FIND_ALL, query = "SELECT a FROM Author a"),
         @NamedQuery(name = Author.COUNT_ALL, query = "SELECT COUNT(a) FROM Author a")
 })
-public class Author extends BaseEntity {
+public class Author extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 1598518282955545320L;
 
     public static final String DELETE = "Author.delete";
     public static final String FIND_ALL = "Author.findAll";

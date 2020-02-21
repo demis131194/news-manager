@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
@@ -21,7 +22,9 @@ import static com.epam.lab.repository.DbConstants.*;
         @NamedQuery(name = News.FIND_ALL, query = "SELECT n FROM News n"),
         @NamedQuery(name = News.COUNT_ALL, query = "SELECT COUNT(n) FROM News n")
 })
-public class News extends BaseEntity {
+public class News extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 662357221185464586L;
 
     public static final String DELETE = "News.delete";
     public static final String FIND_ALL = "News.findAll";
@@ -29,17 +32,17 @@ public class News extends BaseEntity {
 
     @NotBlank
     @Size(max = 30)
-    @Column(name = NEWS_TITLE_COLUMN_NAME, nullable = false)
+    @Column(name = NEWS_TITLE_COLUMN_NAME, nullable = false, length = 30)
     private String title;
 
     @NotBlank
     @Size(max = 200)
-    @Column(name = NEWS_SHORT_TEXT_COLUMN_NAME, nullable = false)
+    @Column(name = NEWS_SHORT_TEXT_COLUMN_NAME, nullable = false, length = 200)
     private String shortText;
 
     @NotBlank
     @Size(max = 2000)
-    @Column(name = NEWS_FULL_TEXT_COLUMN_NAME, nullable = false)
+    @Column(name = NEWS_FULL_TEXT_COLUMN_NAME, nullable = false, length = 2000)
     private String fullText;
 
     @Column(name = NEWS_CREATION_DATE_COLUMN_NAME, insertable = false, updatable = false)

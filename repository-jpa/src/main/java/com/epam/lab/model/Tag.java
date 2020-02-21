@@ -5,6 +5,7 @@ import com.epam.lab.repository.DbConstants;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -15,7 +16,9 @@ import java.util.Objects;
         @NamedQuery(name = Tag.DELETE, query = "DELETE FROM Tag t WHERE t.id=:id"),
         @NamedQuery(name = Tag.FIND_ALL, query = "SELECT t FROM Tag t")                     // FIXME: 2/19/2020 Refactor??
 })
-public class Tag extends BaseEntity {
+public class Tag extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 4998934308271340034L;
 
     public static final String COUNT_ALL = "User.countAll";
     public static final String DELETE = "User.delete";
