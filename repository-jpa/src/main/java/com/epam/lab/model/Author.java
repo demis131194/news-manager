@@ -1,8 +1,9 @@
 package com.epam.lab.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -25,12 +26,12 @@ public class Author extends BaseEntity implements Serializable {
     public static final String COUNT_ALL = "Author.countAll";
 
     @NotBlank
-    @Size(max = 30)
+    @Length(max = 30)
     @Column(name = AUTHORS_NAME_COLUMN_NAME, nullable = false)
     private String name;
 
     @NotBlank
-    @Size(max = 30)
+    @Length(max = 30)
     @Column(name = AUTHORS_SURNAME_COLUMN_NAME, nullable = false)
     private String surname;
 

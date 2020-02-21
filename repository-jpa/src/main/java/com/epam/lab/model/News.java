@@ -1,10 +1,11 @@
 package com.epam.lab.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -31,17 +32,17 @@ public class News extends BaseEntity implements Serializable {
     public static final String COUNT_ALL = "News.countAll";
 
     @NotBlank
-    @Size(max = 30)
+    @Length(max = 30)
     @Column(name = NEWS_TITLE_COLUMN_NAME, nullable = false, length = 30)
     private String title;
 
     @NotBlank
-    @Size(max = 200)
+    @Length(max = 200)
     @Column(name = NEWS_SHORT_TEXT_COLUMN_NAME, nullable = false, length = 200)
     private String shortText;
 
     @NotBlank
-    @Size(max = 2000)
+    @Length(max = 2000)
     @Column(name = NEWS_FULL_TEXT_COLUMN_NAME, nullable = false, length = 2000)
     private String fullText;
 

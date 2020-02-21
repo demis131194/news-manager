@@ -1,6 +1,5 @@
 package com.epam.lab.repository.jpa.specification.news;
 
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 public class SearchCriteria {
@@ -9,9 +8,11 @@ public class SearchCriteria {
     private boolean isAuthorSort;
     private boolean isCreateDateSort;
 
-    public SearchCriteria(Long authorId, @NotNull Collection<Long> tagsId, boolean isAuthorSort, boolean isCreateDateSort) {
+    public SearchCriteria(Long authorId, Collection<Long> tagsId, boolean isAuthorSort, boolean isCreateDateSort) {
         this.authorId = authorId;
-        this.tagsId.addAll(tagsId);
+        if (tagsId != null) {
+            this.tagsId.addAll(tagsId);
+        }
         this.isAuthorSort = isAuthorSort;
         this.isCreateDateSort = isCreateDateSort;
     }
