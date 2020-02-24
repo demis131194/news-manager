@@ -42,9 +42,16 @@ public class JpaTagRepositoryTest {
     @Test
     public void saveUpdateTest() {
         Tag expected = new Tag(EXPECTED_TAG_1.getId(),"Update Tag");
-        tagRepository.save(expected);
+        Tag saved = tagRepository.save(expected);
         Tag actual = entityManager.find(Tag.class, expected.getId());
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void saveUpdateFailWrongIdTest() {
+        Tag expected = new Tag(INIT_TEST_ID + 20,"Update Tag");
+        Tag actual = entityManager.find(Tag.class, expected.getId());
+        assertNull(actual);
     }
 
     @Test

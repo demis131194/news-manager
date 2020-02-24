@@ -22,11 +22,11 @@ public class JpaTagRepository implements TagRepository {
     @Transactional
     public Tag save(Tag tag) {
         if (tag.isNew()) {
-            entityManager.persist(tag);
+             entityManager.persist(tag);
         } else {
             entityManager.merge(tag);
         }
-        return tag;
+        return entityManager.find(Tag.class, tag.getId());
     }
 
     @Override

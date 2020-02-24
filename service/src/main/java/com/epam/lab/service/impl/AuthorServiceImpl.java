@@ -30,11 +30,15 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional
     public AuthorTo save(AuthorTo authorTo) {
         Author entity = mapper.toEntity(authorTo);
-        Author authorById = authorRepository.save(entity);
-        return mapper.toDto(authorById);
+        Author savedAuthor = authorRepository.save(entity);
+        if (savedAuthor == null) {
+            throw new ServiceException("Can't update author, wrong id - " + authorTo.getId());
+        }
+        return mapper.toDto(savedAuthor);
     }
 
     @Override
+    @Transactional
     public boolean delete(long id) {
         if (id > 0) {
             return authorRepository.delete(id);

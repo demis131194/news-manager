@@ -34,10 +34,14 @@ public class NewsServiceImpl implements NewsService {
     public NewsTo save(NewsTo newsTo) {
         News entity = mapper.toEntity(newsTo);
         News savedNews = newsRepository.save(entity);
+        if (savedNews == null) {
+            throw new ServiceException("Can't update news, wrong id - " + newsTo.getId());
+        }
         return mapper.toDto(savedNews);
     }
 
     @Override
+    @Transactional
     public boolean delete(long newsId) {
         if (newsId > 0) {
             return newsRepository.delete(newsId);

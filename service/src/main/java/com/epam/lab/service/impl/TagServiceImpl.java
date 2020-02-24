@@ -33,10 +33,14 @@ public class TagServiceImpl implements TagService {
     public TagTo save(TagTo tagTo) {
         Tag entity = mapper.toEntity(tagTo);
         Tag savedTag = tagRepository.save(entity);
+        if (savedTag == null) {
+            throw new ServiceException("Can't update tag, wrong id - " + tagTo.getId());
+        }
         return mapper.toDto(savedTag);
     }
 
     @Override
+    @Transactional
     public boolean delete(long id) {
         if (id > 0) {
             return tagRepository.delete(id);

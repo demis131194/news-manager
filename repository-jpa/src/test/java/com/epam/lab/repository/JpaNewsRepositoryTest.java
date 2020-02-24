@@ -18,8 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.epam.lab.DbTestObjects.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 @RunWith(SpringRunner.class)
@@ -49,6 +48,13 @@ public class JpaNewsRepositoryTest {
         News expected = newsRepository.save(create);
         News actual = entityManager.find(News.class, expected.getId());
         assertEquals(expected, actual);
+    }
+
+    public void saveUpdateFailWrongIdTest() {
+        News expected = new News(INIT_TEST_ID + 20,"Update title", "Update short text", "Update full text",
+                EXPECTED_AUTHOR_2, Arrays.asList(EXPECTED_TAG_1, EXPECTED_TAG_4, EXPECTED_TAG_5));
+        News actual = entityManager.find(News.class, expected.getId());
+        assertNull(actual);
     }
 
     @Test

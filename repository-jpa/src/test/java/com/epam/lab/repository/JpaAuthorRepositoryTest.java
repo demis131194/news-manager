@@ -18,8 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.epam.lab.DbTestObjects.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = AppJpaTestConfiguration.class)
@@ -46,6 +45,12 @@ public class JpaAuthorRepositoryTest {
         authorRepository.save(expected);
         Author actual = entityManager.find(Author.class, expected.getId());
         assertEquals(expected, actual);
+    }
+
+    public void saveUpdateFailWrongIdTest() {
+        Author expected = new Author(INIT_TEST_ID + 20,"Update name", "Update Surname");
+        Author actual = entityManager.find(Author.class, expected.getId());
+        assertNull(actual);
     }
 
     @Test

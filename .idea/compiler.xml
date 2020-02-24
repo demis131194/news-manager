@@ -8,9 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="controller" />
         <module name="repository-jpa" />
-        <module name="service" />
         <module name="repository-jdbc" />
-        <module name="repository-jpaOLD" />
+        <module name="service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

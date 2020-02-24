@@ -26,7 +26,7 @@ public class JpaAuthorRepository implements AuthorRepository {
         } else {
             entityManager.merge(author);
         }
-        return author;
+        return entityManager.find(Author.class, author.getId());
     }
 
     @Override
