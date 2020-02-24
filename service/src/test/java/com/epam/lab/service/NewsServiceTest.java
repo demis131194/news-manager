@@ -2,7 +2,6 @@ package com.epam.lab.service;
 
 import com.epam.lab.configuration.ServiceTestConfig;
 import com.epam.lab.dto.NewsTo;
-import com.epam.lab.exeption.ServiceException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.epam.lab.TestObjects.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ServiceTestConfig.class)
@@ -30,19 +30,8 @@ public class NewsServiceTest {
                 CREATE_TEST_DTO_NEWS_4.getAuthor(),
                 CREATE_TEST_DTO_NEWS_4.getTags()
         );
-        NewsTo actual = newsService.create(create);
+        NewsTo actual = newsService.save(create);
         assertEquals(CREATE_TEST_DTO_NEWS_4, actual);
-    }
-
-    @Test(expected = ServiceException.class)
-    public void createFailHasIdTest() {
-        NewsTo create = new NewsTo(INIT_TEST_ID, CREATE_TEST_DTO_NEWS_4.getTitle(),
-                CREATE_TEST_DTO_NEWS_4.getShortText(), CREATE_TEST_DTO_NEWS_4.getFullText(),
-                CREATE_TEST_DTO_NEWS_4.getAuthor(),
-                CREATE_TEST_DTO_NEWS_4.getTags()
-        );
-        NewsTo actual = newsService.create(create);
-        assertNull(actual);
     }
 
     @Test
@@ -52,19 +41,8 @@ public class NewsServiceTest {
                 UPDATE_TEST_DTO_NEWS_5.getAuthor(),
                 UPDATE_TEST_DTO_NEWS_5.getTags()
         );
-        NewsTo actual = newsService.update(newsTo);
+        NewsTo actual = newsService.save(newsTo);
         assertEquals(UPDATE_TEST_DTO_NEWS_5, actual);
-    }
-
-    @Test(expected = ServiceException.class)
-    public void updateFailTest() {
-        NewsTo newsTo = new NewsTo(INIT_TEST_ID - 1, UPDATE_TEST_DTO_NEWS_5.getTitle(),
-                UPDATE_TEST_DTO_NEWS_5.getShortText(), UPDATE_TEST_DTO_NEWS_5.getFullText(),
-                UPDATE_TEST_DTO_NEWS_5.getAuthor(),
-                UPDATE_TEST_DTO_NEWS_5.getTags()
-        );
-        NewsTo actual = newsService.update(newsTo);
-        assertNull(actual);
     }
 
     @Test

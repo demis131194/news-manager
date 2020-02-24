@@ -33,12 +33,12 @@ public class AuthorController {
 
     @PostMapping
     public @ResponseBody AuthorTo postAuthor(@RequestBody @Valid AuthorTo authorTo) {
-        return authorService.create(authorTo);
+        return authorService.save(authorTo);
     }
 
     @PutMapping
     public @ResponseBody AuthorTo putAuthor(@RequestBody @Valid AuthorTo authorTo) {
-        return authorService.update(authorTo);
+        return authorService.save(authorTo);
     }
 
     @DeleteMapping(value = "/{id}")

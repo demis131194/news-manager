@@ -1,14 +1,11 @@
 package com.epam.lab.service.impl.mapper;
 
-import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.dto.NewsTo;
-import com.epam.lab.dto.TagTo;
 import com.epam.lab.model.News;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -22,16 +19,12 @@ public class NewsMapper {
     }
 
     public News toEntity(NewsTo newsTo) {
-        return Objects.isNull(newsTo) ? null : modelMapper.map(newsTo, News.class);
+        Objects.requireNonNull(newsTo);
+        return modelMapper.map(newsTo, News.class);
     }
 
-    public NewsTo toDto(News news, AuthorTo author, List<TagTo> tags) {
-        if (news == null) {
-            return null;
-        }
-        NewsTo newsTo = modelMapper.map(news, NewsTo.class);
-        newsTo.setAuthor(author);
-        newsTo.setTags(tags);
-        return newsTo;
+    public NewsTo toDto(News news) {
+        Objects.requireNonNull(news);
+        return modelMapper.map(news, NewsTo.class);
     }
 }

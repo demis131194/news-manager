@@ -1,8 +1,8 @@
-package com.epam.lab.repository.jpa.specification.news;
+package com.epam.lab.repository.specification.news;
 
 import com.epam.lab.model.News;
 import com.epam.lab.model.Tag;
-import com.epam.lab.repository.jpa.specification.JpaSpecification;
+import com.epam.lab.repository.specification.JpaSpecification;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -18,6 +18,10 @@ public class FindNewsBySearchCriteriaJpaSpecification implements JpaSpecificatio
 
     public FindNewsBySearchCriteriaJpaSpecification(SearchCriteria searchCriteria) {            // FIXME: 2/21/2020 Refactor
         this.searchCriteria = searchCriteria;
+    }
+
+    public SearchCriteria getSearchCriteria() {
+        return searchCriteria;
     }
 
     @Override

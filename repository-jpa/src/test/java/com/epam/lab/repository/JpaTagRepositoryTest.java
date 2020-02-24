@@ -2,6 +2,8 @@ package com.epam.lab.repository;
 
 import com.epam.lab.configuration.AppJpaTestConfiguration;
 import com.epam.lab.model.Tag;
+import com.epam.lab.repository.specification.JpaSpecification;
+import com.epam.lab.repository.specification.tag.FindTagByNameJpaSpecification;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.epam.lab.DbTestObjects.*;
@@ -74,5 +77,14 @@ public class JpaTagRepositoryTest {
     public void countAllTest() {
         long actual = tagRepository.countAll();
         assertEquals(EXPECTED_COUNT_ALL_TAGS, actual);
+    }
+
+    @Test
+    public void findTagByNameTest() {
+        String tagName = EXPECTED_TAG_5.getName();
+        JpaSpecification<Tag> specification = new FindTagByNameJpaSpecification(tagName);
+        List<Tag> actual = tagRepository.findAllBySpecification(specification);
+        List<Tag> expected = Collections.singletonList(EXPECTED_TAG_5);
+        assertEquals(expected, actual);
     }
 }

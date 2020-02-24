@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="repository-jdbc" />
         <module name="controller" />
         <module name="repository-jpa" />
-        <module name="repository-jpaOLD" />
         <module name="service" />
+        <module name="repository-jdbc" />
+        <module name="repository-jpaOLD" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

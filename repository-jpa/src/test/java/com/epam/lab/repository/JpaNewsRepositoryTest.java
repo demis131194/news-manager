@@ -2,9 +2,9 @@ package com.epam.lab.repository;
 
 import com.epam.lab.configuration.AppJpaTestConfiguration;
 import com.epam.lab.model.News;
-import com.epam.lab.repository.jpa.specification.JpaSpecification;
-import com.epam.lab.repository.jpa.specification.news.FindNewsBySearchCriteriaJpaSpecification;
-import com.epam.lab.repository.jpa.specification.news.SearchCriteria;
+import com.epam.lab.repository.specification.JpaSpecification;
+import com.epam.lab.repository.specification.news.FindNewsBySearchCriteriaJpaSpecification;
+import com.epam.lab.repository.specification.news.SearchCriteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

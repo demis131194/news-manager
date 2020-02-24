@@ -33,12 +33,12 @@ public class TagController {
 
     @PostMapping
     public @ResponseBody TagTo postTag(@RequestBody @Valid TagTo tagTo) {
-        return tagService.create(tagTo);
+        return tagService.save(tagTo);
     }
 
     @PutMapping
     public @ResponseBody TagTo putTag(@RequestBody @Valid TagTo tagTo) {
-        return tagService.update(tagTo);
+        return tagService.save(tagTo);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -1,4 +1,4 @@
-package com.epam.lab.repository.jpa.specification;
+package com.epam.lab.repository.specification;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

@@ -19,10 +19,12 @@ public class TagMapper {
     }
 
     public Tag toEntity(TagTo tagTo) {
-        return Objects.isNull(tagTo) ? null : modelMapper.map(tagTo, Tag.class);
+        Objects.requireNonNull(tagTo);
+        return modelMapper.map(tagTo, Tag.class);
     }
 
     public TagTo toDto(Tag tag) {
-        return Objects.isNull(tag) ? null : modelMapper.map(tag, TagTo.class);
+        Objects.requireNonNull(tag);
+        return modelMapper.map(tag, TagTo.class);
     }
 }

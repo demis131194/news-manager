@@ -1,7 +1,7 @@
-package com.epam.lab.repository.jpa.specification.author;
+package com.epam.lab.repository.specification.author;
 
 import com.epam.lab.model.Author;
-import com.epam.lab.repository.jpa.specification.JpaSpecification;
+import com.epam.lab.repository.specification.JpaSpecification;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -14,6 +14,10 @@ public class FindAuthorsByNameJpaSpecification implements JpaSpecification<Autho
 
     public FindAuthorsByNameJpaSpecification(String authorName) {
         this.authorName = authorName;
+    }
+
+    public String getAuthorName() {
+        return authorName;
     }
 
     @Override

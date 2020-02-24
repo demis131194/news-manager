@@ -3,7 +3,7 @@ package com.epam.lab.repository.jpa;
 import com.epam.lab.model.Tag;
 import com.epam.lab.repository.DbConstants;
 import com.epam.lab.repository.TagRepository;
-import com.epam.lab.repository.jpa.specification.JpaSpecification;
+import com.epam.lab.repository.specification.JpaSpecification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

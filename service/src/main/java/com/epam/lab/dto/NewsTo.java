@@ -6,13 +6,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-/**
- * The type News to.
- */
 public class NewsTo extends BaseTo {
     @NotNull
     @Size(min = 1, max = 30)
@@ -36,23 +31,12 @@ public class NewsTo extends BaseTo {
     private AuthorTo author;
 
     @Valid
-    private List<@Valid TagTo> tags = new ArrayList<>();
+    private Set<@Valid TagTo> tags = new HashSet<>();
 
-    /**
-     * Instantiates a new News to.
-     */
     public NewsTo() {
         super(null);
     }
 
-    /**
-     * Instantiates a new News to.
-     *
-     * @param id        the id
-     * @param title     the title
-     * @param shortText the short text
-     * @param fullText  the full text
-     */
     public NewsTo(Long id, String title, String shortText, String fullText) {
         super(id);
         this.title = title;
@@ -60,198 +44,83 @@ public class NewsTo extends BaseTo {
         this.fullText = fullText;
     }
 
-    /**
-     * Instantiates a new News to.
-     *
-     * @param title     the title
-     * @param shortText the short text
-     * @param fullText  the full text
-     */
     public NewsTo(String title, String shortText, String fullText) {
         this(null, title, shortText, fullText);
     }
 
-    /**
-     * Instantiates a new News to.
-     *
-     * @param id               the id
-     * @param title            the title
-     * @param shortText        the short text
-     * @param fullText         the full text
-     * @param creationDate     the creation date
-     * @param modificationDate the modification date
-     */
     public NewsTo(Long id, String title, String shortText, String fullText, LocalDateTime creationDate, LocalDateTime modificationDate) {
         this(id, title, shortText, fullText);
         this.creationDate = creationDate;
         this.modificationDate = modificationDate;
     }
 
-    /**
-     * Instantiates a new News to.
-     *
-     * @param title            the title
-     * @param shortText        the short text
-     * @param fullText         the full text
-     * @param creationDate     the creation date
-     * @param modificationDate the modification date
-     */
     public NewsTo(String title, String shortText, String fullText, LocalDateTime creationDate, LocalDateTime modificationDate) {
         this(null, title, shortText, fullText, creationDate, modificationDate);
     }
 
-    /**
-     * Instantiates a new News to.
-     *
-     * @param id        the id
-     * @param title     the title
-     * @param shortText the short text
-     * @param fullText  the full text
-     * @param author    the author
-     * @param tags      the tags
-     */
-    public NewsTo(Long id, String title, String shortText, String fullText, AuthorTo author, List<TagTo> tags) {
+    public NewsTo(Long id, String title, String shortText, String fullText, AuthorTo author, Collection<TagTo> tags) {
         this(id, title, shortText, fullText);
         this.author = author;
-        this.tags = tags;
+        this.tags.addAll(tags);
     }
 
-    /**
-     * Instantiates a new News to.
-     *
-     * @param title     the title
-     * @param shortText the short text
-     * @param fullText  the full text
-     * @param author    the author
-     * @param tags      the tags
-     */
     public NewsTo(String title, String shortText, String fullText, AuthorTo author, List<TagTo> tags) {
         this(null, title, shortText, fullText, author, tags);
     }
 
-    /**
-     * Gets title.
-     *
-     * @return the title
-     */
     public String getTitle() {
         return title;
     }
 
-    /**
-     * Sets title.
-     *
-     * @param title the title
-     */
     public void setTitle(String title) {
         this.title = title;
     }
 
-    /**
-     * Gets short text.
-     *
-     * @return the short text
-     */
     public String getShortText() {
         return shortText;
     }
 
-    /**
-     * Sets short text.
-     *
-     * @param shortText the short text
-     */
     public void setShortText(String shortText) {
         this.shortText = shortText;
     }
 
-    /**
-     * Gets full text.
-     *
-     * @return the full text
-     */
     public String getFullText() {
         return fullText;
     }
 
-    /**
-     * Sets full text.
-     *
-     * @param fullText the full text
-     */
     public void setFullText(String fullText) {
         this.fullText = fullText;
     }
 
-    /**
-     * Gets creation date.
-     *
-     * @return the creation date
-     */
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    /**
-     * Sets creation date.
-     *
-     * @param creationDate the creation date
-     */
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
-    /**
-     * Gets modification date.
-     *
-     * @return the modification date
-     */
     public LocalDateTime getModificationDate() {
         return modificationDate;
     }
 
-    /**
-     * Sets modification date.
-     *
-     * @param modificationDate the modification date
-     */
     public void setModificationDate(LocalDateTime modificationDate) {
         this.modificationDate = modificationDate;
     }
 
-    /**
-     * Gets author.
-     *
-     * @return the author
-     */
     public AuthorTo getAuthor() {
         return author;
     }
 
-    /**
-     * Sets author.
-     *
-     * @param author the author
-     */
     public void setAuthor(AuthorTo author) {
         this.author = author;
     }
 
-    /**
-     * Gets tags.
-     *
-     * @return the tags
-     */
-    public List<TagTo> getTags() {
+    public Set<TagTo> getTags() {
         return tags;
     }
 
-    /**
-     * Sets tags.
-     *
-     * @param tags the tags
-     */
-    public void setTags(List<TagTo> tags) {
+    public void setTags(Set<TagTo> tags) {
         this.tags = tags;
     }
 

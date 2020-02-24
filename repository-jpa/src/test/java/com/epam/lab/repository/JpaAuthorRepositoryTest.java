@@ -2,9 +2,9 @@ package com.epam.lab.repository;
 
 import com.epam.lab.configuration.AppJpaTestConfiguration;
 import com.epam.lab.model.Author;
-import com.epam.lab.repository.jpa.specification.JpaSpecification;
-import com.epam.lab.repository.jpa.specification.author.FindAuthorsByNameJpaSpecification;
-import com.epam.lab.repository.jpa.specification.author.FindAuthorsBySurnameJpaSpecification;
+import com.epam.lab.repository.specification.JpaSpecification;
+import com.epam.lab.repository.specification.author.FindAuthorsByNameJpaSpecification;
+import com.epam.lab.repository.specification.author.FindAuthorsBySurnameJpaSpecification;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

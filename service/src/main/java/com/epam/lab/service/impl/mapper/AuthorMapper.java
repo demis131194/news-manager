@@ -18,10 +18,12 @@ public class AuthorMapper {
     }
 
     public Author toEntity(AuthorTo authorTo) {
-        return Objects.isNull(authorTo) ? null : modelMapper.map(authorTo, Author.class);
+        Objects.requireNonNull(authorTo);
+        return modelMapper.map(authorTo, Author.class);
     }
 
     public AuthorTo toDto(Author author) {
-        return Objects.isNull(author) ? null : modelMapper.map(author, AuthorTo.class);
+        Objects.requireNonNull(author);
+        return modelMapper.map(author, AuthorTo.class);
     }
 }

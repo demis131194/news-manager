@@ -1,7 +1,7 @@
 package com.epam.lab.controller;
 
 import com.epam.lab.dto.NewsTo;
-import com.epam.lab.repository.jdbc.specification.news.SearchCriteria;
+import com.epam.lab.repository.specification.news.SearchCriteria;
 import com.epam.lab.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,12 +39,12 @@ public class NewsController {
 
     @PostMapping
     public @ResponseBody NewsTo postNews(@RequestBody @Valid NewsTo newsTo) {
-        return newsService.create(newsTo);
+        return newsService.save(newsTo);
     }
 
     @PutMapping
     public @ResponseBody NewsTo putTag(@RequestBody @Valid NewsTo newsTo) {
-        return newsService.update(newsTo);
+        return newsService.save(newsTo);
     }
 
     @DeleteMapping(value = "/{id}")

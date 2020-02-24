@@ -2,7 +2,6 @@ package com.epam.lab.service;
 
 import com.epam.lab.configuration.ServiceTestConfig;
 import com.epam.lab.dto.TagTo;
-import com.epam.lab.exeption.ServiceException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +24,13 @@ public class TagServiceTest {
     @Test
     public void createTest() {
         TagTo testTag = new TagTo(null, CREATE_TEST_TAG_4.getName());
-        TagTo actual = tagService.create(testTag);
+        TagTo actual = tagService.save(testTag);
         assertEquals(CREATE_DTO_TAG_4, actual);
-    }
-
-    @Test(expected = ServiceException.class)
-    public void createFailWrongIdTest() {
-        TagTo testTagTo = new TagTo(INIT_TEST_ID, CREATE_DTO_TAG_4.getName());
-        TagTo actual = tagService.create(testTagTo);
-        assertNull(actual);
     }
 
     @Test
     public void updateTest() {
-        TagTo actual = tagService.update(UPDATE_DTO_TAG_5);
+        TagTo actual = tagService.save(UPDATE_DTO_TAG_5);
         assertEquals(UPDATE_DTO_TAG_5, actual);
     }
 
@@ -46,6 +38,12 @@ public class TagServiceTest {
     public void deleteTest() {
         boolean isDelete = tagService.delete(EXPECTED_DTO_TAG_1.getId());
         assertTrue(isDelete);
+    }
+
+    @Test
+    public void deleteFailTest() {
+        boolean isDelete = tagService.delete(INIT_TEST_ID + 3);
+        assertFalse(isDelete);
     }
 
     @Test

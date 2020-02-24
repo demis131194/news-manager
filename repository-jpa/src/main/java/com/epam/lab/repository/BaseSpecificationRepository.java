@@ -1,7 +1,7 @@
 package com.epam.lab.repository;
 
 
-import com.epam.lab.repository.jpa.specification.JpaSpecification;
+import com.epam.lab.repository.specification.JpaSpecification;
 
 import java.util.List;
 

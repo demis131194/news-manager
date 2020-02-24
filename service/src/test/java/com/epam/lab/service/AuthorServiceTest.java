@@ -25,29 +25,15 @@ public class AuthorServiceTest {
     @Test
     public void createTest() {
         AuthorTo authorTo = new AuthorTo(null, CREATE_TEST_DTO_AUTHOR_4.getName(), CREATE_TEST_DTO_AUTHOR_4.getSurname());
-        AuthorTo actual = authorService.create(authorTo);
+        AuthorTo actual = authorService.save(authorTo);
         assertEquals(CREATE_TEST_DTO_AUTHOR_4, actual);
-    }
-
-    @Test(expected = ServiceException.class)
-    public void createFailHasIdTest() {
-        AuthorTo authorTo = new AuthorTo(INIT_TEST_ID, CREATE_TEST_DTO_AUTHOR_4.getName(), CREATE_TEST_DTO_AUTHOR_4.getSurname());
-        AuthorTo actual = authorService.create(authorTo);
-        assertNull(actual);
     }
 
     @Test
     public void updateTest() {
         AuthorTo authorTo = new AuthorTo(UPDATE_TEST_DTO_AUTHOR_5.getId(), UPDATE_TEST_DTO_AUTHOR_5.getName(), UPDATE_TEST_DTO_AUTHOR_5.getSurname());
-        AuthorTo expected = authorService.update(authorTo);
+        AuthorTo expected = authorService.save(authorTo);
         assertEquals(UPDATE_TEST_DTO_AUTHOR_5, expected);
-    }
-
-    @Test(expected = ServiceException.class)
-    public void updateFailNullIdTest() {
-        AuthorTo authorTo = new AuthorTo(null, UPDATE_TEST_DTO_AUTHOR_5.getName(), UPDATE_TEST_DTO_AUTHOR_5.getSurname());
-        AuthorTo expected = authorService.update(authorTo);
-        assertNull(expected);
     }
 
     @Test
@@ -71,7 +57,6 @@ public class AuthorServiceTest {
     @Test(expected = ServiceException.class)
     public void findByIdFailWrongIdTest() {
         AuthorTo actual = authorService.findById(INIT_TEST_ID - 1);
-        assertNull(actual);
     }
 
     @Test
@@ -85,17 +70,5 @@ public class AuthorServiceTest {
     public void countAllTest() {
         long actual = authorService.countAll();
         assertEquals(actual, EXPECTED_COUNT_ALL_AUTHORS);
-    }
-
-    @Test
-    public void findByNewsIdTest() {
-        AuthorTo actual = authorService.findByNewsId(INIT_TEST_ID);
-        assertEquals(EXPECTED_DTO_AUTHOR_1, actual);
-    }
-
-    @Test(expected = ServiceException.class)
-    public void findByNewsIdFailTest() {
-        AuthorTo actual = authorService.findByNewsId(INIT_TEST_ID - 1);
-        assertNull(actual);
     }
 }

@@ -14,7 +14,8 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = Tag.COUNT_ALL, query = "SELECT COUNT(t) FROM Tag t"),
         @NamedQuery(name = Tag.DELETE, query = "DELETE FROM Tag t WHERE t.id=:id"),
-        @NamedQuery(name = Tag.FIND_ALL, query = "SELECT t FROM Tag t")                     // FIXME: 2/19/2020 Refactor??
+        @NamedQuery(name = Tag.FIND_ALL, query = "SELECT t FROM Tag t"),
+        @NamedQuery(name = Tag.FIND_BY_NAME, query = "SELECT t FROM Tag t WHERE t.name=?1")
 })
 public class Tag extends BaseEntity implements Serializable {
 
@@ -23,6 +24,7 @@ public class Tag extends BaseEntity implements Serializable {
     public static final String COUNT_ALL = "User.countAll";
     public static final String DELETE = "User.delete";
     public static final String FIND_ALL = "User.findAll";
+    public static final String FIND_BY_NAME = "User.findByName";
 
     @NotBlank
     @Length(max = 30)
