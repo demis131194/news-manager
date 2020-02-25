@@ -1,11 +1,6 @@
 package com.epam.lab.model;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -31,18 +26,12 @@ public class News extends BaseEntity implements Serializable {
     public static final String FIND_ALL = "News.findAll";
     public static final String COUNT_ALL = "News.countAll";
 
-    @NotBlank
-    @Length(max = 30)
     @Column(name = NEWS_TITLE_COLUMN_NAME, nullable = false, length = 30)
     private String title;
 
-    @NotBlank
-    @Length(max = 200)
     @Column(name = NEWS_SHORT_TEXT_COLUMN_NAME, nullable = false, length = 200)
     private String shortText;
 
-    @NotBlank
-    @Length(max = 2000)
     @Column(name = NEWS_FULL_TEXT_COLUMN_NAME, nullable = false, length = 2000)
     private String fullText;
 
@@ -52,7 +41,6 @@ public class News extends BaseEntity implements Serializable {
     @Column(name = NEWS_MODIFICATION_DATE_COLUMN_NAME, insertable = false, updatable = false)
     private LocalDateTime modificationDate;
 
-    @Valid
     @ManyToOne
     @JoinTable(
             name = NEWS_AUTHORS_TABLE_NAME,
@@ -64,7 +52,6 @@ public class News extends BaseEntity implements Serializable {
     )
     private Author author;
 
-    @Valid
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = NEWS_TAGS_TABLE_NAME,
@@ -73,12 +60,12 @@ public class News extends BaseEntity implements Serializable {
             foreignKey = @ForeignKey(name = NEWS_TAGS_NEWS_ID_COLUMN_NAME, foreignKeyDefinition = ID_COLUMN_NAME),
             inverseForeignKey = @ForeignKey(name = NEWS_TAGS_TAG_ID_COLUMN_NAME, foreignKeyDefinition = ID_COLUMN_NAME)
     )
-    private Set<@Valid Tag> tags = new HashSet<>();
+    private Set<Tag> tags = new HashSet<>();
 
     public News() {
     }
 
-    public News(Long id, String title, String shortText, String fullText, Author author, @NotNull Collection<Tag> tags) {
+    public News(Long id, String title, String shortText, String fullText, Author author, Collection<Tag> tags) {
         super(id);
         this.title = title;
         this.shortText = shortText;
@@ -87,7 +74,7 @@ public class News extends BaseEntity implements Serializable {
         this.tags.addAll(tags);
     }
 
-    public News(String title, String shortText, String fullText, Author author, @NotNull Collection<Tag> tags) {
+    public News(String title, String shortText, String fullText, Author author, Collection<Tag> tags) {
         this(null, title, shortText, fullText, author, tags);
     }
 

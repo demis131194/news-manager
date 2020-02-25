@@ -23,8 +23,8 @@ public class JpaNewsRepository implements NewsRepository {
     @Override
     @Transactional
     public News save(News news) {
+        createAuthorAndTagsIfNotExists(news);
         if (news.isNew()) {
-            createAuthorAndTagsIfNotExists(news);
             entityManager.persist(news);
         } else {
             entityManager.merge(news);

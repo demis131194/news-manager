@@ -1,10 +1,8 @@
 package com.epam.lab.model;
 
 import com.epam.lab.repository.DbConstants;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -26,8 +24,6 @@ public class Tag extends BaseEntity implements Serializable {
     public static final String FIND_ALL = "User.findAll";
     public static final String FIND_BY_NAME = "User.findByName";
 
-    @NotBlank
-    @Length(max = 30)
     @Column(name = DbConstants.TAGS_NAME_COLUMN_NAME, nullable = false, unique = true)
     private String name;
 

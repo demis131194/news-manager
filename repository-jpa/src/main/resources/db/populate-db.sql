@@ -1,3 +1,7 @@
+DELETE FROM news;
+DELETE FROM authors;
+DELETE FROM tags;
+
 INSERT INTO authors(name, surname) VALUES
 ('Dima', 'Ford'),
 ('Vasya', 'Pupkin'),

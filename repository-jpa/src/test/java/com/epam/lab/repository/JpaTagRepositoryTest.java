@@ -6,6 +6,8 @@ import com.epam.lab.repository.specification.JpaSpecification;
 import com.epam.lab.repository.specification.tag.FindTagByNameJpaSpecification;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -25,6 +27,8 @@ import static org.junit.Assert.*;
 @Sql(scripts = "classpath:db/test-init-db.sql")
 public class JpaTagRepositoryTest {
 
+    private static Logger logger = LoggerFactory.getLogger(JpaTagRepositoryTest.class.getName());
+
     @Autowired
     private TagRepository tagRepository;
 
@@ -33,18 +37,28 @@ public class JpaTagRepositoryTest {
 
     @Test
     public void saveCreateTest() {
+        logger.trace("Start saveCreateTest");
+        logger.debug("Some debug info");
         Tag created = new Tag("Create Tag");
         Tag expected = tagRepository.save(created);
         Tag actual = entityManager.find(Tag.class, expected.getId());
+        logger.info("Expected - {}, \n actual - {}", expected, actual);
+        logger.warn("WARN!!!!!!!!!!!!!");
         assertEquals(expected, actual);
+        logger.trace("End saveCreateTest");
     }
 
     @Test
     public void saveUpdateTest() {
+        logger.trace("Start saveUpdateTest");
+        logger.debug("Some debug info");
         Tag expected = new Tag(EXPECTED_TAG_1.getId(),"Update Tag");
         Tag saved = tagRepository.save(expected);
         Tag actual = entityManager.find(Tag.class, expected.getId());
+        logger.info("Expected - {}, \n actual - {}", expected, actual);
+        logger.warn("WARN!!!!!!!!!!!!!");
         assertEquals(expected, actual);
+        logger.trace("End saveUpdateTest");
     }
 
     @Test
