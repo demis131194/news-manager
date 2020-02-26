@@ -1,19 +1,13 @@
 package com.epam.lab.exception;
 
 public class RespondExceptionMessage {
-    private String exception;
-    private String rootException;
+    private String localeExceptionMessage;
 
-    public RespondExceptionMessage(String exception, String rootException) {
-        this.exception = exception;
-        this.rootException = rootException;
+    public RespondExceptionMessage(String localeExceptionMessage) {
+        this.localeExceptionMessage = localeExceptionMessage;
     }
 
-    public String getException() {
-        return exception;
-    }
-
-    public String getRootException() {
-        return rootException;
+    public String getLocaleExceptionMessage() {
+        return localeExceptionMessage;
     }
 }

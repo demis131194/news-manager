@@ -1,5 +1,6 @@
 package com.epam.lab.repository.jpa;
 
+import com.epam.lab.exception.RepositoryException;
 import com.epam.lab.model.Tag;
 import com.epam.lab.repository.DbConstants;
 import com.epam.lab.repository.TagRepository;
@@ -34,6 +35,11 @@ public class JpaTagRepository implements TagRepository {
             entityManager.merge(tag);
         }
         Tag findTag = entityManager.find(Tag.class, tag.getId());
+
+        if (findTag == null) {
+            throw new RepositoryException("Can't update tag, wrong id - " + tag.getId());
+        }
+
         logger.info("Saved tag - {}", findTag);
         logger.trace("End JpaTagRepository save method");
         return findTag;
@@ -77,7 +83,7 @@ public class JpaTagRepository implements TagRepository {
         logger.trace("Start JpaTagRepository findAll method");
         logger.debug("Try find all tags");
         List<Tag> resultList = entityManager.createNamedQuery(Tag.FIND_ALL, Tag.class).getResultList();
-        logger.info("Find tags - {}", resultList);
+        logger.debug("Find tags - {}", resultList);
         logger.trace("End JpaTagRepository findAll method");
         return resultList;
     }
@@ -85,7 +91,6 @@ public class JpaTagRepository implements TagRepository {
     @Override
     public long countAll() {
         logger.trace("Start JpaTagRepository countAll method");
-        logger.debug("Try count all tags");
         long result = entityManager.createNamedQuery(Tag.COUNT_ALL, Long.class).getSingleResult();
         logger.info("Tags count - {}", result);
         logger.trace("End JpaTagRepository countAll method");
