@@ -9,16 +9,33 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="${pattern}"/>
         </Console>
-        <File name="File" fileName="${log-dir}/news-log.log" append="false">
+
+        <File name="File-all" fileName="${log-dir}/news-log.log" append="false">
             <PatternLayout>
                 <Pattern>${pattern}</Pattern>
             </PatternLayout>
         </File>
+
+        <File name="File-all-my" fileName="${log-dir}/news-log-only-my.log" append="false">
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+        </File>
+
     </Appenders>
     <Loggers>
+        <Logger name="com.epam.lab" level="trace">
+            <AppenderRef ref="File-all-my"/>
+        </Logger>
+
+        <Logger name="org.hibernate.SQL" level="all">
+            <AppenderRef ref="File-all-my"/>
+            <AppenderRef ref="File-all"/>
+        </Logger>
+
         <Root level="debug">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="File"/>
+            <AppenderRef ref="File-all"/>
         </Root>
     </Loggers>
 </Configuration>

@@ -1,6 +1,5 @@
 /repository-jdbc/src/main/java/com/epam/lab/Main.java
 /.idea/
-/logs/news-log.log
 /target/
 /repository-jdbc/target/
 /repository-jdbc/logs/
@@ -12,5 +11,5 @@
 /service/src/test/java/com/epam/lab/Main.java
 /service/src/test/java/com/epam/lab/TestMockq.java
 /repository-jpa/src/main/java/com/epam/lab/MainJpa.java
-/repository-jpa/src/main/java/com/epam/lab/MainJpa.java
 /repository-jpa/src/test/java/com/epam/lab/MainTestJpa.java
+/logs/
