@@ -54,3 +54,9 @@ Please note that only GA versions of tools, frameworks, and libraries are allowe
 Jenkins credentials:
 Username: developer
 Password: developer
+
+Sonarqube: http://epbyminw8130.minsk.epam.com:9000/dashboard?id=com.epam.lab%3Anews-manager
+
+Jenkins (developer / developer): http://epbyminw8130.minsk.epam.com:8082/job/Test%20build%20and%20deploy%20lab%20project/
+
+Deploy link: http://epbyminw8130.minsk.epam.com:8080/simple-project
