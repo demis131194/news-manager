@@ -50,3 +50,7 @@ Please note that only GA versions of tools, frameworks, and libraries are allowe
 13. Repository layer should be tested using integration tests with an in-memory embedded database. All operations with news should be covered with integration tests.
 14. APIs should be demonstrated using Postman tool. Postman collections with APIs should be prepared for the demo.
 15. For search functionality use SeachCriteria object which may contain author entity and list of tags (will be using for constructing SQL queries in DAO layer);
+
+Jenkins credentials:
+Username: developer
+Password: developer
