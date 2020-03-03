@@ -31,6 +31,7 @@ General Requirements:
 8.  Abstraction should be used to avoid code duplication.
 9.  Database schema should be adjusted as described on image. Create 2 separate db scripts: one for db schema generation and one for loading default data (near 20 items for each table);
   
+  
 ***Tools and Implementation Requirements:***
 
 Please note that only GA versions of tools, frameworks, and libraries are allowed.
