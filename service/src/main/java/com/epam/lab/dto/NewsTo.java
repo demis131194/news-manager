@@ -40,6 +40,9 @@ public class NewsTo extends BaseTo implements Serializable {
     @Valid
     private Set<@Valid TagTo> tags = new HashSet<>();
 
+    public NewsTo() {
+    }
+
     public NewsTo(Long id, String title, String shortText, String fullText) {
         super(id);
         this.title = title;
