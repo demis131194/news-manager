@@ -1,5 +1,6 @@
 **Task-2**
 
+
 ***Business Requirements***
 
 Create a backend for simple News Management application. Pay attention that your application should be without view layer (UI).
