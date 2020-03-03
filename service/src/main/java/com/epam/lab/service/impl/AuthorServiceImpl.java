@@ -8,13 +8,11 @@ import com.epam.lab.service.AuthorService;
 import com.epam.lab.service.impl.mapper.AuthorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
 public class AuthorServiceImpl implements AuthorService {
 
     private AuthorRepository authorRepository;
@@ -27,7 +25,6 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    @Transactional
     public AuthorTo save(AuthorTo authorTo) {
         Author entity = mapper.toEntity(authorTo);
         Author savedAuthor = authorRepository.save(entity);
@@ -38,7 +35,6 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    @Transactional
     public boolean delete(long id) {
         if (id > 0) {
             return authorRepository.delete(id);

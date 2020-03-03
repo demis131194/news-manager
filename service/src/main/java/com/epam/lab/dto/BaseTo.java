@@ -1,12 +1,9 @@
 package com.epam.lab.dto;
 
-import com.epam.lab.annotation.BaseIdConstraint;
-
 import java.util.Objects;
 
 public abstract class BaseTo {
 
-    @BaseIdConstraint
     private Long id;
 
     public BaseTo() {

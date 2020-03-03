@@ -7,11 +7,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class NewsTo extends BaseTo implements Serializable {
 
     private static final long serialVersionUID = 7360179076370646070L;
+
     @NotNull
     @Size(min = 1, max = 30)
     private String title;
@@ -36,19 +40,11 @@ public class NewsTo extends BaseTo implements Serializable {
     @Valid
     private Set<@Valid TagTo> tags = new HashSet<>();
 
-    public NewsTo() {
-        super(null);
-    }
-
     public NewsTo(Long id, String title, String shortText, String fullText) {
         super(id);
         this.title = title;
         this.shortText = shortText;
         this.fullText = fullText;
-    }
-
-    public NewsTo(String title, String shortText, String fullText) {
-        this(null, title, shortText, fullText);
     }
 
     public NewsTo(Long id, String title, String shortText, String fullText, LocalDateTime creationDate, LocalDateTime modificationDate) {
@@ -57,18 +53,10 @@ public class NewsTo extends BaseTo implements Serializable {
         this.modificationDate = modificationDate;
     }
 
-    public NewsTo(String title, String shortText, String fullText, LocalDateTime creationDate, LocalDateTime modificationDate) {
-        this(null, title, shortText, fullText, creationDate, modificationDate);
-    }
-
     public NewsTo(Long id, String title, String shortText, String fullText, AuthorTo author, Collection<TagTo> tags) {
         this(id, title, shortText, fullText);
         this.author = author;
         this.tags.addAll(tags);
-    }
-
-    public NewsTo(String title, String shortText, String fullText, AuthorTo author, List<TagTo> tags) {
-        this(null, title, shortText, fullText, author, tags);
     }
 
     public String getTitle() {

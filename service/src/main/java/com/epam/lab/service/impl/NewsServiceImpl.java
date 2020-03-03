@@ -11,13 +11,11 @@ import com.epam.lab.service.NewsService;
 import com.epam.lab.service.impl.mapper.NewsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
 public class NewsServiceImpl implements NewsService {
 
     private NewsRepository newsRepository;
@@ -30,7 +28,6 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Transactional
     public NewsTo save(NewsTo newsTo) {
         News entity = mapper.toEntity(newsTo);
         News savedNews = newsRepository.save(entity);
@@ -41,7 +38,6 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Transactional
     public boolean delete(long newsId) {
         if (newsId > 0) {
             return newsRepository.delete(newsId);
@@ -50,7 +46,6 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Transactional
     public NewsTo findById(long newsId) {
         if (newsId > 0) {
             News newsById = newsRepository.findById(newsId);
@@ -63,13 +58,11 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Transactional
     public List<NewsTo> findAll() {
         List<News> allNewsEntity = newsRepository.findAll();
         return convertToNewsTo(allNewsEntity);
     }
 
-    @Transactional
     @Override
     public List<NewsTo> findAllBySearchCriteria(SearchCriteria searchCriteria) {
         JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
