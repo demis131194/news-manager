@@ -13,7 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.epam.lab.TestObjects.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ServiceTestConfig.class)
@@ -40,12 +41,6 @@ public class AuthorServiceTest {
     public void deleteTest() {
         boolean isDelete = authorService.delete(INIT_TEST_ID);
         assertTrue(isDelete);
-    }
-
-    @Test(expected = ServiceException.class)
-    public void deleteFailWrongIdTest() {
-        boolean isDelete = authorService.delete(INIT_TEST_ID - 1);
-        assertFalse(isDelete);
     }
 
     @Test
