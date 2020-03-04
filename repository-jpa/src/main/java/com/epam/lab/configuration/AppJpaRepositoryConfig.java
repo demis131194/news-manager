@@ -21,7 +21,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class AppJpaRepositoryConfig {
     private static final String DATA_SOURCE_PROPERTY = "/db/datasource.properties";
-    private static final String ENTITY_PATH = "com.epam.lab.model";                     // FIXME: 2/19/2020 Rename
+    private static final String ENTITY_PATH = "com.epam.lab.model";                     // FIXME: 2/19/2020 Refactor
 
     @Bean(name = "data-source", destroyMethod = "close")
     public HikariDataSource dataSource() {
@@ -34,14 +34,16 @@ public class AppJpaRepositoryConfig {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setPackagesToScan(ENTITY_PATH);
+
         Properties properties = new Properties();
         properties.setProperty(AvailableSettings.FORMAT_SQL, "true");
         properties.setProperty(AvailableSettings.USE_SQL_COMMENTS, "true");
+        properties.setProperty(AvailableSettings.DIALECT, "org.hibernate.dialect.PostgreSQL10Dialect");
+
         entityManagerFactoryBean.setJpaProperties(properties);
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 
         adapter.setShowSql(true);
-        adapter.setDatabasePlatform("org.hibernate.dialect.PostgreSQL10Dialect");
         entityManagerFactoryBean.setJpaVendorAdapter(adapter);
         
         return entityManagerFactoryBean;

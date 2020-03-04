@@ -25,11 +25,7 @@ public class NewsController {
     }
 
     @GetMapping
-    public @ResponseBody List<NewsTo> getAllNews(@RequestParam(name = "sortAuthor", defaultValue = "false") boolean sortAuthor,
-                                                 @RequestParam(name = "sortDate", defaultValue = "false") boolean sortDate,
-                                                 @RequestParam(name = "tagId", required = false) List<Long> tagsId,
-                                                 @RequestParam(name = "authorId", required = false) Long authorId) {
-        SearchCriteria searchCriteria = new SearchCriteria(authorId, tagsId, sortAuthor, sortDate);
+    public @ResponseBody List<NewsTo> getAllNews(SearchCriteria searchCriteria) {
         return newsService.findAllBySearchCriteria(searchCriteria);
     }
 
