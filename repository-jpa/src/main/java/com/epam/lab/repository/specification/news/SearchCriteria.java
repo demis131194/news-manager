@@ -8,6 +8,9 @@ public class SearchCriteria {
     private boolean isAuthorSort;
     private boolean isCreateDateSort;
 
+    public SearchCriteria() {
+    }
+
     public SearchCriteria(Long authorId, Collection<Long> tagsId, boolean isAuthorSort, boolean isCreateDateSort) {
         this.authorId = authorId;
         if (tagsId != null) {
