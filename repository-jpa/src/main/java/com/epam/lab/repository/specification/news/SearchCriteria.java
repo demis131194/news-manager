@@ -20,6 +20,22 @@ public class SearchCriteria {
         this.isCreateDateSort = isCreateDateSort;
     }
 
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
+    }
+
+    public void setTagsId(Set<Long> tagsId) {
+        this.tagsId = tagsId;
+    }
+
+    public void setAuthorSort(boolean authorSort) {
+        isAuthorSort = authorSort;
+    }
+
+    public void setCreateDateSort(boolean createDateSort) {
+        isCreateDateSort = createDateSort;
+    }
+
     public Long getAuthorId() {
         return authorId;
     }
