@@ -58,6 +58,6 @@ Password: developer
 
 Sonarqube: http://epbyminw8130.minsk.epam.com:9000/dashboard?id=com.epam.lab%3Anews-manager
 
-Jenkins (developer / developer): http://epbyminw8130.minsk.epam.com:8082/job/Test%20build%20and%20deploy%20lab%20project/
+Jenkins (developer / developer): http://epbyminw8130.minsk.epam.com:8082/job/task-5-job
 
 Deploy link: http://epbyminw8130.minsk.epam.com:8080/simple-project

@@ -1,5 +1,7 @@
 package com.epam.lab.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -42,6 +44,7 @@ public class News extends BaseEntity implements Serializable {
     private LocalDateTime modificationDate;
 
     @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     @JoinTable(
             name = NEWS_AUTHORS_TABLE_NAME,
             joinColumns = @JoinColumn(name = NEWS_AUTHORS_NEWS_ID_COLUMN_NAME, referencedColumnName = ID_COLUMN_NAME),
@@ -53,6 +56,7 @@ public class News extends BaseEntity implements Serializable {
     private Author author;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     @JoinTable(
             name = NEWS_TAGS_TABLE_NAME,
             joinColumns = @JoinColumn(name = NEWS_TAGS_NEWS_ID_COLUMN_NAME, referencedColumnName = ID_COLUMN_NAME),

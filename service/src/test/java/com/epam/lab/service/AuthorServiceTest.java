@@ -51,7 +51,7 @@ public class AuthorServiceTest {
 
     @Test(expected = ServiceException.class)
     public void findByIdFailWrongIdTest() {
-        AuthorTo actual = authorService.findById(INIT_TEST_ID - 1);
+        authorService.findById(INIT_TEST_ID - 1);
     }
 
     @Test
