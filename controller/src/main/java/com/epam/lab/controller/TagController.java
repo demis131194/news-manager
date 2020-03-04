@@ -16,11 +16,14 @@ import java.util.List;
 public class TagController {
 
     private static final Logger logger = LoggerFactory.getLogger(TagController.class);
+
+    private static final String WRONG_ID_MESSAGE = "Id must be greater than 0!";
+
     @Autowired
     private TagService tagService;
 
     @GetMapping(value = "/{id}")
-    public @ResponseBody TagTo getTagById(@PathVariable("id") @Positive long id) {
+    public @ResponseBody TagTo getTagById(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         logger.trace("Start TagController getTagById");
         logger.debug("Find tag by id - {}", id);
         TagTo result = tagService.findById(id);
@@ -63,7 +66,7 @@ public class TagController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public boolean deleteTag(@PathVariable("id") @Positive long id) {
+    public boolean deleteTag(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         logger.trace("Start TagController deleteTag");
         logger.debug("Delete tag, id - {}", id);
         boolean isDelete = tagService.delete(id);

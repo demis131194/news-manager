@@ -39,22 +39,16 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public boolean delete(long newsId) {
-        if (newsId > 0) {
-            return newsRepository.delete(newsId);
-        }
-        throw new ServiceException("Delete news, id should be > 0!");
+        return newsRepository.delete(newsId);
     }
 
     @Override
     public NewsTo findById(long newsId) {
-        if (newsId > 0) {
-            News newsById = newsRepository.findById(newsId);
-            if (newsById == null) {
-                throw new ServiceException("Not fund newsById with id = " + newsId);
-            }
-            return mapper.toDto(newsById);
+        News newsById = newsRepository.findById(newsId);
+        if (newsById == null) {
+            throw new ServiceException("Not fund newsById with id = " + newsId);
         }
-        throw new ServiceException("Find news by id, news id should be > 0!");
+        return mapper.toDto(newsById);
     }
 
     @Override

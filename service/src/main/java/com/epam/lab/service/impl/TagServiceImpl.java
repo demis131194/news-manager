@@ -44,28 +44,22 @@ public class TagServiceImpl implements TagService {
     @Override
     public boolean delete(long id) {
         logger.trace("Start TagServiceImpl delete");
-        if (id > 0) {
-            boolean isDelete = tagRepository.delete(id);
-            logger.trace("End TagServiceImpl delete");
-            return isDelete;
-        }
-        throw new ServiceException("Delete tag, rag id should be > 0!");
+        boolean isDelete = tagRepository.delete(id);
+        logger.trace("End TagServiceImpl delete");
+        return isDelete;
     }
 
     @Override
     public TagTo findById(long tagId) {
         logger.trace("Start TagServiceImpl findById");
-        if (tagId > 0) {
-            Tag tagById = tagRepository.findById(tagId);
-            if (tagById == null) {
-                throw new ServiceException("Tag not found, tag id = " + tagId);
-            }
-            TagTo result = mapper.toDto(tagById);
-            logger.debug("Find TagTo - {}", result);
-            logger.trace("End TagServiceImpl findById");
-            return result;
+        Tag tagById = tagRepository.findById(tagId);
+        if (tagById == null) {
+            throw new ServiceException("Tag not found, tag id = " + tagId);
         }
-        throw new ServiceException("Tag not found, tag id should be > 0!");
+        TagTo result = mapper.toDto(tagById);
+        logger.debug("Find TagTo - {}", result);
+        logger.trace("End TagServiceImpl findById");
+        return result;
     }
 
     @Override

@@ -36,22 +36,16 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public boolean delete(long id) {
-        if (id > 0) {
-            return authorRepository.delete(id);
-        }
-        throw new ServiceException("Delete author, id should be > 0!");
+        return authorRepository.delete(id);
     }
 
     @Override
     public AuthorTo findById(long authorId) {
-        if (authorId > 0) {
-            Author authorById = authorRepository.findById(authorId);
-            if (authorById == null) {
-                throw new ServiceException("Author not found by author id = " + authorId);
-            }
-            return mapper.toDto(authorById);
+        Author authorById = authorRepository.findById(authorId);
+        if (authorById == null) {
+            throw new ServiceException("Author not found by author id = " + authorId);
         }
-        throw new ServiceException("Find author, author id should be > 0!");
+        return mapper.toDto(authorById);
     }
 
     @Override

@@ -13,11 +13,13 @@ import java.util.List;
 @RequestMapping("/authors")
 public class AuthorController {
 
+    private static final String WRONG_ID_MESSAGE = "Id must be greater than 0!";
+
     @Autowired
     private AuthorService authorService;
 
     @GetMapping(value = "/{id}")
-    public @ResponseBody AuthorTo getAuthorById(@PathVariable("id") @Positive long id) {
+    public @ResponseBody AuthorTo getAuthorById(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         return authorService.findById(id);
     }
 
@@ -42,7 +44,7 @@ public class AuthorController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public boolean deleteAuthor(@PathVariable("id") @Positive long id) {
+    public boolean deleteAuthor(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         return authorService.delete(id);
     }
 }

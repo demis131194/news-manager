@@ -14,11 +14,13 @@ import java.util.List;
 @RequestMapping("/news")
 public class NewsController {
 
+    private static final String WRONG_ID_MESSAGE = "Id must be greater than 0!";
+
     @Autowired
     private NewsService newsService;
 
     @GetMapping(value = "/{id}")
-    public @ResponseBody NewsTo getNewsById(@PathVariable("id") @Positive long id) {
+    public @ResponseBody NewsTo getNewsById(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         return newsService.findById(id);
     }
 
@@ -27,7 +29,6 @@ public class NewsController {
                                                  @RequestParam(name = "sortDate", defaultValue = "false") boolean sortDate,
                                                  @RequestParam(name = "tagId", required = false) List<Long> tagsId,
                                                  @RequestParam(name = "authorId", required = false) Long authorId) {
-
         SearchCriteria searchCriteria = new SearchCriteria(authorId, tagsId, sortAuthor, sortDate);
         return newsService.findAllBySearchCriteria(searchCriteria);
     }
@@ -48,7 +49,7 @@ public class NewsController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public boolean deleteNews(@PathVariable("id") @Positive long id) {
+    public boolean deleteNews(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         return newsService.delete(id);
     }
 }
