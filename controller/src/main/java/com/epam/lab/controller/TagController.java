@@ -19,11 +19,15 @@ public class TagController {
 
     private static final String WRONG_ID_MESSAGE = "Id must be greater than 0!";
 
-    @Autowired
     private TagService tagService;
 
+    @Autowired
+    public TagController(TagService tagService) {
+        this.tagService = tagService;
+    }
+
     @GetMapping(value = "/{id}")
-    public @ResponseBody TagTo getTagById(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
+    public TagTo getTagById(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         logger.trace("Start TagController getTagById");
         logger.debug("Find tag by id - {}", id);
         TagTo result = tagService.findById(id);
@@ -32,7 +36,7 @@ public class TagController {
     }
 
     @GetMapping
-    public @ResponseBody List<TagTo> getAllTags() {
+    public List<TagTo> getAllTags() {
         logger.trace("Start TagController getAllTags");
         List<TagTo> resultList = tagService.findAll();
         logger.trace("End TagController getTagById");
@@ -40,7 +44,7 @@ public class TagController {
     }
 
     @GetMapping(value = "/count")
-    public @ResponseBody Long getCountTags() {
+    public Long getCountTags() {
         logger.trace("Start TagController count");
         long count = tagService.countAll();
         logger.trace("End TagController count");
@@ -48,7 +52,7 @@ public class TagController {
     }
 
     @PostMapping
-    public @ResponseBody TagTo postTag(@RequestBody @Valid TagTo tagTo) {
+    public TagTo postTag(@RequestBody @Valid TagTo tagTo) {
         logger.trace("Start TagController postTag");
         logger.debug("Post tagTo - {}", tagTo);
         TagTo savedTag = tagService.save(tagTo);
@@ -57,7 +61,7 @@ public class TagController {
     }
 
     @PutMapping
-    public @ResponseBody TagTo putTag(@RequestBody @Valid TagTo tagTo) {
+    public TagTo putTag(@RequestBody @Valid TagTo tagTo) {
         logger.trace("Start TagController putTag");
         logger.debug("Put tagTo - {}", tagTo);
         TagTo savedTag = tagService.save(tagTo);

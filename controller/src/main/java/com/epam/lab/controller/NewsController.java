@@ -16,31 +16,35 @@ public class NewsController {
 
     private static final String WRONG_ID_MESSAGE = "Id must be greater than 0!";
 
-    @Autowired
     private NewsService newsService;
 
+    @Autowired
+    public NewsController(NewsService newsService) {
+        this.newsService = newsService;
+    }
+
     @GetMapping(value = "/{id}")
-    public @ResponseBody NewsTo getNewsById(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
+    public NewsTo getNewsById(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         return newsService.findById(id);
     }
 
     @GetMapping
-    public @ResponseBody List<NewsTo> getAllNews(SearchCriteria searchCriteria) {
+    public List<NewsTo> getAllNews(SearchCriteria searchCriteria) {
         return newsService.findAllBySearchCriteria(searchCriteria);
     }
 
     @GetMapping(value = "/count")
-    public @ResponseBody Long getCountNews() {
+    public Long getCountNews() {
         return newsService.countAll();
     }
 
     @PostMapping
-    public @ResponseBody NewsTo postNews(@RequestBody @Valid NewsTo newsTo) {
+    public NewsTo postNews(@RequestBody @Valid NewsTo newsTo) {
         return newsService.save(newsTo);
     }
 
     @PutMapping
-    public @ResponseBody NewsTo putTag(@RequestBody @Valid NewsTo newsTo) {
+    public NewsTo putTag(@RequestBody @Valid NewsTo newsTo) {
         return newsService.save(newsTo);
     }
 

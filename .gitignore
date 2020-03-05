@@ -13,3 +13,7 @@
 /repository-jpa/src/main/java/com/epam/lab/MainJpa.java
 /repository-jpa/src/test/java/com/epam/lab/MainTestJpa.java
 /logs/
+/controller/controller.iml
+/repository-jdbc/repository-jdbc.iml
+/repository-jpa/repository-jpa.iml
+/service/service.iml
