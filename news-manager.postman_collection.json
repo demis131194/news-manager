@@ -1,0 +1,600 @@
+{
+	"info": {
+		"_postman_id": "0b8760fd-a98b-438c-9022-7fc1d52d20ae",
+		"name": "news-manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tags",
+			"item": [
+				{
+					"name": "get",
+					"item": [
+						{
+							"name": "tag id-X",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{app}}/tags/1",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"tags",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "all tags",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{app}}/tags",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"tags"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count tags",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/simple-project/tags/count",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"simple-project",
+										"tags",
+										"count"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "post",
+					"item": [
+						{
+							"name": "new tag",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": null,\r\n    \"name\": \"Test Create\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{app}}/tags",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"tags"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "new tag name violation",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": null,\r\n    \"name\": \"Test Create QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{app}}/tags",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"tags"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "put",
+					"item": [
+						{
+							"name": "tag id-1",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Test Update\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{app}}/tags",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"tags"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "delete",
+					"item": [
+						{
+							"name": "tag id-1",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{app}}/tags/1",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"tags",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Authors",
+			"item": [
+				{
+					"name": "get",
+					"item": [
+						{
+							"name": "author id-X",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{app}}/authors/9",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"authors",
+										"9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "all authors",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{app}}/authors",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"authors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count authors",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{app}}/authors/count",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"authors",
+										"count"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "post",
+					"item": [
+						{
+							"name": "new author",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": null,\r\n    \"name\": \"Create test author's name\",\r\n    \"surname\": \"Create test surname\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{app}}/authors",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"authors"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "put",
+					"item": [
+						{
+							"name": "update author",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 9,\r\n    \"name\": \"Update test author's name\",\r\n    \"surname\": \"Update test surname\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{app}}/authors",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"authors"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "delete",
+					"item": [
+						{
+							"name": "author id-X",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{app}}/authors/1",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"authors",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "News",
+			"item": [
+				{
+					"name": "get",
+					"item": [
+						{
+							"name": "news id-X",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{app}}/news/2",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"news",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "all news",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{app}}/news",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"news"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "count news",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{app}}/news/count",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"news",
+										"count"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "find by search criteria",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{app}}/news?tagId=2,7&authorId=4",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"news"
+									],
+									"query": [
+										{
+											"key": "sortDate",
+											"value": "true",
+											"description": "sorting by creation date",
+											"disabled": true
+										},
+										{
+											"key": "tagId",
+											"value": "2,7",
+											"description": "filter by tags ids"
+										},
+										{
+											"key": "sortAuthor",
+											"value": "true",
+											"description": "sorting by author",
+											"disabled": true
+										},
+										{
+											"key": "authorId",
+											"value": "4",
+											"description": "filter by author id"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "post",
+					"item": [
+						{
+							"name": "new news",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": null,\r\n    \"title\": \"NEW TEST!!!!!!!!!\",\r\n    \"shortText\": \"Short text 9\",\r\n    \"fullText\": \"Full text 9\",\r\n    \"creationDate\": {\r\n        \"dayOfMonth\": 21,\r\n        \"hour\": 2,\r\n        \"minute\": 50,\r\n        \"month\": \"JANUARY\",\r\n        \"monthValue\": 1,\r\n        \"nano\": 0,\r\n        \"second\": 39,\r\n        \"year\": 2020,\r\n        \"dayOfWeek\": \"TUESDAY\",\r\n        \"dayOfYear\": 21,\r\n        \"chronology\": {\r\n            \"id\": \"ISO\",\r\n            \"calendarType\": \"iso8601\"\r\n        }\r\n    },\r\n    \"modificationDate\": {\r\n        \"dayOfMonth\": 21,\r\n        \"hour\": 16,\r\n        \"minute\": 48,\r\n        \"month\": \"FEBRUARY\",\r\n        \"monthValue\": 2,\r\n        \"nano\": 996607000,\r\n        \"second\": 12,\r\n        \"year\": 2020,\r\n        \"dayOfWeek\": \"FRIDAY\",\r\n        \"dayOfYear\": 52,\r\n        \"chronology\": {\r\n            \"id\": \"ISO\",\r\n            \"calendarType\": \"iso8601\"\r\n        }\r\n    },\r\n    \"author\": {\r\n        \"id\": null,\r\n        \"name\": \"Create new Name\",\r\n        \"surname\": \"CREATE NEWS surn\"\r\n    },\r\n    \"tags\": [\r\n        {\r\n            \"id\": 5,\r\n            \"name\": \"Art\"\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"name\": \"Test Updatses\"\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"name\": \"My\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{app}}/news",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"news"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "put",
+					"item": [
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 16,\r\n    \"title\": \"NEW CRE TE@\",\r\n    \"shortText\": \"Short text 32\",\r\n    \"fullText\": \"Full text 32\",\r\n    \"creationDate\": null,\r\n    \"modificationDate\": null,\r\n    \"author\": {\r\n        \"id\": 6,\r\n        \"name\": \"Nikita\",\r\n        \"surname\": \"Semenov\"\r\n    },\r\n    \"tags\": [\r\n        {\r\n            \"id\": 8,\r\n        \t\"name\": \"Cats\"\r\n        },\r\n        {\r\n            \"id\": 5,\r\n            \"name\": \"Art\"\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"name\": \"Test Updatses\"\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"name\": \"My\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{app}}/news",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"news"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "delete",
+					"item": [
+						{
+							"name": "delete news",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{app}}/news/16",
+									"host": [
+										"{{app}}"
+									],
+									"path": [
+										"news",
+										"16"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
