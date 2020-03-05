@@ -3,6 +3,7 @@ package com.epam.lab.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -16,15 +17,15 @@ public class NewsTo extends BaseTo implements Serializable {
 
     private static final long serialVersionUID = 7360179076370646070L;
 
-    @NotNull
+    @NotBlank
     @Size(min = 1, max = 30)
     private String title;
 
-    @NotNull
+    @NotBlank
     @Size(min = 1, max = 200)
     private String shortText;
 
-    @NotNull
+    @NotBlank
     @Size(min = 1, max = 2000)
     private String fullText;
 

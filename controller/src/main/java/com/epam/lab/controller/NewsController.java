@@ -4,6 +4,7 @@ import com.epam.lab.dto.NewsTo;
 import com.epam.lab.repository.specification.news.SearchCriteria;
 import com.epam.lab.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/news")
+@Validated
 public class NewsController {
 
     private static final String WRONG_ID_MESSAGE = "Id must be greater than 0!";

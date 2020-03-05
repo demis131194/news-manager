@@ -1,5 +1,6 @@
 package com.epam.lab.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -9,8 +10,8 @@ public class TagTo extends BaseTo implements Serializable {
 
     private static final long serialVersionUID = 1566991178285545456L;
 
-    @NotNull
-    @Size(min = 1, max = 30)
+    @NotBlank
+    @Size(max = 30)
     private String name;
 
     public TagTo() {

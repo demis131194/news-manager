@@ -3,6 +3,7 @@ package com.epam.lab.controller;
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/authors")
+@Validated
 public class AuthorController {
 
     private static final String WRONG_ID_MESSAGE = "Id must be greater than 0!";
