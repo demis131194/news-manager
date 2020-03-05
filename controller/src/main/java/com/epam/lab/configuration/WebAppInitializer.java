@@ -1,21 +1,25 @@
 package com.epam.lab.configuration;
 
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 
-public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{AppContextConfig.class};
-    }
-
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{WebConfig.class};
-    }
+public class WebAppInitializer implements WebApplicationInitializer {
 
     @Override
-    protected  String[] getServletMappings() {
-        return new String[]{"/"};
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        AnnotationConfigWebApplicationContext webContext = new AnnotationConfigWebApplicationContext();
+        webContext.register(AppContextConfig.class);
+        webContext.refresh();
+        webContext.setServletContext(servletContext);
+        servletContext.addListener(new ContextLoaderListener(webContext));
+        ServletRegistration.Dynamic servlet = servletContext.addServlet("news", new DispatcherServlet(webContext));
+        servlet.setLoadOnStartup(1);
+        servlet.addMapping("/*");
     }
 }
