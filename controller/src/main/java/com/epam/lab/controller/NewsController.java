@@ -1,13 +1,14 @@
 package com.epam.lab.controller;
 
 import com.epam.lab.dto.NewsTo;
+import com.epam.lab.dto.group.CreateGroup;
+import com.epam.lab.dto.group.UpdateGroup;
 import com.epam.lab.repository.specification.news.SearchCriteria;
 import com.epam.lab.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -41,12 +42,12 @@ public class NewsController {
     }
 
     @PostMapping
-    public NewsTo postNews(@RequestBody @Valid NewsTo newsTo) {
+    public NewsTo postNews(@RequestBody @Validated(CreateGroup.class) NewsTo newsTo) {
         return newsService.save(newsTo);
     }
 
     @PutMapping
-    public NewsTo putTag(@RequestBody @Valid NewsTo newsTo) {
+    public NewsTo putTag(@RequestBody @Validated(UpdateGroup.class) NewsTo newsTo) {
         return newsService.save(newsTo);
     }
 

@@ -1,5 +1,7 @@
 package com.epam.lab.dto;
 
+import com.epam.lab.dto.group.CreateGroup;
+import com.epam.lab.dto.group.UpdateGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.validation.Valid;
@@ -17,16 +19,16 @@ public class NewsTo extends BaseTo implements Serializable {
 
     private static final long serialVersionUID = 7360179076370646070L;
 
-    @NotBlank
-    @Size(min = 1, max = 30)
+    @NotBlank(groups = {CreateGroup.class, UpdateGroup.class})
+    @Size(max = 30, groups = {CreateGroup.class, UpdateGroup.class})
     private String title;
 
     @NotBlank
-    @Size(min = 1, max = 200)
+    @Size(max = 200, groups = {CreateGroup.class, UpdateGroup.class})
     private String shortText;
 
     @NotBlank
-    @Size(min = 1, max = 2000)
+    @Size(max = 2000, groups = {CreateGroup.class, UpdateGroup.class})
     private String fullText;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")

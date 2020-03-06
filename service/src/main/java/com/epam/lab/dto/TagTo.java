@@ -1,7 +1,9 @@
 package com.epam.lab.dto;
 
+import com.epam.lab.dto.group.CreateGroup;
+import com.epam.lab.dto.group.UpdateGroup;
+
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,8 +12,8 @@ public class TagTo extends BaseTo implements Serializable {
 
     private static final long serialVersionUID = 1566991178285545456L;
 
-    @NotBlank
-    @Size(max = 30)
+    @NotBlank(groups = {CreateGroup.class, UpdateGroup.class})
+    @Size(max = 30, groups = {CreateGroup.class, UpdateGroup.class})
     private String name;
 
     public TagTo() {

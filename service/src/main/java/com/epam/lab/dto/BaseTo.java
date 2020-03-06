@@ -1,9 +1,18 @@
 package com.epam.lab.dto;
 
+import com.epam.lab.dto.group.CreateGroup;
+import com.epam.lab.dto.group.UpdateGroup;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 public abstract class BaseTo {
 
+    @NotNull(groups = UpdateGroup.class)
+    @Positive(groups = UpdateGroup.class)
+    @Null(groups = CreateGroup.class)
     private Long id;
 
     public BaseTo() {
