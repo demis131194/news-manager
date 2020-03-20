@@ -31,6 +31,7 @@ public class NewsController {
         return newsService.findById(id);
     }
 
+    @CrossOrigin("http://localhost:3000")
     @GetMapping
     public List<NewsTo> getAllNews(SearchCriteria searchCriteria) {
         return newsService.findAllBySearchCriteria(searchCriteria);

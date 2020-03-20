@@ -30,6 +30,7 @@ public class AuthorController {
         return authorService.findById(id);
     }
 
+    @CrossOrigin("http://localhost:3000")
     @GetMapping
     public List<AuthorTo> getAllAuthors() {
         return authorService.findAll();
