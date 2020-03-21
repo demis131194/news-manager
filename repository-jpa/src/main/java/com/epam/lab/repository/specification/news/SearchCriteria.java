@@ -6,7 +6,7 @@ public class SearchCriteria {
     private Long authorId;
     private Set<Long> tagsId = new HashSet<>();
     private boolean isAuthorSort;
-    private boolean isCreateDateSort;
+    private boolean isCreateDateSort = true;
 
     public SearchCriteria() {
     }

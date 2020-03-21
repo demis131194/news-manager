@@ -33,8 +33,12 @@ public class NewsController {
 
     @CrossOrigin("http://localhost:3000")
     @GetMapping
-    public List<NewsTo> getAllNews(SearchCriteria searchCriteria) {
-        return newsService.findAllBySearchCriteria(searchCriteria);
+    public NewsResponseEntity getAllNews(SearchCriteria searchCriteria,
+                                         @RequestParam(required = false, defaultValue = "1") @Positive int page,
+                                         @RequestParam(required = false, defaultValue = "4") @ Positive int count) {
+        List<NewsTo> allBySearchCriteria = newsService.findAllBySearchCriteria(searchCriteria, page, count);
+        long countAll = newsService.countAll(searchCriteria);
+        return new NewsResponseEntity(allBySearchCriteria, countAll);
     }
 
     @GetMapping(value = "/count")
@@ -55,5 +59,23 @@ public class NewsController {
     @DeleteMapping(value = "/{id}")
     public boolean deleteNews(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         return newsService.delete(id);
+    }
+
+    private static class NewsResponseEntity {
+        private List<NewsTo> news;
+        private Long totalCount;
+
+        public NewsResponseEntity(List<NewsTo> news, Long totalCount) {
+            this.news = news;
+            this.totalCount = totalCount;
+        }
+
+        public List<NewsTo> getNews() {
+            return news;
+        }
+
+        public Long getTotalCount() {
+            return totalCount;
+        }
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.epam.lab.DbTestObjects.*;
@@ -128,6 +129,77 @@ public class JpaNewsRepositoryTest {
         SearchCriteria searchCriteria = new SearchCriteria(EXPECTED_AUTHOR_7.getId(), null, false, true);
         JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
         List<News> actual = newsRepository.findAllBySpecification(specification);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findAllBySearchCriteriaTest_1_page() {
+        int page = 2;
+        int count = 2;
+        List<News> expected = Arrays.asList(EXPECTED_NEWS_2, EXPECTED_NEWS_4);
+        SearchCriteria searchCriteria = new SearchCriteria(null, null, false, true);
+        JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
+        List<News> actual = newsRepository.findAllBySpecification(specification, page, count);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findAllBySearchCriteriaTest_2_page() {
+        int page = 1;
+        int count = 2;
+        List<News> expected = Arrays.asList(EXPECTED_NEWS_11, EXPECTED_NEWS_3);
+        SearchCriteria searchCriteria = new SearchCriteria(null, null, false, true);
+        JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
+        List<News> actual = newsRepository.findAllBySpecification(specification, page, count);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findAllBySearchCriteriaTest_3_page() {
+        int page = 1;
+        int count = 3;
+        List<News> expected = Arrays.asList(EXPECTED_NEWS_11, EXPECTED_NEWS_2, EXPECTED_NEWS_4);
+        SearchCriteria searchCriteria = new SearchCriteria(null, Collections.singleton(EXPECTED_TAG_2.getId()), false, true);
+        JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
+        List<News> actual = newsRepository.findAllBySpecification(specification, page, count);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findAllBySearchCriteriaTest_4_page() {
+        int page = 2;
+        int count = 4;
+        List<News> expected = Arrays.asList(EXPECTED_NEWS_7, EXPECTED_NEWS_9, EXPECTED_NEWS_10, EXPECTED_NEWS_1);
+        SearchCriteria searchCriteria = new SearchCriteria(null, Collections.singleton(EXPECTED_TAG_2.getId()), false, true);
+        JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
+        List<News> actual = newsRepository.findAllBySpecification(specification, page, count);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void countBySearchCriteriaTest_1() {
+        Long expected = 11L;
+        SearchCriteria searchCriteria = new SearchCriteria(null, null, true, true);
+        JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
+        Long actual = newsRepository.countAll(specification);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void countAllBySearchCriteriaTest_4() {
+        Long expected = 3L;
+        SearchCriteria searchCriteria = new SearchCriteria(null, Arrays.asList(EXPECTED_TAG_1.getId(), EXPECTED_TAG_2.getId()), false, false);
+        JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
+        Long actual = newsRepository.countAll(specification);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void countBySearchCriteriaTest_5() {
+        Long expected = 2L;
+        SearchCriteria searchCriteria = new SearchCriteria(EXPECTED_AUTHOR_7.getId(), null, false, true);
+        JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
+        Long actual = newsRepository.countAll(specification);
         assertEquals(expected, actual);
     }
 }

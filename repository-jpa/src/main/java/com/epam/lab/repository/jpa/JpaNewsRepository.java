@@ -51,6 +51,11 @@ public class JpaNewsRepository implements NewsRepository {
     }
 
     @Override
+    public List<News> findAllBySpecification(JpaSpecification<News> specification, int page, int count) {
+        return specification.query(entityManager).setFirstResult((page - 1) * count).setMaxResults(count).getResultList();
+    }
+
+    @Override
     public List<News> findAll() {
         return entityManager.createNamedQuery(News.FIND_ALL, News.class).getResultList();
     }
@@ -58,6 +63,11 @@ public class JpaNewsRepository implements NewsRepository {
     @Override
     public long countAll() {
         return entityManager.createNamedQuery(News.COUNT_ALL, Long.class).getSingleResult();
+    }
+
+    @Override
+    public long countAll(JpaSpecification<News> specification) {
+        return specification.query(entityManager).getResultList().size();
     }
 
     private void createAuthorAndTagsIfNotExists(News news) {

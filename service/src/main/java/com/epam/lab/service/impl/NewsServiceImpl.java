@@ -65,8 +65,21 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    public List<NewsTo> findAllBySearchCriteria(SearchCriteria searchCriteria, int page, int count) {
+        JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
+        List<News> allBySpecification = newsRepository.findAllBySpecification(specification, page, count);
+        return convertToNewsTo(allBySpecification);
+    }
+
+    @Override
     public long countAll() {
         return newsRepository.countAll();
+    }
+
+    @Override
+    public long countAll(SearchCriteria searchCriteria) {
+        JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
+        return newsRepository.countAll(specification);
     }
 
     private List<NewsTo> convertToNewsTo(List<News> all) {
