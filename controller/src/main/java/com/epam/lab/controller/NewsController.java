@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/news")
+@CrossOrigin("http://localhost:3000")
 @Validated
 public class NewsController {
 
@@ -26,13 +27,11 @@ public class NewsController {
         this.newsService = newsService;
     }
 
-    @CrossOrigin("http://localhost:3000")
     @GetMapping(value = "/{id}")
     public NewsTo getNewsById(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         return newsService.findById(id);
     }
 
-    @CrossOrigin("http://localhost:3000")
     @GetMapping
     public NewsResponseEntity getAllNews(SearchCriteria searchCriteria,
                                          @RequestParam(required = false, defaultValue = "1") @Positive int page,

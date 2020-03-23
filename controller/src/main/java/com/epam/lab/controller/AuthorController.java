@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/authors")
+@CrossOrigin("http://localhost:3000")
 @Validated
 public class AuthorController {
 
@@ -30,7 +31,6 @@ public class AuthorController {
         return authorService.findById(id);
     }
 
-    @CrossOrigin("http://localhost:3000")
     @GetMapping
     public List<AuthorTo> getAllAuthors() {
         return authorService.findAll();

@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tags")
+@CrossOrigin("http://localhost:3000")
 @Validated
 public class TagController {
 
@@ -38,7 +39,6 @@ public class TagController {
         return result;
     }
 
-    @CrossOrigin("http://localhost:3000")
     @GetMapping
     public List<TagTo> getAllTags() {
         logger.trace("Start TagController getAllTags");
