@@ -64,7 +64,7 @@ public class FindNewsBySearchCriteriaJpaSpecification implements JpaSpecificatio
             groupExpressionsList.add(newsRoot.get("author").get("id"));
         }
         if (searchCriteria.isCreateDateSort()) {
-            orderList.add(criteriaBuilder.asc(newsRoot.get("creationDate")));
+            orderList.add(criteriaBuilder.desc(newsRoot.get("creationDate")));
         }
 
         newsCriteriaQuery.where(allPredicatesForWhere).groupBy(groupExpressionsList).orderBy(orderList);

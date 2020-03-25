@@ -1,8 +1,6 @@
 package com.epam.lab.controller;
 
 import com.epam.lab.dto.NewsTo;
-import com.epam.lab.dto.group.CreateGroup;
-import com.epam.lab.dto.group.UpdateGroup;
 import com.epam.lab.repository.specification.news.SearchCriteria;
 import com.epam.lab.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ public class NewsController {
     @GetMapping
     public NewsResponseEntity getAllNews(SearchCriteria searchCriteria,
                                          @RequestParam(required = false, defaultValue = "1") @Positive int page,
-                                         @RequestParam(required = false, defaultValue = "4") @ Positive int pageSize) {
+                                         @RequestParam(required = false, defaultValue = "4") @Positive int pageSize) {
         List<NewsTo> allBySearchCriteria = newsService.findAllBySearchCriteria(searchCriteria, page, pageSize);
         long countAll = newsService.countAll(searchCriteria);
         return new NewsResponseEntity(allBySearchCriteria, countAll);
@@ -47,12 +45,12 @@ public class NewsController {
     }
 
     @PostMapping
-    public NewsTo postNews(@RequestBody @Validated(CreateGroup.class) NewsTo newsTo) {
+    public NewsTo postNews(@RequestBody @Validated NewsTo newsTo) {
         return newsService.save(newsTo);
     }
 
     @PutMapping
-    public NewsTo putTag(@RequestBody @Validated(UpdateGroup.class) NewsTo newsTo) {
+    public NewsTo putTag(@RequestBody @Validated NewsTo newsTo) {
         return newsService.save(newsTo);
     }
 

@@ -86,8 +86,8 @@ public class JpaNewsRepositoryTest {
 
     @Test
     public void findAllBySearchCriteriaTest_1() {
-        List<News> expected = Arrays.asList(EXPECTED_NEWS_5, EXPECTED_NEWS_4, EXPECTED_NEWS_7, EXPECTED_NEWS_11, EXPECTED_NEWS_10,
-                EXPECTED_NEWS_1, EXPECTED_NEWS_2, EXPECTED_NEWS_8, EXPECTED_NEWS_6, EXPECTED_NEWS_9, EXPECTED_NEWS_3);
+        List<News> expected = Arrays.asList(EXPECTED_NEWS_5, EXPECTED_NEWS_7, EXPECTED_NEWS_4, EXPECTED_NEWS_1, EXPECTED_NEWS_10,
+                EXPECTED_NEWS_11, EXPECTED_NEWS_8, EXPECTED_NEWS_2, EXPECTED_NEWS_9, EXPECTED_NEWS_6, EXPECTED_NEWS_3);
         SearchCriteria searchCriteria = new SearchCriteria(null, null, true, true);
         JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
         List<News> actual = newsRepository.findAllBySpecification(specification);
@@ -106,8 +106,8 @@ public class JpaNewsRepositoryTest {
 
     @Test
     public void findAllBySearchCriteriaTest_3() {
-        List<News> expected = Arrays.asList(EXPECTED_NEWS_11, EXPECTED_NEWS_3, EXPECTED_NEWS_2, EXPECTED_NEWS_4, EXPECTED_NEWS_5,
-                EXPECTED_NEWS_6, EXPECTED_NEWS_8, EXPECTED_NEWS_7, EXPECTED_NEWS_9, EXPECTED_NEWS_10, EXPECTED_NEWS_1);
+        List<News> expected = Arrays.asList(EXPECTED_NEWS_1, EXPECTED_NEWS_10, EXPECTED_NEWS_9, EXPECTED_NEWS_7, EXPECTED_NEWS_8,
+                EXPECTED_NEWS_6, EXPECTED_NEWS_5, EXPECTED_NEWS_4, EXPECTED_NEWS_2, EXPECTED_NEWS_3, EXPECTED_NEWS_11);
         SearchCriteria searchCriteria = new SearchCriteria(null, null, false, true);
         JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
         List<News> actual = newsRepository.findAllBySpecification(specification);
@@ -125,7 +125,7 @@ public class JpaNewsRepositoryTest {
 
     @Test
     public void findAllBySearchCriteriaTest_5() {
-        List<News> expected = Arrays.asList(EXPECTED_NEWS_2, EXPECTED_NEWS_8);
+        List<News> expected = Arrays.asList(EXPECTED_NEWS_8, EXPECTED_NEWS_2);
         SearchCriteria searchCriteria = new SearchCriteria(EXPECTED_AUTHOR_7.getId(), null, false, true);
         JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
         List<News> actual = newsRepository.findAllBySpecification(specification);
@@ -136,7 +136,7 @@ public class JpaNewsRepositoryTest {
     public void findAllBySearchCriteriaTest_1_page() {
         int page = 2;
         int count = 2;
-        List<News> expected = Arrays.asList(EXPECTED_NEWS_2, EXPECTED_NEWS_4);
+        List<News> expected = Arrays.asList(EXPECTED_NEWS_9, EXPECTED_NEWS_7);
         SearchCriteria searchCriteria = new SearchCriteria(null, null, false, true);
         JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
         List<News> actual = newsRepository.findAllBySpecification(specification, page, count);
@@ -147,7 +147,7 @@ public class JpaNewsRepositoryTest {
     public void findAllBySearchCriteriaTest_2_page() {
         int page = 1;
         int count = 2;
-        List<News> expected = Arrays.asList(EXPECTED_NEWS_11, EXPECTED_NEWS_3);
+        List<News> expected = Arrays.asList(EXPECTED_NEWS_1, EXPECTED_NEWS_10);
         SearchCriteria searchCriteria = new SearchCriteria(null, null, false, true);
         JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
         List<News> actual = newsRepository.findAllBySpecification(specification, page, count);
@@ -158,7 +158,7 @@ public class JpaNewsRepositoryTest {
     public void findAllBySearchCriteriaTest_3_page() {
         int page = 1;
         int count = 3;
-        List<News> expected = Arrays.asList(EXPECTED_NEWS_11, EXPECTED_NEWS_2, EXPECTED_NEWS_4);
+        List<News> expected = Arrays.asList(EXPECTED_NEWS_1, EXPECTED_NEWS_10, EXPECTED_NEWS_9);
         SearchCriteria searchCriteria = new SearchCriteria(null, Collections.singleton(EXPECTED_TAG_2.getId()), false, true);
         JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
         List<News> actual = newsRepository.findAllBySpecification(specification, page, count);
@@ -169,7 +169,7 @@ public class JpaNewsRepositoryTest {
     public void findAllBySearchCriteriaTest_4_page() {
         int page = 2;
         int count = 4;
-        List<News> expected = Arrays.asList(EXPECTED_NEWS_7, EXPECTED_NEWS_9, EXPECTED_NEWS_10, EXPECTED_NEWS_1);
+        List<News> expected = Arrays.asList(EXPECTED_NEWS_6, EXPECTED_NEWS_4, EXPECTED_NEWS_2, EXPECTED_NEWS_11);
         SearchCriteria searchCriteria = new SearchCriteria(null, Collections.singleton(EXPECTED_TAG_2.getId()), false, true);
         JpaSpecification<News> specification = new FindNewsBySearchCriteriaJpaSpecification(searchCriteria);
         List<News> actual = newsRepository.findAllBySpecification(specification, page, count);

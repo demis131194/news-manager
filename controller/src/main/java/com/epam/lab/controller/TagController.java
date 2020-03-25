@@ -1,8 +1,6 @@
 package com.epam.lab.controller;
 
 import com.epam.lab.dto.TagTo;
-import com.epam.lab.dto.group.CreateGroup;
-import com.epam.lab.dto.group.UpdateGroup;
 import com.epam.lab.service.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +54,7 @@ public class TagController {
     }
 
     @PostMapping
-    public TagTo postTag(@RequestBody @Validated(CreateGroup.class) TagTo tagTo) {
+    public TagTo postTag(@RequestBody @Validated TagTo tagTo) {
         logger.trace("Start TagController postTag");
         logger.debug("Post tagTo - {}", tagTo);
         TagTo savedTag = tagService.save(tagTo);
@@ -65,7 +63,7 @@ public class TagController {
     }
 
     @PutMapping
-    public TagTo putTag(@RequestBody @Validated(UpdateGroup.class) TagTo tagTo) {
+    public TagTo putTag(@RequestBody @Validated TagTo tagTo) {
         logger.trace("Start TagController putTag");
         logger.debug("Put tagTo - {}", tagTo);
         TagTo savedTag = tagService.save(tagTo);

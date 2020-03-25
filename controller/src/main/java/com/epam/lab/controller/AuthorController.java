@@ -1,8 +1,6 @@
 package com.epam.lab.controller;
 
 import com.epam.lab.dto.AuthorTo;
-import com.epam.lab.dto.group.CreateGroup;
-import com.epam.lab.dto.group.UpdateGroup;
 import com.epam.lab.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -42,12 +40,12 @@ public class AuthorController {
     }
 
     @PostMapping
-    public AuthorTo postAuthor(@RequestBody @Validated(CreateGroup.class) AuthorTo authorTo) {
+    public AuthorTo postAuthor(@RequestBody @Validated AuthorTo authorTo) {
         return authorService.save(authorTo);
     }
 
     @PutMapping
-    public AuthorTo putAuthor(@RequestBody @Validated(UpdateGroup.class) AuthorTo authorTo) {
+    public AuthorTo putAuthor(@RequestBody @Validated AuthorTo authorTo) {
         return authorService.save(authorTo);
     }
 
