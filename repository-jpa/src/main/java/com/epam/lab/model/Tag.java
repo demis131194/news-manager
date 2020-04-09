@@ -19,10 +19,10 @@ public class Tag extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 4998934308271340034L;
 
-    public static final String COUNT_ALL = "User.countAll";
-    public static final String DELETE = "User.delete";
-    public static final String FIND_ALL = "User.findAll";
-    public static final String FIND_BY_NAME = "User.findByName";
+    public static final String COUNT_ALL = "Tag.countAll";
+    public static final String DELETE = "Tag.delete";
+    public static final String FIND_ALL = "Tag.findAll";
+    public static final String FIND_BY_NAME = "Tag.findByName";
 
     @Column(name = DbConstants.TAGS_NAME_COLUMN_NAME, nullable = false, unique = true)
     private String name;
