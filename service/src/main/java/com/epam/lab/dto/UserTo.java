@@ -1,47 +1,32 @@
-package com.epam.lab.model;
+package com.epam.lab.dto;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-import static com.epam.lab.repository.DbConstants.USERS_TABLE_NAME;
+public class UserTo extends BaseTo implements Serializable {
 
-@Entity
-@Table(name = USERS_TABLE_NAME)
-@Access(AccessType.FIELD)
-@NamedQueries({
-        @NamedQuery(name = User.FIND_ALL, query = "SELECT u FROM User u"),
-        @NamedQuery(name = User.COUNT_ALL, query = "SELECT COUNT(u) FROM User u"),
-        @NamedQuery(name = User.FIND_BY_LOGIN, query = "SELECT u FROM User u WHERE u.login=?1")
-})
-public class User extends BaseEntity implements Serializable {
+    private static final long serialVersionUID = 165608384289638734L;
 
-    private static final long serialVersionUID = -8034994922027401173L;
-
-    public static final String COUNT_ALL = "User.countAll";
-    public static final String FIND_ALL = "User.findAll";
-    public static final String FIND_BY_LOGIN = "User.findByLogin";
-
-    @Column(name = "name")
+    @NotBlank
+    @Size(max = 20)
     private String name;
 
-    @Column(name = "surname")
+    @NotBlank
+    @Size(max = 20)
     private String surname;
 
-    @Column(name = "login")
+    @NotBlank
+    @Size(max = 30)
     private String login;
 
-    @Column(name = "password")
+    @NotBlank
+    @Size(max = 30)
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name="roles", joinColumns=@JoinColumn(name="user_id"))
-    @Column(name="role_name")
-    private List<String> roles;
-
-    public User() {
-    }
+    private List< @Size(max = 30) String> roles;
 
     public String getName() {
         return name;
@@ -88,21 +73,25 @@ public class User extends BaseEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        User user = (User) o;
-        return Objects.equals(login, user.login);
+        UserTo userTo = (UserTo) o;
+        return Objects.equals(name, userTo.name) &&
+                Objects.equals(surname, userTo.surname) &&
+                Objects.equals(login, userTo.login) &&
+                Objects.equals(roles, userTo.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), login);
+        return Objects.hash(super.hashCode(), name, surname, login, roles);
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
+        final StringBuilder sb = new StringBuilder("UserTo{");
         sb.append("name='").append(name).append('\'');
         sb.append(", surname='").append(surname).append('\'');
         sb.append(", login='").append(login).append('\'');
+        sb.append(", password='").append(password).append('\'');
         sb.append(", roles=").append(roles);
         sb.append('}');
         return sb.toString();

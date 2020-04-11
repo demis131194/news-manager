@@ -1,9 +1,7 @@
 package com.epam.lab.repository.jpa;
 
 import com.epam.lab.exception.RepositoryException;
-import com.epam.lab.model.Tag;
 import com.epam.lab.model.User;
-import com.epam.lab.repository.DbConstants;
 import com.epam.lab.repository.UserRepository;
 import com.epam.lab.repository.specification.JpaSpecification;
 import org.slf4j.Logger;
@@ -14,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
@@ -94,7 +92,7 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public User findByLogin(String login) {
+    public Optional<User> findByLogin(String login) {
         User user = null;
         try {
             user = entityManager.createNamedQuery(User.FIND_BY_LOGIN, User.class)
@@ -102,6 +100,6 @@ public class JpaUserRepository implements UserRepository {
                     .getSingleResult();
         } catch (NoResultException ignored) {
         }
-        return user;
+        return Optional.ofNullable(user);
     }
 }
