@@ -45,16 +45,19 @@ public class NewsController {
     }
 
     @PostMapping
+//    @PreAuthorize("hasAuthority('news:post')")
     public NewsTo postNews(@RequestBody @Validated NewsTo newsTo) {
         return newsService.save(newsTo);
     }
 
     @PutMapping
-    public NewsTo putTag(@RequestBody @Validated NewsTo newsTo) {
+//    @PreAuthorize("hasAuthority('news:put')")
+    public NewsTo putNews(@RequestBody @Validated NewsTo newsTo) {
         return newsService.save(newsTo);
     }
 
     @DeleteMapping(value = "/{id}")
+//    @PreAuthorize("hasAuthority('news:delete')")
     public boolean deleteNews(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         return newsService.delete(id);
     }

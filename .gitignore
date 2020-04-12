@@ -18,3 +18,4 @@
 /repository-jpa/repository-jpa.iml
 /service/service.iml
 /.idea/misc.xml
+/repository-jpa/src/main/java/com/epam/lab/Main.java

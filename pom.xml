@@ -20,7 +20,7 @@
         <!-- Tests -->
         <junit.version>4.12</junit.version>
         <!-- Spring -->
-        <spring.version>5.2.2.RELEASE</spring.version>
+        <spring.version>5.2.3.RELEASE</spring.version>
         <!-- Logging version -->
         <slf4j.version>1.7.30</slf4j.version>
         <log4j.version>2.13.0</log4j.version>
@@ -119,5 +119,12 @@
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${log4j.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>28.2-jre</version>
+        </dependency>
+
     </dependencies>
 </project>

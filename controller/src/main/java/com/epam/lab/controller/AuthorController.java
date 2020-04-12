@@ -40,16 +40,19 @@ public class AuthorController {
     }
 
     @PostMapping
+//    @PreAuthorize("hasAuthority('authors:post')")
     public AuthorTo postAuthor(@RequestBody @Validated AuthorTo authorTo) {
         return authorService.save(authorTo);
     }
 
     @PutMapping
+//    @PreAuthorize("hasAuthority('authors:put')")
     public AuthorTo putAuthor(@RequestBody @Validated AuthorTo authorTo) {
         return authorService.save(authorTo);
     }
 
     @DeleteMapping(value = "/{id}")
+//    @PreAuthorize("hasAuthority('authors:delete')")
     public boolean deleteAuthor(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         return authorService.delete(id);
     }

@@ -54,6 +54,7 @@ public class TagController {
     }
 
     @PostMapping
+//    @PreAuthorize("hasAuthority('tags:post')")
     public TagTo postTag(@RequestBody @Validated TagTo tagTo) {
         logger.trace("Start TagController postTag");
         logger.debug("Post tagTo - {}", tagTo);
@@ -63,6 +64,7 @@ public class TagController {
     }
 
     @PutMapping
+//    @PreAuthorize("hasAuthority('tags:put')")
     public TagTo putTag(@RequestBody @Validated TagTo tagTo) {
         logger.trace("Start TagController putTag");
         logger.debug("Put tagTo - {}", tagTo);
@@ -72,6 +74,7 @@ public class TagController {
     }
 
     @DeleteMapping(value = "/{id}")
+//    @PreAuthorize("hasAuthority('tags:delete')")
     public boolean deleteTag(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         logger.trace("Start TagController deleteTag");
         logger.debug("Delete tag, id - {}", id);
