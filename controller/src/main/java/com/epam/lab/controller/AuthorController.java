@@ -3,7 +3,6 @@ package com.epam.lab.controller;
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +11,7 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/authors", consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/authors")
 @CrossOrigin("http://localhost:3000")
 @Validated
 public class AuthorController {

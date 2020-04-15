@@ -5,7 +5,6 @@ import com.epam.lab.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,7 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/users")
 @CrossOrigin("http://localhost:3000")
 @Validated
 @PreAuthorize("hasRole('ADMIN')")
@@ -32,42 +31,36 @@ public class UsersController {
     }
 
     @GetMapping(value = "/{id}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserTo getUserById(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         UserTo result = userService.findById(id);
         return result;
     }
 
     @GetMapping
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<UserTo> getAllUsers() {
         List<UserTo> resultList = userService.findAll();
         return resultList;
     }
 
     @GetMapping(value = "/count")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Long getCountUsers() {
         long count = userService.countAll();
         return count;
     }
 
     @PostMapping
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserTo postUser(@RequestBody @Validated UserTo userTo) {
         UserTo savedTag = userService.save(userTo);
         return savedTag;
     }
 
     @PutMapping
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserTo putUser(@RequestBody @Validated UserTo userTo) {
         UserTo savedTag = userService.save(userTo);
         return savedTag;
     }
 
     @DeleteMapping(value = "/{id}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public boolean deleteUser(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         boolean isDelete = userService.delete(id);
         return isDelete;

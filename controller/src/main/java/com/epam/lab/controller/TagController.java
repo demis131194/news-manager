@@ -14,7 +14,7 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/tags", consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/tags")
 @CrossOrigin("http://localhost:3000")
 @Validated
 public class TagController {
@@ -55,7 +55,7 @@ public class TagController {
         return count;
     }
 
-    @PostMapping
+    @PostMapping( consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public TagTo postTag(@RequestBody @Validated TagTo tagTo) {
         logger.trace("Start TagController postTag");
