@@ -30,7 +30,7 @@ public class MyUserDetailsService implements UserDetailsService {
         try {
             UserTo userByLogin = userService.findByLogin(login);
             Set<GrantedAuthority> grantedAuthorities = Sets.newHashSet();
-            userByLogin.getRoles().forEach(role -> grantedAuthorities.addAll(UserRole.valueOf(role).getGrantedAuthorities()));
+            userByLogin.getRoles().forEach(role -> grantedAuthorities.add(UserRole.valueOf(role).getRoleGrantedAuthority()));
 
             SecurityUser securityUser = new SecurityUser(userByLogin.getId(), userByLogin.getLogin(), userByLogin.getPassword(), grantedAuthorities);
             securityUser.setName(userByLogin.getName());

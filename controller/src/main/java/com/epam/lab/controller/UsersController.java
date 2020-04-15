@@ -5,6 +5,7 @@ import com.epam.lab.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("/users")
 @CrossOrigin("http://localhost:3000")
 @Validated
+@PreAuthorize("hasRole('ADMIN')")
 public class UsersController {
 
     private static final Logger logger = LoggerFactory.getLogger(UsersController.class);

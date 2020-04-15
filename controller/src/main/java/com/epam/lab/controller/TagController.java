@@ -5,6 +5,7 @@ import com.epam.lab.service.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,7 +55,7 @@ public class TagController {
     }
 
     @PostMapping
-//    @PreAuthorize("hasAuthority('tags:post')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public TagTo postTag(@RequestBody @Validated TagTo tagTo) {
         logger.trace("Start TagController postTag");
         logger.debug("Post tagTo - {}", tagTo);
@@ -64,7 +65,7 @@ public class TagController {
     }
 
     @PutMapping
-//    @PreAuthorize("hasAuthority('tags:put')")
+    @PreAuthorize("hasRole('ADMIN')")
     public TagTo putTag(@RequestBody @Validated TagTo tagTo) {
         logger.trace("Start TagController putTag");
         logger.debug("Put tagTo - {}", tagTo);
@@ -74,7 +75,7 @@ public class TagController {
     }
 
     @DeleteMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('tags:delete')")
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean deleteTag(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         logger.trace("Start TagController deleteTag");
         logger.debug("Delete tag, id - {}", id);

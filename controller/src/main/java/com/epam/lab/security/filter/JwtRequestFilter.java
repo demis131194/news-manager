@@ -1,13 +1,11 @@
 package com.epam.lab.security.filter;
 
-import com.epam.lab.security.model.SecurityUser;
-import com.epam.lab.security.service.MyUserDetailsService;
 import com.epam.lab.security.util.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.common.base.Strings;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -15,35 +13,46 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Set;
 
-@Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private MyUserDetailsService detailsService;
+    private static final String TOKEN_PREFIX = "Bearer ";
+    private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        final String authorizationHeader = request.getHeader("Authorization");
+        final String authorizationHeader = request.getHeader(AUTHORIZATION_HEADER_NAME);
 
-        String username = null;
-        String jwt = null;
-
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            jwt = authorizationHeader.replace("Bearer ", "");
-            username = JwtUtil.extractUsername(jwt);
+        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(TOKEN_PREFIX)) {
+            filterChain.doFilter(request, response);
+            return;
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            SecurityUser securityUser = (SecurityUser) detailsService.loadUserByUsername(username);
-            if (JwtUtil.validateToken(jwt, securityUser)) {
-                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                        securityUser, null, securityUser.getAuthorities());
-                token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(token);
-            }
+        String token = authorizationHeader.replace(TOKEN_PREFIX, "");
+
+        if (JwtUtil.validateToken(token)) {
+
+            String login = JwtUtil.extractLogin(token);
+            Set<SimpleGrantedAuthority> authoritySet = JwtUtil.extractAuthorities(token);
+
+            Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
+                    login,
+                    null,
+                    authoritySet
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
 
         filterChain.doFilter(request, response);
     }
+
+
+
+
+
+
+
+
 }

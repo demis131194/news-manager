@@ -8,34 +8,38 @@ import com.epam.lab.security.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/security")
+@RequestMapping("/auth")
 public class SecurityController {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
     private MyUserDetailsService myUserDetailsService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        try {
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(authenticationRequest.getUserName(), authenticationRequest.getPassword());
-            authenticationManager.authenticate(authToken);
-        } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password!", e);
-        }
+    @Autowired
+    public SecurityController(AuthenticationManager authenticationManager, MyUserDetailsService myUserDetailsService) {
+        this.authenticationManager = authenticationManager;
+        this.myUserDetailsService = myUserDetailsService;
+    }
 
-        SecurityUser userDetails = (SecurityUser) myUserDetailsService.loadUserByUsername(authenticationRequest.getUserName());
-        final String jwt = JwtUtil.generateToken(userDetails);
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                authenticationRequest.getUsername(),
+                authenticationRequest.getPassword());
+        Authentication authentication = authenticationManager.authenticate(authToken);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        final String jwt = JwtUtil.generateToken((SecurityUser) authentication.getPrincipal());
+
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 }

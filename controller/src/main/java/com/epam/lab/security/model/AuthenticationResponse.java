@@ -2,13 +2,26 @@ package com.epam.lab.security.model;
 
 public class AuthenticationResponse {
 
-    private final String jwt;
+    private String accessToken;
+    private String tokenType = "Bearer";
 
-    public AuthenticationResponse(String jwt) {
-        this.jwt = jwt;
+    public AuthenticationResponse(String accessToken) {
+        this.accessToken = accessToken;
     }
 
-    public String getJwt() {
-        return jwt;
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
     }
 }

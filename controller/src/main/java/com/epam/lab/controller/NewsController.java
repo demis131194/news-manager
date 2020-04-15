@@ -4,6 +4,7 @@ import com.epam.lab.dto.NewsTo;
 import com.epam.lab.repository.specification.news.SearchCriteria;
 import com.epam.lab.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,19 +46,19 @@ public class NewsController {
     }
 
     @PostMapping
-//    @PreAuthorize("hasAuthority('news:post')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public NewsTo postNews(@RequestBody @Validated NewsTo newsTo) {
         return newsService.save(newsTo);
     }
 
     @PutMapping
-//    @PreAuthorize("hasAuthority('news:put')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public NewsTo putNews(@RequestBody @Validated NewsTo newsTo) {
         return newsService.save(newsTo);
     }
 
     @DeleteMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('news:delete')")
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean deleteNews(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         return newsService.delete(id);
     }

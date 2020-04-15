@@ -3,6 +3,7 @@ package com.epam.lab.controller;
 import com.epam.lab.dto.AuthorTo;
 import com.epam.lab.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,19 +41,19 @@ public class AuthorController {
     }
 
     @PostMapping
-//    @PreAuthorize("hasAuthority('authors:post')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public AuthorTo postAuthor(@RequestBody @Validated AuthorTo authorTo) {
         return authorService.save(authorTo);
     }
 
     @PutMapping
-//    @PreAuthorize("hasAuthority('authors:put')")
+    @PreAuthorize("hasRole('ADMIN')")
     public AuthorTo putAuthor(@RequestBody @Validated AuthorTo authorTo) {
         return authorService.save(authorTo);
     }
 
     @DeleteMapping(value = "/{id}")
-//    @PreAuthorize("hasAuthority('authors:delete')")
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean deleteAuthor(@PathVariable("id") @Positive(message = WRONG_ID_MESSAGE) long id) {
         return authorService.delete(id);
     }

@@ -60,3 +60,11 @@ INSERT INTO news_authors(news_id, author_id) VALUES
 (9, 8),
 (10, 1),
 (11, 1);
+
+INSERT INTO users(id, name, surname, login, password) VALUES
+(1, 'Admin', 'Admin', 'admin', '$2a$10$BDEDg7UPuDauJ.O1i/NsCee4NczrOqOTop/WhPwHRC2V8u76iYBVu'),
+(2, 'User', 'User', 'user', '$2a$10$0LhnCXwJiXwUOuUM6Y1PlunjqvGGAbVlNQmCpCS1QEjep56dHILSa');
+
+INSERT INTO roles(user_id, role_name) VALUES
+(1, 'ADMIN'),
+(2, 'USER');

@@ -121,7 +121,7 @@ CREATE TABLE public.users
     name character varying(20) COLLATE pg_catalog."default" NOT NULL,
     surname character varying(20) COLLATE pg_catalog."default" NOT NULL,
     login character varying(30) COLLATE pg_catalog."default" NOT NULL,
-    password character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(70) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT users_pkey PRIMARY KEY (id)
 )
     WITH (
