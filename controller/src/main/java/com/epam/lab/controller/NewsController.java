@@ -4,6 +4,7 @@ import com.epam.lab.dto.NewsTo;
 import com.epam.lab.repository.specification.news.SearchCriteria;
 import com.epam.lab.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
-@RequestMapping("/news")
+@RequestMapping(value = "/news", consumes = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin("http://localhost:3000")
 @Validated
 public class NewsController {
