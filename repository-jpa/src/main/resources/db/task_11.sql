@@ -124,4 +124,47 @@ CREATE TRIGGER users_insert_logging_trigger
 EXECUTE PROCEDURE logging();
 
 
+-- 7 or 8
+SELECT nspname || '.' || relname AS "relation",
+       pg_size_pretty(pg_total_relation_size(C.oid)) AS "total_size"
+FROM pg_class C
+         LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+WHERE nspname NOT IN ('pg_catalog', 'information_schema')
+  AND C.relkind <> 'i'
+  AND nspname !~ '^pg_toast'
+ORDER BY pg_total_relation_size(C.oid) DESC
+LIMIT 8;
+
+SELECT a.oid,
+       a.table_schema,
+       a.table_name,
+       a.row_estimate,
+       a.total_bytes,
+       a.index_bytes,
+       a.toast_bytes,
+       a.table_bytes,
+       pg_size_pretty(a.total_bytes) AS total,
+       pg_size_pretty(a.index_bytes) AS index,
+       pg_size_pretty(a.toast_bytes) AS toast,
+       pg_size_pretty(a.table_bytes) AS "table"
+FROM ( SELECT a_1.oid,
+              a_1.table_schema,
+              a_1.table_name,
+              a_1.row_estimate,
+              a_1.total_bytes,
+              a_1.index_bytes,
+              a_1.toast_bytes,
+              a_1.total_bytes - a_1.index_bytes - COALESCE(a_1.toast_bytes, 0::bigint) AS table_bytes
+       FROM ( SELECT c.oid,
+                     n.nspname AS table_schema,
+                     c.relname AS table_name,
+                     c.reltuples AS row_estimate,
+                     pg_total_relation_size(c.oid::regclass) AS total_bytes,
+                     pg_indexes_size(c.oid::regclass) AS index_bytes,
+                     pg_total_relation_size(c.reltoastrelid::regclass) AS toast_bytes
+              FROM pg_class c
+                       LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+              WHERE c.relkind = 'r'::"char") a_1) a
+
+
 
