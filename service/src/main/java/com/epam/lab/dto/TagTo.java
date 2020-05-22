@@ -21,6 +21,10 @@ public class TagTo extends BaseTo implements Serializable {
         this.name = name;
     }
 
+    public TagTo(String name) {
+        this(null, name);
+    }
+
     public String getName() {
         return name;
     }

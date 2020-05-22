@@ -26,6 +26,10 @@ public class AuthorTo extends BaseTo implements Serializable {
         this.surname = surname;
     }
 
+    public AuthorTo(String name, String surname) {
+        this(null, name, surname);
+    }
+
     public String getName() {
         return name;
     }

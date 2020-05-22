@@ -50,6 +50,10 @@ public class NewsTo extends BaseTo implements Serializable {
         this.fullText = fullText;
     }
 
+    public NewsTo(String title, String shortText, String fullText) {
+        this(null, title, shortText, fullText);
+    }
+
     public NewsTo(Long id, String title, String shortText, String fullText, LocalDateTime creationDate, LocalDateTime modificationDate) {
         this(id, title, shortText, fullText);
         this.creationDate = creationDate;
@@ -58,6 +62,12 @@ public class NewsTo extends BaseTo implements Serializable {
 
     public NewsTo(Long id, String title, String shortText, String fullText, AuthorTo author, Collection<TagTo> tags) {
         this(id, title, shortText, fullText);
+        this.author = author;
+        this.tags.addAll(tags);
+    }
+
+    public NewsTo(String title, String shortText, String fullText, AuthorTo author, Collection<TagTo> tags) {
+        this(title, shortText, fullText);
         this.author = author;
         this.tags.addAll(tags);
     }
