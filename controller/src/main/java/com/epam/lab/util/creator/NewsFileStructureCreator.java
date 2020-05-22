@@ -1,4 +1,4 @@
-package com.epam.lab.util;
+package com.epam.lab.util.creator;
 
 import java.io.IOException;
 import java.nio.file.Files;
