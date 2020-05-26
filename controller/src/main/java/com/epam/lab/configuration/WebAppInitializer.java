@@ -32,6 +32,4 @@ public class WebAppInitializer implements WebApplicationInitializer {
                 .addMappingForUrlPatterns(null, false, "/*");
 
     }
-
-
 }

@@ -19,21 +19,26 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class JsonNewsFileCreator {
     private static AtomicInteger newsCounter = new AtomicInteger();
+    private static AtomicInteger countFile = new AtomicInteger();
 
     private static final String FILE_NAME = "json_news_file_%d.json";
+    private static final String FILE_ERROR_NAME = "json_news_file_error_%d.json";
     private static final String TITLE = "title_%d";
     private static final String SHORT_TEXT = "Short_text";
-    private static final String VIOLATED_SHORT_TEXT = Strings.repeat(SHORT_TEXT, 11);
+    private static final String SHORT_ERROR_TEXT = "Short_ERROR_text";
+    private static final String SHORT_ERROR_JSON_TEXT = "Short_ERROR_WrongJson_text";
+    private static final String SHORT_ERROR_FIELD_TEXT = "Short_ERROR_FIELD_text";
+    private static final String VIOLATED_DB_CONSTRAINT_SHORT_TEXT = Strings.repeat(SHORT_ERROR_TEXT, 11);
+    private static final String VIOLATED_BEAN_SHORT_TEXT = Strings.repeat(SHORT_ERROR_TEXT, 11);
     private static final String FULL_TEXT = "Full_text";
-    private static final AuthorTo AUTHOR = new AuthorTo("Generated", "Generated");
+    private static final AuthorTo AUTHOR = new AuthorTo(12L,"Generated", "Generated");
     private static final Collection<TagTo> TAGS = Sets.newHashSet(
-            new TagTo("Generated tag-1"),
-            new TagTo("Generated tag-2"),
-            new TagTo("Generated tag-3")
+            new TagTo(40L,"Generated tag-1"),
+            new TagTo(37L,"Generated tag-2"),
+            new TagTo(41L,"Generated tag-3")
     );
 
     private Path generatePath;
-    private AtomicInteger countFile = new AtomicInteger();
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -54,10 +59,10 @@ public class JsonNewsFileCreator {
     }
 
     public void createWrongJsonFile() {
-        Path filePath = generatePath.resolve(Paths.get(String.format(FILE_NAME, countFile.incrementAndGet())));
+        Path filePath = generatePath.resolve(Paths.get(String.format(FILE_ERROR_NAME, countFile.incrementAndGet())));
         try {
             Files.createFile(filePath);
-            ArrayList<NewsTo> news = createValidNews();
+            ArrayList<NewsTo> news = createWrongJsonNews();
             String str = mapper.writeValueAsString(news).replaceAll(":", "?");
             Files.write(filePath, str.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
@@ -66,11 +71,11 @@ public class JsonNewsFileCreator {
     }
 
     public void createWrongFieldNameFile() {
-        Path filePath = generatePath.resolve(Paths.get(String.format(FILE_NAME, countFile.incrementAndGet())));
+        Path filePath = generatePath.resolve(Paths.get(String.format(FILE_ERROR_NAME, countFile.incrementAndGet())));
         try {
             Files.createFile(filePath);
-            ArrayList<NewsTo> news = createValidNews();
-            String str = mapper.writeValueAsString(news).replace("author:", "autQWEs:");
+            ArrayList<NewsTo> news = createWrongFieldNews();
+            String str = mapper.writeValueAsString(news).replaceAll("\\\"author\\\"", "\"autQWSFEs\"");
             Files.write(filePath, str.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,7 +83,7 @@ public class JsonNewsFileCreator {
     }
 
     public void createNonValidBeanFile() {
-        Path filePath = generatePath.resolve(Paths.get(String.format(FILE_NAME, countFile.incrementAndGet())));
+        Path filePath = generatePath.resolve(Paths.get(String.format(FILE_ERROR_NAME, countFile.incrementAndGet())));
         try {
             Files.createFile(filePath);
             ArrayList<NewsTo> news = createNonValidBeanNews();
@@ -90,7 +95,7 @@ public class JsonNewsFileCreator {
     }
 
     public void createViolationDbConstraintFile() {
-        Path filePath = generatePath.resolve(Paths.get(String.format(FILE_NAME, countFile.incrementAndGet())));
+        Path filePath = generatePath.resolve(Paths.get(String.format(FILE_ERROR_NAME, countFile.incrementAndGet())));
         try {
             Files.createFile(filePath);
             ArrayList<NewsTo> news = createViolateDbConstraintNews();
@@ -108,17 +113,31 @@ public class JsonNewsFileCreator {
         );
     }
 
+    private ArrayList<NewsTo> createWrongJsonNews() {
+        return Lists.newArrayList(new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), SHORT_ERROR_JSON_TEXT, FULL_TEXT, AUTHOR, TAGS),
+                new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), SHORT_ERROR_JSON_TEXT, FULL_TEXT, AUTHOR, TAGS),
+                new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), SHORT_ERROR_JSON_TEXT, FULL_TEXT, AUTHOR, TAGS)
+        );
+    }
+
+    private ArrayList<NewsTo> createWrongFieldNews() {
+        return Lists.newArrayList(new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), SHORT_ERROR_FIELD_TEXT, FULL_TEXT, AUTHOR, TAGS),
+                new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), SHORT_ERROR_FIELD_TEXT, FULL_TEXT, AUTHOR, TAGS),
+                new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), SHORT_ERROR_FIELD_TEXT, FULL_TEXT, AUTHOR, TAGS)
+        );
+    }
+
     private ArrayList<NewsTo> createViolateDbConstraintNews() {
-        return Lists.newArrayList(new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), SHORT_TEXT, FULL_TEXT, AUTHOR, TAGS),
-                new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), VIOLATED_SHORT_TEXT, FULL_TEXT, AUTHOR, TAGS),
-                new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), SHORT_TEXT, FULL_TEXT, AUTHOR, TAGS)
+        return Lists.newArrayList(new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), VIOLATED_DB_CONSTRAINT_SHORT_TEXT, FULL_TEXT, AUTHOR, TAGS),
+                new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), VIOLATED_DB_CONSTRAINT_SHORT_TEXT, FULL_TEXT, AUTHOR, TAGS),
+                new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), VIOLATED_DB_CONSTRAINT_SHORT_TEXT, FULL_TEXT, AUTHOR, TAGS)
         );
     }
 
     private ArrayList<NewsTo> createNonValidBeanNews() {
-        return Lists.newArrayList(new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), SHORT_TEXT, FULL_TEXT, AUTHOR, TAGS),
-                new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), VIOLATED_SHORT_TEXT, FULL_TEXT, AUTHOR, TAGS),
-                new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), SHORT_TEXT, FULL_TEXT, AUTHOR, TAGS)
+        return Lists.newArrayList(new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), VIOLATED_BEAN_SHORT_TEXT, FULL_TEXT, AUTHOR, TAGS),
+                new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), VIOLATED_BEAN_SHORT_TEXT, FULL_TEXT, AUTHOR, TAGS),
+                new NewsTo(String.format(TITLE, newsCounter.incrementAndGet()), VIOLATED_BEAN_SHORT_TEXT, FULL_TEXT, AUTHOR, TAGS)
         );
     }
 

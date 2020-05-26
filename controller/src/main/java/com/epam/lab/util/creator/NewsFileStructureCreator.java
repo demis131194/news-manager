@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsFileStructureCreator {
-    private static String SUB_FOLDER_NAME = "subfolder_%d";
+    private static String SUB_FOLDER_NAME = "news_subfolder_%d";
 
     private int subFolderCount;
     private Path rootCreationPath;
@@ -29,6 +29,10 @@ public class NewsFileStructureCreator {
     public void generateNewsFileStructure() {
         threads.add(new CreateFilesThread(rootCreationPath, filesPerDirectory));
         try {
+            if (!Files.exists(rootCreationPath)) {
+                Files.createDirectory(rootCreationPath);
+            }
+
             for (int i = 0; i < subFolderCount;) {
                 Path currentPath = rootCreationPath.resolve(Paths.get(String.format(SUB_FOLDER_NAME, i)));
                 Files.createDirectories(currentPath);
