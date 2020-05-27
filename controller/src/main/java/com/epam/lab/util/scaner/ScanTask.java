@@ -25,6 +25,7 @@ public class ScanTask implements Runnable {
 
     private final File ROOT_FILE;
     private final Path ERROR_FOLDER;
+    private final int TIMEOUT = 10;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -42,12 +43,10 @@ public class ScanTask implements Runnable {
         File file = null;
         do  {
             try {
-                file = nodesToReview.poll(10, TimeUnit.MILLISECONDS);
-
+                file = nodesToReview.poll(TIMEOUT, TimeUnit.MILLISECONDS);
                 if (file != null && file.exists()) {
                     handleFile(file);
                 }
-
             } catch (InterruptedException e) {
                 logger.error("Interrupted! ", e);
             }
@@ -57,34 +56,50 @@ public class ScanTask implements Runnable {
 
     private void handleFile(File file) {
         if (file.isDirectory() && !ERROR_FOLDER_NAME.equals(file.getName())) {
-            File[] files = file.listFiles();
-            if (files != null && files.length>0) {
-                List<File> listFiles = Arrays.stream(files)
-                        .filter(f -> !ERROR_FOLDER_NAME.equals(f.getName()))
-                        .filter((f -> f.isDirectory() || (f.isFile() && f.getName().startsWith("json_news_file") && f.getName().endsWith(".json"))))
-                        .collect(Collectors.toList());
-                nodesToReview.addAll(listFiles);
-            } else {
-                file.delete();
-            }
-
+            handleDirectory(file);
         } else if (file.isFile()) {
-            try {
-                List<NewsTo> list = mapper.readValue(file, mapper.getTypeFactory().constructCollectionType(List.class, NewsTo.class));
-                list.forEach((news) -> service.save(news));
-                file.delete();
-            } catch (Exception e) {
-                logger.warn("Due reading file exception occur.", e);
-                if (!ERROR_FOLDER.toFile().exists()) {
-                    ERROR_FOLDER.toFile().mkdir();
-                }
+            handleJsonFile(file);
+        }
+    }
 
-                try {
-                    Files.move(file, ERROR_FOLDER.resolve(file.getName()).toFile());
-                } catch (IOException ex) {
-                    logger.warn("Due moving file exception occur.", ex);
-                }
+    private void handleJsonFile(File file) {
+        try {
+            List<NewsTo> list = mapper.readValue(file, mapper.getTypeFactory().constructCollectionType(List.class, NewsTo.class));
+            list.forEach((news) -> service.save(news));
+            file.delete();
+        } catch (Exception e) {
+            logger.warn("Due reading file exception occur.", e);
+            if (!ERROR_FOLDER.toFile().exists()) {
+                ERROR_FOLDER.toFile().mkdir();
             }
+
+            moveFileToErrorDirectory(file);
+        }
+    }
+
+    private void handleDirectory(File file) {
+        File[] files = file.listFiles();
+        if (files != null && files.length>0) {
+            List<File> listFiles = Arrays.stream(files)
+                    .filter(f -> !ERROR_FOLDER_NAME.equals(f.getName()))
+                    .filter((f -> f.isDirectory() || (f.isFile() && f.getName().startsWith("json_news_file") && f.getName().endsWith(".json"))))
+                    .collect(Collectors.toList());
+            nodesToReview.addAll(listFiles);
+        } else {
+            file.delete();
+        }
+    }
+
+    private void moveFileToErrorDirectory(File file) {
+        try {
+            Path errorPath = ERROR_FOLDER.resolve(file.getName());
+            if(!errorPath.toFile().exists()) {
+                Files.move(file, errorPath.toFile());
+            } else {
+                Files.move(file, ERROR_FOLDER.resolve(file.getName().concat("_RENAMED")).toFile());
+            }
+        } catch (IOException ex) {
+            logger.warn("Due moving file exception occur.", ex);
         }
     }
 
