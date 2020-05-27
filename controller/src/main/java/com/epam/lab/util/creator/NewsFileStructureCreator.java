@@ -16,18 +16,22 @@ public class NewsFileStructureCreator {
     private int averageDepth;
     private int filesPerDirectory;
 
+    private int periodTimeMilSec;
+
     private List<CreateFilesThread> threads = new ArrayList<>();
 
-    public NewsFileStructureCreator(Path rootCreationPath, int subFolderCount, int filesCount) {
+    public NewsFileStructureCreator(Path rootCreationPath, int subFolderCount, int filesCount, Integer periodTimeMilSec) {
         this.rootCreationPath = rootCreationPath;
         this.subFolderCount = subFolderCount;
         this.filesCount = filesCount;
-        averageDepth = (int) Math.ceil(subFolderCount / 3.0);
-        filesPerDirectory = filesCount / (subFolderCount + 1);
+        this.periodTimeMilSec = periodTimeMilSec;
     }
 
     public void generateNewsFileStructure() {
-        threads.add(new CreateFilesThread(rootCreationPath, filesPerDirectory));
+        averageDepth = (int) Math.ceil(subFolderCount / 3.0);
+        filesPerDirectory = filesCount / (subFolderCount + 1);
+
+        threads.add(new CreateFilesThread(rootCreationPath, filesPerDirectory, periodTimeMilSec));
         try {
             if (!Files.exists(rootCreationPath)) {
                 Files.createDirectory(rootCreationPath);
@@ -36,13 +40,13 @@ public class NewsFileStructureCreator {
             for (int i = 0; i < subFolderCount;) {
                 Path currentPath = rootCreationPath.resolve(Paths.get(String.format(SUB_FOLDER_NAME, i)));
                 Files.createDirectories(currentPath);
-                threads.add(new CreateFilesThread(currentPath, filesPerDirectory));
+                threads.add(new CreateFilesThread(currentPath, filesPerDirectory, periodTimeMilSec));
                 i++;
 
                 for (int j = 1; j<averageDepth && i<subFolderCount; j++, i++) {
                     currentPath = currentPath.resolve(Paths.get(String.format(SUB_FOLDER_NAME, i)));
                     Files.createDirectories(currentPath);
-                    threads.add(new CreateFilesThread(currentPath, filesPerDirectory));
+                    threads.add(new CreateFilesThread(currentPath, filesPerDirectory, periodTimeMilSec));
                 }
             }
         } catch (IOException e) {

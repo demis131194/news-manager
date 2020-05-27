@@ -18,26 +18,24 @@ public class UtilConfig {
     @Value("${folder.path}")
     private String folderPath;
 
-    @Value("${files.numb}")
-    private Integer numberOfFiles;
-
-    @Value("${folders.count}")
-    private Integer numberOfSubfolder;
-
     @Bean
-    public NewsFileStructureCreator newsFileStructureCreator() {
+    public NewsFileStructureCreator newsFileStructureCreator(@Value("${create.files}") Integer numberOfFiles,
+                                                             @Value("${create.folders}") Integer numberOfSubfolder,
+                                                             @Value("${create.period}") Integer timePeriod) {
         Path path = Paths.get(folderPath);
-        NewsFileStructureCreator newsFileStructureCreator = new NewsFileStructureCreator(path, numberOfSubfolder, numberOfFiles);
+        NewsFileStructureCreator newsFileStructureCreator = new NewsFileStructureCreator(path, numberOfSubfolder, numberOfFiles, timePeriod);
         newsFileStructureCreator.generateNewsFileStructure();
         return newsFileStructureCreator;
     }
 
     @Bean
-    public FileScanScheduledExecutorService fileScanScheduledExecutorService(NewsService newsService) {
+    public FileScanScheduledExecutorService fileScanScheduledExecutorService(NewsService newsService,
+                                                                             @Value("${scan.threads}") Integer threads,
+                                                                             @Value("${scan.delay}") Integer delay) {
         Path path = Paths.get(folderPath);
-        FileScanScheduledExecutorService fileScanScheduledExecutorService = new FileScanScheduledExecutorService(path.toFile(),  newsService);
-        fileScanScheduledExecutorService.startScheduleScan();
-        return fileScanScheduledExecutorService;
+        FileScanScheduledExecutorService scan = new FileScanScheduledExecutorService(path.toFile(),  newsService, threads, delay);
+        scan.startScheduleScan();
+        return scan;
     }
 
 }

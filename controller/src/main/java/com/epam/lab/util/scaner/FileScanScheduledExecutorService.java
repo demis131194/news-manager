@@ -10,27 +10,30 @@ import java.util.concurrent.TimeUnit;
 
 public class FileScanScheduledExecutorService {
 
-    private static final int THREADS_NUMBER = 1;
-    private static final int SCAN_DELAY = 1;
+    private final int THREADS_NUMBER;
+    private final int SCAN_DELAY;
+    private final File ROOT_FILE;
+    private final NewsService NEWS_SERVICE;
 
-    private ExecutorService service = Executors.newFixedThreadPool(THREADS_NUMBER);
-    private File rootFile;
-    private NewsService newsService;
+    private ExecutorService service;
 
-    public FileScanScheduledExecutorService(File rootFile, NewsService newsService) {
-        this.newsService = newsService;
-        this.rootFile = rootFile;
+    public FileScanScheduledExecutorService(File rootFile, NewsService newsService, int threadsNumber, int scanDelay) {
+        this.NEWS_SERVICE = newsService;
+        this.ROOT_FILE = rootFile;
+        this.THREADS_NUMBER = threadsNumber;
+        this.SCAN_DELAY = scanDelay;
     }
 
     public void startScheduleScan() {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        service = Executors.newFixedThreadPool(THREADS_NUMBER);
         Runnable scheduledTask = () -> {
-            ScanTask scanTask = new ScanTask(rootFile, newsService);
+            ScanTask scanTask = new ScanTask(ROOT_FILE, NEWS_SERVICE);
             for (int i = 0; i < THREADS_NUMBER; i++) {
                 service.execute(scanTask);
             }
         };
-        scheduledExecutorService.scheduleAtFixedRate(scheduledTask, SCAN_DELAY, SCAN_DELAY, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleAtFixedRate(scheduledTask, SCAN_DELAY, SCAN_DELAY, TimeUnit.MILLISECONDS);
     }
 
 }
