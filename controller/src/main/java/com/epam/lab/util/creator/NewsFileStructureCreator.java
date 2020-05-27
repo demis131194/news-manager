@@ -37,23 +37,30 @@ public class NewsFileStructureCreator {
                 Files.createDirectory(rootCreationPath);
             }
 
-            for (int i = 0; i < subFolderCount;) {
-                Path currentPath = rootCreationPath.resolve(Paths.get(String.format(SUB_FOLDER_NAME, i)));
-                Files.createDirectories(currentPath);
-                threads.add(new CreateFilesThread(currentPath, filesPerDirectory, periodTimeMilSec));
-                i++;
+            createSubFolders();
 
-                for (int j = 1; j<averageDepth && i<subFolderCount; j++, i++) {
-                    currentPath = currentPath.resolve(Paths.get(String.format(SUB_FOLDER_NAME, i)));
-                    Files.createDirectories(currentPath);
-                    threads.add(new CreateFilesThread(currentPath, filesPerDirectory, periodTimeMilSec));
-                }
+            threads.forEach(CreateFilesThread::start);
+            for (CreateFilesThread thread : threads) {
+                thread.join();
             }
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+    }
 
-        threads.forEach(CreateFilesThread::start);
+    private void createSubFolders() throws IOException {
+        for (int i = 0; i < subFolderCount;) {
+            Path currentPath = rootCreationPath.resolve(Paths.get(String.format(SUB_FOLDER_NAME, i)));
+            Files.createDirectories(currentPath);
+            threads.add(new CreateFilesThread(currentPath, filesPerDirectory, periodTimeMilSec));
+            i++;
+
+            for (int j = 1; j<averageDepth && i<subFolderCount; j++, i++) {
+                currentPath = currentPath.resolve(Paths.get(String.format(SUB_FOLDER_NAME, i)));
+                Files.createDirectories(currentPath);
+                threads.add(new CreateFilesThread(currentPath, filesPerDirectory, periodTimeMilSec));
+            }
+        }
     }
 
 }
