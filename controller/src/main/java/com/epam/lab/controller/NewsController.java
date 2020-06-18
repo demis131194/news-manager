@@ -37,6 +37,7 @@ public class NewsController {
                                          @RequestParam(required = false, defaultValue = "4") @Positive int pageSize) {
         List<NewsTo> allBySearchCriteria = newsService.findAllBySearchCriteria(searchCriteria, page, pageSize);
         long countAll = newsService.countAll(searchCriteria);
+
         return new NewsResponseEntity(allBySearchCriteria, countAll);
     }
 
