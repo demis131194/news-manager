@@ -15,7 +15,7 @@
         <javax.validation.api.version>2.0.1.Final</javax.validation.api.version>
         <hibernate.validator.version>6.1.2.Final</hibernate.validator.version>
         <mockhito.version>3.2.4</mockhito.version>
-        <jackson.version>2.10.2</jackson.version>
+        <jackson.version>2.12.6.1</jackson.version>
     </properties>
 
     <dependencies>
